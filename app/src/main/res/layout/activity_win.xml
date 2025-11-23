@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/backround_greyis"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backround_greyis"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DifficultyFragment">
+    tools:context=".WinActivity">
 
     <androidx.cardview.widget.CardView
 
@@ -29,77 +30,98 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_difficulty_head_fd"
+                android:id="@+id/tv_win_head1_aw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="52dp"
                 android:textSize="32sp"
                 android:fontFamily="@font/kranky"
-                android:text="@string/choose_difficulty"
+                android:text="@string/congratulations"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_easy_fd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="88dp"
-                android:backgroundTint="@color/primary_red"
-                android:shadowColor="@color/primary_red"
-                android:text="@string/easy"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:cornerRadius="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_difficulty_head_fd" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_medium_fd"
+            <TextView
+                android:id="@+id/tv_win_head2_aw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:backgroundTint="@color/primary_red"
-                android:shadowColor="@color/primary_red"
-                android:text="@string/medium"
+                android:fontFamily="@font/kranky"
+                android:text="@string/you_beat_the_game"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:cornerRadius="4dp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_easy_fd" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_win_head1_aw" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_hard_fd"
+            <TextView
+                android:id="@+id/tv_stats_aw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:fontFamily="@font/kranky"
+                android:text="@string/stats"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_win_head2_aw" />
+
+            <TextView
+                android:id="@+id/tv_time_aw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
+                android:fontFamily="@font/kranky"
+                android:text="@string/time"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_stats_aw" />
+
+            <TextView
+                android:id="@+id/tv_moves_aw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/kranky"
+                android:text="@string/moves"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_time_aw" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_play_again_aw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
                 android:backgroundTint="@color/primary_red"
                 android:shadowColor="@color/primary_red"
-                android:text="@string/hard"
+                android:text="@string/play_again"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:cornerRadius="4dp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_home_aw"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_medium_fd" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_back_fd"
+                android:id="@+id/btn_home_aw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="42dp"
                 android:backgroundTint="@color/backround_greyis"
                 android:shadowColor="@color/primary_red"
-                android:text="@string/back"
+                android:text="@string/home_menu"
                 android:textColor="@color/primary_red"
                 android:textSize="18sp"
                 app:cornerRadius="4dp"

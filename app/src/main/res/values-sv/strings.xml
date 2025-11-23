@@ -3,4 +3,18 @@
     <string name="app_name">Memory-Madness</string>
     <string name="welcome_to_memory_madness">Välkommen till Memory Madness</string>
     <string name="choose_difficulty">Välj Svårighet</string>
+    <string name="back">⏎ Tillbaka</string>
+    <string name="hard">Svårt</string>
+    <string name="medium">Normal</string>
+    <string name="easy">Lätt</string>
+    <string name="startgame">Starta Spelet</string>
+    <string name="difficulty">Svårighetsgrad</string>
+    <string name="name">Namn</string>
+    <string name="congratulations">Grattis!🥳</string>
+    <string name="you_beat_the_game">Du klarade av spelet !</string>
+    <string name="stats">Stats :</string>
+    <string name="home_menu">⏎  Hem Meny</string>
+    <string name="time">Tid :</string>
+    <string name="moves">Drag :</string>
+    <string name="play_again">Spela igen</string>
 </resources>
