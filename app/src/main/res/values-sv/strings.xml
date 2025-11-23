@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Memory-Madness</string>
     <string name="welcome_to_memory_madness">Välkommen till Memory Madness</string>
+    <string name="choose_difficulty">Välj Svårighet</string>
 </resources>
