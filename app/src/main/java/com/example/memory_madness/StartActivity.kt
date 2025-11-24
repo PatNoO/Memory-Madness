@@ -10,5 +10,7 @@ class StartActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_start)
 
+
+
     }
 }
