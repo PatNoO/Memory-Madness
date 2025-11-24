@@ -10,19 +10,30 @@ import com.example.memory_madness.databinding.ActivityStartBinding
 class StartActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityStartBinding
-    private var player : Player? = null
+    private lateinit var player : Player
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        player = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+        player = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
             intent.getSerializableExtra("player", Player::class.java)
         } else {
             intent.getSerializableExtra("player") as Player
-        }
+        })!!
 
+        binding.btnStartAs.setOnClickListener {
+
+            if (binding.etInputNameAs.text.isNullOrEmpty()){
+                return@setOnClickListener
+            }
+
+            player.name = binding.etInputNameAs.text.toString()
+
+            
+
+        }
 
     }
 }
