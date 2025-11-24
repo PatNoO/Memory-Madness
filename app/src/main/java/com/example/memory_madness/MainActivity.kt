@@ -7,12 +7,14 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatActivity
+import com.example.memory_madness.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private var player : Player? = Player("Default",0.0,0)
 //    private var player2 : Player? = Player("Default2",0.0,0)
 
+    private lateinit var binding: ActivityMainBinding
 
     private val startLancher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
@@ -22,17 +24,20 @@ class MainActivity : AppCompatActivity() {
                 result.data?.getSerializableExtra("player_updated") as Player
             }
             player = playerUpdated
+            binding.tvMainAm.text = player?.name.toString()
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setContentView(R.layout.activity_main)
        val intent = Intent(this, StartActivity::class.java)
         intent.putExtra("player", player)
         startLancher.launch(intent)
         onPause()
+
+
     }
 }
