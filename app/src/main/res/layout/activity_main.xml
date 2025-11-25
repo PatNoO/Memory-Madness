@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fv_game_plan_am"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="24dp"
