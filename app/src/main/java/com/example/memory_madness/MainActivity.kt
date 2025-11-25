@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatActivity
+import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +39,9 @@ class MainActivity : AppCompatActivity() {
         startLancher.launch(intent)
         onPause()
 
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fv_game_plan_am, EasyFragment(), "easy_fragment")
+            .commit()
 
     }
 }

@@ -1,60 +1,107 @@
 package com.example.memory_madness.Fragments.game_play
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import com.example.memory_madness.CardManager
 import com.example.memory_madness.R
+import com.example.memory_madness.databinding.FragmentEasyBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [EasyFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EasyFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var binding: FragmentEasyBinding
+
+    private var cardInfo: CardManager = CardManager(
+        isFlipped = false,
+        isMatched = false,
+        cardId = 0
+    )
+    private val imagesId: MutableList<Int> = mutableListOf(R.drawable.card1,R.drawable.card2,R.drawable.card3,R.drawable.card4,R.drawable.card5,
+        R.drawable.card6)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_easy, container, false)
+    ): View {
+        binding = FragmentEasyBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EasyFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EasyFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val containerCard = listOf(binding.card1Fe,binding.card2Fe,binding.card3Fe,binding.card4Fe,binding.card5Fe,binding.card6Fe,
+            binding.card7Fe,binding.card8Fe,binding.card9Fe,binding.card10Fe,binding.card11Fe,binding.card12Fe)
+
+        val shuffledCardIds = ArrayList<Int>()
+        for (id in imagesId) {
+            shuffledCardIds.add(id)
+            shuffledCardIds.add(id)
+        }
+
+        shuffledCardIds.shuffle()
+
+
+        for ( i in 0 until shuffledCardIds.size) {
+            val imageId = shuffledCardIds[i]
+            containerCard [i].tag = imageId
+            val tag = containerCard [i].tag
+            Log.i("!!!", "Tag : ${tag} ")
+        }
+
+        var clicks = 0
+            for (i in 0 until containerCard.size){
+                containerCard[i].setOnClickListener {
+
+                    if (!containerCard[i].equals(cardInfo.isFlipped) || !containerCard[i].equals(cardInfo.isMatched) ) {
+                        containerCard[i].setBackgroundResource(shuffledCardIds[i])
+                        cardInfo.isMatched = true
+                        clicks++
+                    }
+
+
                 }
-            }
+
+        }
+
+
     }
+
+    fun shuffleCards (containerCard: List<ImageView>) {
+//        var shuffledCardIds = ArrayList<Int>()
+//        for (id in imagesId) {
+//            shuffledCardIds.add(id)
+//            shuffledCardIds.add(id)
+//        }
+//        shuffledCardIds.shuffle()
+//        shuffledCardIds = imagesId as ArrayList<Int>
+//
+//        setCardIdOnCardContainer(shuffledCardIds,containerCard)
+    }
+
+    fun setCardIdOnCardContainer (shuffledCardIds : ArrayList<Int>,containerCard: List<ImageView>  ) {
+
+//       for ( i in 0 until shuffledCardIds.size) {
+//           val imageId = shuffledCardIds[i]
+//           containerCard [i].tag = imageId
+//           val tag = containerCard [i].tag
+//           Log.i("!!!", "Tag : ${tag} ")
+//       }
+
+    }
+
+
 }
