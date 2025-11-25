@@ -34,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //// todo Lägg till Highscore bäst kontra sämst tid och drag
+
        val intent = Intent(this, StartActivity::class.java)
         intent.putExtra("player", player)
         startLancher.launch(intent)

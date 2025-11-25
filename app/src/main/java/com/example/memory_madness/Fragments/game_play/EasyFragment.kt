@@ -73,6 +73,8 @@ class EasyFragment : Fragment() {
         var firstCard: CardManager? = null
         var matchCount = 0
 
+        //// todo App krachar när man trycker för snabbt lös problem
+
         for (imageView in containerCard) {
             imageView.setOnClickListener { view ->
 
@@ -93,6 +95,7 @@ class EasyFragment : Fragment() {
 
                     firstCard!!.isMatched = true
                     card.isMatched = true
+                    firstCard = null
                     matchCount ++
 
                     if (matchCount == 6 ) {
@@ -106,7 +109,7 @@ class EasyFragment : Fragment() {
                         firstCard!!.isFlipped = false
                         card.isFlipped = false
                         firstCard = null },
-                        700)
+                        500)
 
                 }
 
