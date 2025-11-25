@@ -72,11 +72,17 @@ class EasyFragment : Fragment() {
 
         var firstCard: CardManager? = null
         var matchCount = 0
+        var isBusy = false
 
         //// todo App krachar när man trycker för snabbt lös problem
 
         for (imageView in containerCard) {
             imageView.setOnClickListener { view ->
+
+
+                if (isBusy) {
+                    return@setOnClickListener
+                }
 
                 val card = view.tag as CardManager
 
@@ -85,36 +91,43 @@ class EasyFragment : Fragment() {
                 card.containerId.setImageResource(card.cardId)
                 card.isFlipped = true
 
-                if (firstCard == null){
+                if (firstCard == null) {
                     firstCard = card
                     return@setOnClickListener
                 }
 
-                if (firstCard!!.cardId == card.cardId){
+                if (firstCard!!.cardId == card.cardId) {
                     Toast.makeText(requireContext(), "Match !", Toast.LENGTH_SHORT).show()
 
                     firstCard!!.isMatched = true
                     card.isMatched = true
                     firstCard = null
-                    matchCount ++
+                    matchCount++
 
-                    if (matchCount == 6 ) {
+                    if (matchCount == 6) {
                         Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
                     }
 
                 } else {
-                    card.containerId.postDelayed({firstCard!!.containerId.setImageResource(R.drawable.card_backround)
-                        card.containerId.setImageResource(R.drawable.card_backround)
+                    isBusy = true
+                    card.containerId.postDelayed(
+                        {
+                            firstCard!!.containerId.setImageResource(R.drawable.card_backround)
+                            card.containerId.setImageResource(R.drawable.card_backround)
 
-                        firstCard!!.isFlipped = false
-                        card.isFlipped = false
-                        firstCard = null },
-                        500)
+                            firstCard!!.isFlipped = false
+                            card.isFlipped = false
+                            firstCard = null
+                            isBusy = false
+                        },
+                        500
+                    )
 
                 }
 
 
             }
+
 
         }
     }
