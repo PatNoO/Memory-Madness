@@ -51,7 +51,7 @@ class EasyFragment : Fragment() {
         for (id in cardId) {
             shuffledCardIds.add(id)
             shuffledCardIds.add(id)
-            Log.i("!!!", "Id images : ${id}")
+            Log.i("!!!", "Id images : $id")
         }
 
         shuffledCardIds.shuffle()
@@ -71,7 +71,7 @@ class EasyFragment : Fragment() {
         }
 
         var firstCard: CardManager? = null
-        var secondCard: CardManager? = null
+        var matchCount = 0
 
         for (imageView in containerCard) {
             imageView.setOnClickListener { view ->
@@ -88,27 +88,28 @@ class EasyFragment : Fragment() {
                     return@setOnClickListener
                 }
 
-                secondCard = card
-
-                if (firstCard!!.cardId == secondCard!!.cardId){
+                if (firstCard!!.cardId == card.cardId){
                     Toast.makeText(requireContext(), "Match !", Toast.LENGTH_SHORT).show()
 
                     firstCard!!.isMatched = true
-                    secondCard!!.isMatched = true
+                    card.isMatched = true
+                    matchCount ++
 
-                    firstCard = null
-                    secondCard = null
+                    if (matchCount == 6 ) {
+                        Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
+                    }
 
                 } else {
-                    firstCard!!.containerId.setImageResource(R.drawable.card_backround)
-                    secondCard!!.containerId.setImageResource(R.drawable.card_backround)
+                    card.containerId.postDelayed({firstCard!!.containerId.setImageResource(R.drawable.card_backround)
+                        card.containerId.setImageResource(R.drawable.card_backround)
 
-                    firstCard!!.isFlipped = false
-                    secondCard!!.isFlipped = false
+                        firstCard!!.isFlipped = false
+                        card.isFlipped = false
+                        firstCard = null },
+                        700)
 
-                    firstCard = null
-                    secondCard = null
                 }
+
 
             }
 

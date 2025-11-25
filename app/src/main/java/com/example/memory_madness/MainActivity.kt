@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fv_game_plan_am, EasyFragment(), "easy_fragment")
+            .addToBackStack(null)
             .commit()
 
     }
