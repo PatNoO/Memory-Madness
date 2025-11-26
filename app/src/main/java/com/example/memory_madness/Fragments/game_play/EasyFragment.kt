@@ -17,7 +17,8 @@ import com.example.memory_madness.databinding.FragmentEasyBinding
 class EasyFragment : Fragment() {
 
     interface EasyFragListener {
-        fun updateMoves ()
+
+        fun updatePlayer (moves : Int, time : Double)
 
     }
 
@@ -89,14 +90,11 @@ class EasyFragment : Fragment() {
             imageViewId.tag = cardInfo
         }
 
-        var moves = 0
-
-        binding.tvMovesFe.text = "Moves : \n $moves"
 
         var firstCard: CardManager? = null
         var matchCount = 0
         var isBusy = false
-
+        var moves = 0
 
         for (imageViewId in containerCard) {
             imageViewId.setOnClickListener { view ->
@@ -131,6 +129,7 @@ class EasyFragment : Fragment() {
 
                     if (matchCount == 6) {
                         Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
+                        ownerActivity?.updatePlayer(moves, 0.0)
                     }
 
                 } else {
@@ -152,6 +151,8 @@ class EasyFragment : Fragment() {
 
 
             }
+
+
 
 
         }

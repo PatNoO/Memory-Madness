@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), EasyFragment.EasyFragListener {
             binding.tvMainAm.text = player?.name.toString()
         }
     }
-    //// todo Lägg till Highscore bäst kontra sämst tid och drag
+    //// todo Lägg till Highscore bäst kontra sämsta tid och drag
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +48,10 @@ class MainActivity : AppCompatActivity(), EasyFragment.EasyFragListener {
 
     }
 
-    override fun updateMoves() {
 
+    override fun updatePlayer(moves: Int, time: Double) {
+//        player?.moves = moves
+        binding.tvMainAm.text = moves.toString()
     }
 
 }
