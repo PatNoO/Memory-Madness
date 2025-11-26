@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), EasyFragment.EasyFragListener {
 
     private var player : Player? = Player("Default",0.0,0)
 //    private var player2 : Player? = Player("Default2",0.0,0)
@@ -28,9 +28,11 @@ class MainActivity : AppCompatActivity() {
             binding.tvMainAm.text = player?.name.toString()
         }
     }
+    //// todo Lägg till Highscore bäst kontra sämsta tid och drag
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -44,5 +46,18 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
 
+
     }
+
+
+    override fun updatePlayer(moves: Int, time: Int) {
+//        player?.moves = moves
+//        binding.tvMainAm.text = moves.toString()
+        val minutes = time / 60
+        val seconds = time % 60
+        binding.tvMainAm.text = "Time $minutes : $seconds"
+
+    }
+
+
 }

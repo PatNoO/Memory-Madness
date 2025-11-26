@@ -1,6 +1,7 @@
 package com.example.memory_madness.Fragments.game_play
 
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,16 +10,41 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.memory_madness.CardManager
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentEasyBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class EasyFragment : Fragment() {
+
+    interface EasyFragListener {
+        fun updatePlayer (moves : Int, time : Int)
+    }
+    private var ownerActivity : EasyFragListener? = null
     private lateinit var binding: FragmentEasyBinding
     private val cardId: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
-        R.drawable.card6
-    )
+        R.drawable.card6)
+
+    private var timerJob: Job? = null
+    private var secondsCount = 0
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        try {
+            ownerActivity = context as EasyFragListener
+            Log.i("!!!", "EasyFragListener is Implemented")
+        } catch (e: Exception){
+            Log.e("!!!", " !! ATTENTION !!  EasyFragListener is NOT Implemented")
+        }
+
+    }
 
 
     override fun onCreateView(
@@ -47,34 +73,45 @@ class EasyFragment : Fragment() {
             binding.card12Fe
         )
 
+
         val shuffledCardIds = ArrayList<Int>()
         for (id in cardId) {
             shuffledCardIds.add(id)
             shuffledCardIds.add(id)
-            Log.i("!!!", "Id images : $id")
         }
 
         shuffledCardIds.shuffle()
 
 
         for (i in shuffledCardIds.indices) {
-            val imageView: ImageView = containerCard[i] // View binding
+            val imageViewId: ImageView = containerCard[i] // View binding
             val imageId: Int = shuffledCardIds[i]       // Images Drawable
             val cardInfo = CardManager(
                 isFlipped = false,
                 isMatched = false,
                 cardId = imageId,
-                containerId = imageView
+                containerId = imageViewId
             )
 
-            imageView.tag = cardInfo
+            imageViewId.tag = cardInfo
         }
+
 
         var firstCard: CardManager? = null
         var matchCount = 0
+        var isBusy = false
+        var moves = 0
 
-        for (imageView in containerCard) {
-            imageView.setOnClickListener { view ->
+        if (timerJob == null ){
+            startTimer()
+        }
+        for (imageViewId in containerCard) {
+            imageViewId.setOnClickListener { view ->
+
+
+                if (isBusy) {
+                    return@setOnClickListener
+                }
 
                 val card = view.tag as CardManager
 
@@ -83,37 +120,74 @@ class EasyFragment : Fragment() {
                 card.containerId.setImageResource(card.cardId)
                 card.isFlipped = true
 
-                if (firstCard == null){
+                if (firstCard == null) {
                     firstCard = card
                     return@setOnClickListener
                 }
 
-                if (firstCard!!.cardId == card.cardId){
+                moves++
+                binding.tvMovesFe.text = "Moves : \n $moves"
+
+                if (firstCard!!.cardId == card.cardId) {
                     Toast.makeText(requireContext(), "Match !", Toast.LENGTH_SHORT).show()
 
                     firstCard!!.isMatched = true
                     card.isMatched = true
-                    matchCount ++
+                    firstCard = null
+                    matchCount++
 
-                    if (matchCount == 6 ) {
+                    if (matchCount == 6) {
                         Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
+                        ownerActivity?.updatePlayer(moves, secondsCount)
+                        stopTimer()
                     }
 
                 } else {
-                    card.containerId.postDelayed({firstCard!!.containerId.setImageResource(R.drawable.card_backround)
-                        card.containerId.setImageResource(R.drawable.card_backround)
+                    isBusy = true
+                    card.containerId.postDelayed(
+                        {
+                            firstCard!!.containerId.setImageResource(R.drawable.card_backround)
+                            card.containerId.setImageResource(R.drawable.card_backround)
 
-                        firstCard!!.isFlipped = false
-                        card.isFlipped = false
-                        firstCard = null },
-                        700)
+                            firstCard!!.isFlipped = false
+                            card.isFlipped = false
+                            firstCard = null
+                            isBusy = false
+                        },
+                        500
+                    )
 
                 }
-
 
             }
 
         }
+    }
+
+    fun startTimer() {
+        timerJob = viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                while (true) {
+                    delay(1000)
+                    secondsCount++
+                    updateTimerText()
+                }
+
+            }
+
+
+        }
+    }
+
+    fun stopTimer (){
+        timerJob?.cancel()
+    }
+
+    fun updateTimerText () {
+        val minutes = secondsCount / 60
+        val seconds = secondsCount % 60
+        binding.tvTimeFe.text = "Time : \n $minutes : $seconds"
+
     }
 }
 
