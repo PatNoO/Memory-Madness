@@ -1,6 +1,7 @@
 package com.example.memory_madness.Fragments.game_play
 
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,11 +15,30 @@ import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentEasyBinding
 
 class EasyFragment : Fragment() {
+
+    interface EasyFragListener {
+        fun updateMoves ()
+
+    }
+
+    private var ownerActivity : EasyFragListener? = null
     private lateinit var binding: FragmentEasyBinding
     private val cardId: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
         R.drawable.card6
     )
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        try {
+            ownerActivity = context as EasyFragListener
+            Log.i("!!!", "EasyFragListener is Implemented")
+        } catch (e: Exception){
+            Log.e("!!!", " !! ATTENTION !!  EasyFragListener is NOT Implemented")
+        }
+
+    }
 
 
     override fun onCreateView(
@@ -51,33 +71,32 @@ class EasyFragment : Fragment() {
         for (id in cardId) {
             shuffledCardIds.add(id)
             shuffledCardIds.add(id)
-            Log.i("!!!", "Id images : $id")
         }
 
         shuffledCardIds.shuffle()
 
 
         for (i in shuffledCardIds.indices) {
-            val imageView: ImageView = containerCard[i] // View binding
+            val imageViewId: ImageView = containerCard[i] // View binding
             val imageId: Int = shuffledCardIds[i]       // Images Drawable
             val cardInfo = CardManager(
                 isFlipped = false,
                 isMatched = false,
                 cardId = imageId,
-                containerId = imageView
+                containerId = imageViewId
             )
 
-            imageView.tag = cardInfo
+            imageViewId.tag = cardInfo
         }
+
+
 
         var firstCard: CardManager? = null
         var matchCount = 0
         var isBusy = false
 
-        //// todo App krachar när man trycker för snabbt lös problem
-
-        for (imageView in containerCard) {
-            imageView.setOnClickListener { view ->
+        for (imageViewId in containerCard) {
+            imageViewId.setOnClickListener { view ->
 
 
                 if (isBusy) {
@@ -95,6 +114,7 @@ class EasyFragment : Fragment() {
                     firstCard = card
                     return@setOnClickListener
                 }
+
 
                 if (firstCard!!.cardId == card.cardId) {
                     Toast.makeText(requireContext(), "Match !", Toast.LENGTH_SHORT).show()
