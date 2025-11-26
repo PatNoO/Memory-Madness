@@ -10,24 +10,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.memory_madness.CardManager
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentEasyBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class EasyFragment : Fragment() {
 
     interface EasyFragListener {
-
-        fun updatePlayer (moves : Int, time : Double)
-
+        fun updatePlayer (moves : Int, time : Int)
     }
-
     private var ownerActivity : EasyFragListener? = null
     private lateinit var binding: FragmentEasyBinding
     private val cardId: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
-        R.drawable.card6
-    )
+        R.drawable.card6)
+
+    private var timerJob: Job? = null
+    private var secondsCount = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -68,6 +73,7 @@ class EasyFragment : Fragment() {
             binding.card12Fe
         )
 
+
         val shuffledCardIds = ArrayList<Int>()
         for (id in cardId) {
             shuffledCardIds.add(id)
@@ -96,6 +102,9 @@ class EasyFragment : Fragment() {
         var isBusy = false
         var moves = 0
 
+        if (timerJob == null ){
+            startTimer()
+        }
         for (imageViewId in containerCard) {
             imageViewId.setOnClickListener { view ->
 
@@ -117,7 +126,7 @@ class EasyFragment : Fragment() {
                 }
 
                 moves++
-                binding.tvMovesFe.text = "Time : \n $moves"
+                binding.tvMovesFe.text = "Moves : \n $moves"
 
                 if (firstCard!!.cardId == card.cardId) {
                     Toast.makeText(requireContext(), "Match !", Toast.LENGTH_SHORT).show()
@@ -129,7 +138,8 @@ class EasyFragment : Fragment() {
 
                     if (matchCount == 6) {
                         Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
-                        ownerActivity?.updatePlayer(moves, 0.0)
+                        ownerActivity?.updatePlayer(moves, secondsCount)
+                        stopTimer()
                     }
 
                 } else {
@@ -149,13 +159,35 @@ class EasyFragment : Fragment() {
 
                 }
 
+            }
+
+        }
+    }
+
+    fun startTimer() {
+        timerJob = viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                while (true) {
+                    delay(1000)
+                    secondsCount++
+                    updateTimerText()
+                }
 
             }
 
 
-
-
         }
+    }
+
+    fun stopTimer (){
+        timerJob?.cancel()
+    }
+
+    fun updateTimerText () {
+        val minutes = secondsCount / 60
+        val seconds = secondsCount % 60
+        binding.tvTimeFe.text = "Time : \n $minutes : $seconds"
+
     }
 }
 

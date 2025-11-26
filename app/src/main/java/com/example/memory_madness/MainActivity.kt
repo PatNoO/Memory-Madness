@@ -46,12 +46,18 @@ class MainActivity : AppCompatActivity(), EasyFragment.EasyFragListener {
             .addToBackStack(null)
             .commit()
 
+
     }
 
 
-    override fun updatePlayer(moves: Int, time: Double) {
+    override fun updatePlayer(moves: Int, time: Int) {
 //        player?.moves = moves
-        binding.tvMainAm.text = moves.toString()
+//        binding.tvMainAm.text = moves.toString()
+        val minutes = time / 60
+        val seconds = time % 60
+        binding.tvMainAm.text = "Time $minutes : $seconds"
+
     }
+
 
 }
