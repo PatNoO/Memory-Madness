@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="32dp"
+        android:layout_marginTop="102dp"
         android:background="@color/backround_greyis"
         android:backgroundTint="@color/backround_greyis"
         app:cardCornerRadius="0dp"
@@ -77,8 +78,8 @@
 
         <GridLayout
             android:id="@+id/easy_grid_fe"
-            android:layout_width="342dp"
-            android:layout_height="461dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:columnCount="3"
 
             android:rowCount="4">
@@ -266,7 +267,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/cardView_gameplan_fe"
         app:strokeColor="@color/primary_red"
         app:strokeWidth="2dp" />
 

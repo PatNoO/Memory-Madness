@@ -89,11 +89,14 @@ class EasyFragment : Fragment() {
             imageViewId.tag = cardInfo
         }
 
+        var moves = 0
 
+        binding.tvMovesFe.text = "Moves : \n $moves"
 
         var firstCard: CardManager? = null
         var matchCount = 0
         var isBusy = false
+
 
         for (imageViewId in containerCard) {
             imageViewId.setOnClickListener { view ->
@@ -115,6 +118,8 @@ class EasyFragment : Fragment() {
                     return@setOnClickListener
                 }
 
+                moves++
+                binding.tvMovesFe.text = "Time : \n $moves"
 
                 if (firstCard!!.cardId == card.cardId) {
                     Toast.makeText(requireContext(), "Match !", Toast.LENGTH_SHORT).show()
