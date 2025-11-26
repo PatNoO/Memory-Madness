@@ -7,14 +7,16 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), EasyFragment.EasyFragListener {
 
-    private var player : Player? = Player("Default",0.0,0)
-//    private var player2 : Player? = Player("Default2",0.0,0)
+    private var player : Player? = Player("Default","",0,0)
 
+    private lateinit var playerViewModel : PlayerViewModel
     private lateinit var binding: ActivityMainBinding
 
     private val startLancher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -24,22 +26,26 @@ class MainActivity : AppCompatActivity(), EasyFragment.EasyFragListener {
             } else {
                 result.data?.getSerializableExtra("player_updated") as Player
             }
-            player = playerUpdated
-            binding.tvMainAm.text = player?.name.toString()
+
+            playerViewModel.name.value = playerUpdated?.name
+            playerViewModel.difficulty.value = playerUpdated?.difficulty
+
+            // todo prova om man behöver updatera hela playerviewmodel när app är körklar
+//            playerViewModel.time.value = playerUpdated?.time
+//            playerViewModel.moves.value = playerUpdated?.moves
+
+            binding.tvMainAm.text = playerUpdated?.name
+//            binding.tvMainAm.text = playerViewModel.name.value.toString()
         }
     }
     //// todo Lägg till Highscore bäst kontra sämsta tid och drag
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        playerViewModel = ViewModelProvider(this)[PlayerViewModel::class.java]
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-       val intent = Intent(this, StartActivity::class.java)
-        intent.putExtra("player", player)
-        startLancher.launch(intent)
-        onPause()
+        initStartActivity()
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fv_game_plan_am, EasyFragment(), "easy_fragment")
@@ -47,6 +53,13 @@ class MainActivity : AppCompatActivity(), EasyFragment.EasyFragListener {
             .commit()
 
 
+    }
+
+    private fun initStartActivity() {
+        val intent = Intent(this, StartActivity::class.java)
+        intent.putExtra("player", player)
+        startLancher.launch(intent)
+        onPause()
     }
 
 
