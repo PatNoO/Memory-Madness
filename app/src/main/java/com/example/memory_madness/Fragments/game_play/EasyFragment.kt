@@ -1,9 +1,7 @@
 package com.example.memory_madness.Fragments.game_play
 
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +9,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.memory_madness.CardManager
+import com.example.memory_madness.GameViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentEasyBinding
 import kotlinx.coroutines.Job
@@ -22,28 +22,17 @@ import kotlinx.coroutines.launch
 
 class EasyFragment : Fragment() {
 
-    interface EasyFragListener {
-        fun updatePlayer (moves : Int, time : Int)
-    }
-    private var ownerActivity : EasyFragListener? = null
+    private lateinit var gameViewModel: GameViewModel
     private lateinit var binding: FragmentEasyBinding
     private val cardId: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
         R.drawable.card6)
-
     private var timerJob: Job? = null
-    private var secondsCount = 0
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
 
-        try {
-            ownerActivity = context as EasyFragListener
-            Log.i("!!!", "EasyFragListener is Implemented")
-        } catch (e: Exception){
-            Log.e("!!!", " !! ATTENTION !!  EasyFragListener is NOT Implemented")
-        }
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
     }
 
 
@@ -74,15 +63,100 @@ class EasyFragment : Fragment() {
         )
 
 
+        val shuffledCardIds = initShuffleCardList()
+
+        shuffledCardIds.shuffle()
+
+        setCardInfoOnImageView(shuffledCardIds, containerCard)
+
+        var isBusy = false
+
+        if (timerJob == null) {
+            startTimer()
+        }
+        for (imageViewId in containerCard) {
+            imageViewId.setOnClickListener { view ->
+
+
+                if (isBusy) {
+                    return@setOnClickListener
+                }
+
+                gameViewModel.currentCard.value = view.tag as CardManager
+
+                gameViewModel.currentCard.value?.let { currentCard ->
+
+                    if (currentCard.isFlipped || currentCard.isMatched) return@setOnClickListener
+
+                    currentCard.containerId.setImageResource(currentCard.cardId)
+                    currentCard.isFlipped = true
+
+                    if (gameViewModel.turnedCard.value == null) {
+                        gameViewModel.turnedCard.value = currentCard
+                        return@setOnClickListener
+                    }
+
+                    gameViewModel.increaseMoves()
+
+                    gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
+                        binding.tvMovesFe.text = "Moves : \n $moves"
+                    }
+
+                    val turnedCard = gameViewModel.turnedCard.value
+
+                    if (turnedCard!!.cardId == currentCard.cardId) {
+
+                        Toast.makeText(requireActivity(), "Match !", Toast.LENGTH_SHORT).show()
+
+                        turnedCard.isMatched = true
+                        currentCard.isMatched = true
+                        gameViewModel.turnedCard.value = null
+
+                        gameViewModel.increaseCardPairCount()
+
+                        if (gameViewModel.cardPairCount.value == 6) {
+                            Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
+                            stopTimer()
+
+                        }
+
+                    } else {
+                        isBusy = true
+                        currentCard.containerId.postDelayed(
+                            {
+                                turnedCard.containerId.setImageResource(R.drawable.card_backround)
+                                currentCard.containerId.setImageResource(R.drawable.card_backround)
+
+                                currentCard.isFlipped = false
+                                turnedCard.isFlipped = false
+                                gameViewModel.turnedCard.value = null
+                                isBusy = false
+                            }, 500
+                        )
+
+                    }
+                }
+
+
+            }
+
+        }
+
+    }
+
+    private fun initShuffleCardList(): ArrayList<Int> {
         val shuffledCardIds = ArrayList<Int>()
         for (id in cardId) {
             shuffledCardIds.add(id)
             shuffledCardIds.add(id)
         }
+        return shuffledCardIds
+    }
 
-        shuffledCardIds.shuffle()
-
-
+    private fun setCardInfoOnImageView(
+        shuffledCardIds: ArrayList<Int>,
+        containerCard: List<ImageView>
+    ) {
         for (i in shuffledCardIds.indices) {
             val imageViewId: ImageView = containerCard[i] // View binding
             val imageId: Int = shuffledCardIds[i]       // Images Drawable
@@ -95,99 +169,33 @@ class EasyFragment : Fragment() {
 
             imageViewId.tag = cardInfo
         }
-
-
-        var firstCard: CardManager? = null
-        var matchCount = 0
-        var isBusy = false
-        var moves = 0
-
-        if (timerJob == null ){
-            startTimer()
-        }
-        for (imageViewId in containerCard) {
-            imageViewId.setOnClickListener { view ->
-
-
-                if (isBusy) {
-                    return@setOnClickListener
-                }
-
-                val card = view.tag as CardManager
-
-                if (card.isFlipped || card.isMatched) return@setOnClickListener
-
-                card.containerId.setImageResource(card.cardId)
-                card.isFlipped = true
-
-                if (firstCard == null) {
-                    firstCard = card
-                    return@setOnClickListener
-                }
-
-                moves++
-                binding.tvMovesFe.text = "Moves : \n $moves"
-
-                if (firstCard!!.cardId == card.cardId) {
-                    Toast.makeText(requireContext(), "Match !", Toast.LENGTH_SHORT).show()
-
-                    firstCard!!.isMatched = true
-                    card.isMatched = true
-                    firstCard = null
-                    matchCount++
-
-                    if (matchCount == 6) {
-                        Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
-                        ownerActivity?.updatePlayer(moves, secondsCount)
-                        stopTimer()
-                    }
-
-                } else {
-                    isBusy = true
-                    card.containerId.postDelayed(
-                        {
-                            firstCard!!.containerId.setImageResource(R.drawable.card_backround)
-                            card.containerId.setImageResource(R.drawable.card_backround)
-
-                            firstCard!!.isFlipped = false
-                            card.isFlipped = false
-                            firstCard = null
-                            isBusy = false
-                        },
-                        500
-                    )
-
-                }
-
-            }
-
-        }
     }
+
 
     fun startTimer() {
         timerJob = viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 while (true) {
                     delay(1000)
-                    secondsCount++
+                    gameViewModel.startCount()
                     updateTimerText()
                 }
-
             }
-
-
         }
     }
-
-    fun stopTimer (){
+    fun stopTimer() {
         timerJob?.cancel()
     }
-
-    fun updateTimerText () {
-        val minutes = secondsCount / 60
-        val seconds = secondsCount % 60
+    fun updateTimerText() {
+        val minutes = gameViewModel.timerCount.value?.div(60)
+        val seconds = gameViewModel.timerCount.value?.rem(60)
         binding.tvTimeFe.text = "Time : \n $minutes : $seconds"
 
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        stopTimer()
     }
 }
 

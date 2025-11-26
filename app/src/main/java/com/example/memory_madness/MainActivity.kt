@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), EasyFragment.EasyFragListener {
+class MainActivity : AppCompatActivity() {
 
     private var player : Player? = Player("Default","",0,0)
 
@@ -20,19 +20,21 @@ class MainActivity : AppCompatActivity(), EasyFragment.EasyFragListener {
     private lateinit var binding: ActivityMainBinding
 
     private val startLancher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
         if (result.resultCode == RESULT_OK) {
+
             val playerUpdated = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                  result.data?.getSerializableExtra("player_updated", Player ::class.java)
+
             } else {
                 result.data?.getSerializableExtra("player_updated") as Player
             }
 
-            playerViewModel.name.value = playerUpdated?.name
-            playerViewModel.difficulty.value = playerUpdated?.difficulty
+            playerUpdated?.let { player ->
+                playerViewModel.setName(player.name)
+//                playerViewModel.setdifficulty(player.difficulty)
+            }
 
-            // todo prova om man behöver updatera hela playerviewmodel när app är körklar
-//            playerViewModel.time.value = playerUpdated?.time
-//            playerViewModel.moves.value = playerUpdated?.moves
 
             binding.tvMainAm.text = playerUpdated?.name
 //            binding.tvMainAm.text = playerViewModel.name.value.toString()
@@ -63,14 +65,14 @@ class MainActivity : AppCompatActivity(), EasyFragment.EasyFragListener {
     }
 
 
-    override fun updatePlayer(moves: Int, time: Int) {
-//        player?.moves = moves
-//        binding.tvMainAm.text = moves.toString()
-        val minutes = time / 60
-        val seconds = time % 60
-        binding.tvMainAm.text = "Time $minutes : $seconds"
-
-    }
+//    override fun updatePlayer(moves: Int, time: Int) {
+////        player?.moves = moves
+////        binding.tvMainAm.text = moves.toString()
+//        val minutes = time / 60
+//        val seconds = time % 60
+//        binding.tvMainAm.text = "Time $minutes : $seconds"
+//
+//    }
 
 
 }
