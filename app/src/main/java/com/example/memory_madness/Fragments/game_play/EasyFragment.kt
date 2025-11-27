@@ -1,6 +1,8 @@
 package com.example.memory_madness.Fragments.game_play
 
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,15 +15,21 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.memory_madness.CardManager
+import com.example.memory_madness.Fragments.WinFragment
 import com.example.memory_madness.GameViewModel
+import com.example.memory_madness.Player
+import com.example.memory_madness.PlayerViewModel
 import com.example.memory_madness.R
+import com.example.memory_madness.StartActivity
 import com.example.memory_madness.databinding.FragmentEasyBinding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.FileDescriptor
+import java.io.PrintWriter
 
 class EasyFragment : Fragment() {
-
+    private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
     private lateinit var binding: FragmentEasyBinding
     private val cardId: MutableList<Int> = mutableListOf(
@@ -32,6 +40,8 @@ class EasyFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        playerViewModel = ViewModelProvider(requireActivity()) [PlayerViewModel::class.java]
+
         gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
     }
 
@@ -74,6 +84,15 @@ class EasyFragment : Fragment() {
         if (timerJob == null) {
             startTimer()
         }
+
+        binding.btnEndgameFe.setOnClickListener {
+
+            val intent = Intent(requireActivity(), StartActivity::class.java)
+            requireActivity().startActivity(intent)
+            requireActivity().finishAffinity()
+        }
+        // Click listener for gameplay ( Game Play here )
+
         for (imageViewId in containerCard) {
             imageViewId.setOnClickListener { view ->
 
@@ -117,7 +136,10 @@ class EasyFragment : Fragment() {
                         if (gameViewModel.cardPairCount.value == 6) {
                             Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
                             stopTimer()
-
+                            parentFragmentManager.beginTransaction().apply{
+                                replace(R.id.fv_game_plan_am,WinFragment(), "fragment_win")
+                                    commit()
+                            }
                         }
 
                     } else {
@@ -197,6 +219,8 @@ class EasyFragment : Fragment() {
         super.onDetach()
         stopTimer()
     }
+
+
 }
 
 
