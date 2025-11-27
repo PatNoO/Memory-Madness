@@ -3,11 +3,9 @@ package com.example.memory_madness
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.databinding.ActivityMainBinding
@@ -46,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         initStartActivity()
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fv_game_plan_am, EasyFragment(), "easy_fragment")
+            .replace(R.id.fcv_game_plan_am, EasyFragment(), "easy_fragment")
             .addToBackStack(null)
             .commit()
 

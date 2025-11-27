@@ -14,6 +14,7 @@ class PlayerViewModel : ViewModel() {
         _player.value = newPlayerName
     }
 
+
 //    private var _name = MutableLiveData<String>()
 //     var name : LiveData<String> = _name
 //
