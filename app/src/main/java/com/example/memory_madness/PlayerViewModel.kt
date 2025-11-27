@@ -10,8 +10,8 @@ class PlayerViewModel : ViewModel() {
     private val _player = MutableLiveData<Player>()
     val player : LiveData<Player> = _player
 
-    fun setName (newPlayerName : String) {
-        _player.value = _player.value?.copy(name = newPlayerName)
+    fun setName (newPlayerName : Player) {
+        _player.value = newPlayerName
     }
 
 //    private var _name = MutableLiveData<String>()

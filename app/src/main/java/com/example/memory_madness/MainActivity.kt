@@ -31,13 +31,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             playerUpdated?.let { player ->
-                playerViewModel.setName(player.name)
-//                playerViewModel.setdifficulty(player.difficulty)
+                playerViewModel.setName(player)
             }
-
-
             binding.tvMainAm.text = playerUpdated?.name
-//            binding.tvMainAm.text = playerViewModel.name.value.toString()
         }
     }
     //// todo Lägg till Highscore bäst kontra sämsta tid och drag

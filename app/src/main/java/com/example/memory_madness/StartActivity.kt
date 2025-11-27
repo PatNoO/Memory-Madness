@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.memory_madness.databinding.ActivityStartBinding
 
-
+/// todo Gör detta till ett fragment istället !!!
 class StartActivity : AppCompatActivity() {
     private lateinit var binding : ActivityStartBinding
     private lateinit var player : Player
