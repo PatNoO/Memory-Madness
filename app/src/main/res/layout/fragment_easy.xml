@@ -259,7 +259,7 @@
         android:layout_marginBottom="8dp"
         android:backgroundTint="@color/backround_greyis"
         android:shadowColor="@color/primary_red"
-        android:text="End Game"
+        android:text="⏎ Home Menu"
         android:textColor="@color/primary_red"
         android:textSize="18sp"
         app:cornerRadius="4dp"
