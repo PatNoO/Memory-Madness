@@ -6,29 +6,37 @@ import androidx.lifecycle.ViewModel
 
 class PlayerViewModel : ViewModel() {
 
-    private var _name = MutableLiveData<String>()
-     var name : LiveData<String> = _name
 
-    private val _difficulty = MutableLiveData<String>()
-     val difficulty : LiveData<String> = _difficulty
+    private val _player = MutableLiveData<Player>()
+    val player : LiveData<Player> = _player
 
-    private val _time = MutableLiveData<Int>()
-     val time : LiveData<Int> = _time
-
-    private val _moves = MutableLiveData<Int>()
-     val moves : LiveData<Int> = _moves
-
-   //----------------------------------------------//
-
-    fun setMoves (totalMoves : Int){
-        _moves.value = totalMoves
+    fun setName (newPlayerName : String) {
+        _player.value = _player.value?.copy(name = newPlayerName)
     }
 
-    fun setName (playerName : String){
-        _name.value = playerName
-    }
-
-    fun setTime (newTime : Int) {
-        _time.value = newTime
-    }
+//    private var _name = MutableLiveData<String>()
+//     var name : LiveData<String> = _name
+//
+//    private val _difficulty = MutableLiveData<String>()
+//     val difficulty : LiveData<String> = _difficulty
+//
+//    private val _time = MutableLiveData<Int>()
+//     val time : LiveData<Int> = _time
+//
+//    private val _moves = MutableLiveData<Int>()
+//     val moves : LiveData<Int> = _moves
+//
+//   //----------------------------------------------//
+//
+//    fun setMoves (totalMoves : Int){
+//        _moves.value = totalMoves
+//    }
+//
+//    fun setName (playerName : String){
+//        _name.value = playerName
+//    }
+//
+//    fun setTime (newTime : Int) {
+//        _time.value = newTime
+//    }
 }
