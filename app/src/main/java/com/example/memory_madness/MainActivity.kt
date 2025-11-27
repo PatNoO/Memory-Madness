@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             playerUpdated?.let { player ->
                 playerViewModel.setName(player)
             }
-            binding.tvMainAm.text = playerUpdated?.name
+            binding.tvMainAm.text = playerViewModel.player.value?.name.toString()
         }
     }
     //// todo Lägg till Highscore bäst kontra sämsta tid och drag
@@ -45,9 +45,8 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fcv_game_plan_am, EasyFragment(), "easy_fragment")
-            .addToBackStack(null)
+//            .addToBackStack(null)
             .commit()
-
 
     }
 
