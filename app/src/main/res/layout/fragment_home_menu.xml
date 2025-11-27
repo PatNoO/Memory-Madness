@@ -32,32 +32,32 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_home_head_af"
+                android:id="@+id/tv_home_head_fhm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="52dp"
                 android:textSize="32sp"
                 android:fontFamily="@font/kranky"
-                android:text="@string/welcome_to_memory_madness"
+                android:text="Memory Madness \n Menu"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/et_input_name_af"
+                android:id="@+id/et_input_new_name_fhm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="52dp"
                 android:ems="10"
                 android:inputType="text"
-                android:hint="@string/name"
+                android:hint="New Player"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_home_head_af" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_home_head_fhm" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_start_af"
+                android:id="@+id/btn_start_fhm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -70,10 +70,10 @@
                 android:text="@string/startgame"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_input_name_af" />
+                app:layout_constraintTop_toBottomOf="@+id/et_input_new_name_fhm" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_difficulty_af"
+                android:id="@+id/btn_difficulty_fhm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -88,7 +88,25 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_start_af" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_start_fhm" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_endgame_fhm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="@color/backround_greyis"
+                android:shadowColor="@color/primary_red"
+                android:text="End Game"
+                android:textColor="@color/primary_red"
+                android:textSize="18sp"
+                app:cornerRadius="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_difficulty_fhm"
+                app:strokeColor="@color/primary_red"
+                app:strokeWidth="2dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
