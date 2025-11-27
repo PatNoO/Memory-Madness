@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Player
 import com.example.memory_madness.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentDifficultyBinding
 import com.example.memory_madness.databinding.FragmentEasyBinding
+import com.example.memory_madness.databinding.FragmentHomeMenuBinding
+import kotlin.math.log
 
 class DifficultyFragment : Fragment() {
     private var player: Player? = null
@@ -38,16 +41,31 @@ class DifficultyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        playerViewModel.player.observe(viewLifecycleOwner) { (name, difficulty, time, moves) ->
+            binding.tvDifficultyCurrentFd.text = difficulty
+        }
+
         binding.btnEasyFd.setOnClickListener {
-            Log.i("!!!", "Player : ${player.toString()}")
+              player?.difficulty = "easy"
+            playerViewModel.setDifficulty(player)
+            Log.i("!!!", "player : ${player.toString()}")
         }
 
         binding.btnMediumFd.setOnClickListener {
-
+            player?.difficulty = "medium"
+            playerViewModel.setDifficulty(player)
         }
 
         binding.btnHardFd.setOnClickListener {
+            player?.difficulty = "hard"
+            playerViewModel.setDifficulty(player)
+        }
 
+        binding.btnBackFd.setOnClickListener {
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fcv_game_plan_am, HomeMenuFragment(), "fragment_home_menu")
+                commit()
+            }
         }
 
     }

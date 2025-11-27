@@ -14,15 +14,12 @@ import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentHomeMenuBinding
 
 class HomeMenuFragment : Fragment() {
-
     private lateinit var binding : FragmentHomeMenuBinding
     private lateinit var playerViewModel: PlayerViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
-
 
     }
 
@@ -37,7 +34,6 @@ class HomeMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
 
         binding.btnStartFhm.setOnClickListener {
