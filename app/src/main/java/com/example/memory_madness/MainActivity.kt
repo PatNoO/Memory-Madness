@@ -8,15 +8,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
+import com.example.memory_madness.Fragments.game_play.MediumFragment
 import com.example.memory_madness.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var player : Player? = Player("Default","",0,0)
+    private var player : Player = Player("Default","",0,0)
     private lateinit var playerViewModel : PlayerViewModel
     private lateinit var binding: ActivityMainBinding
 
-    private val startLancher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val startLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
         if (result.resultCode == RESULT_OK) {
 
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
                 playerViewModel.setDifficulty(player)
             }
             binding.tvMainAm.text = playerViewModel.player.value?.difficulty.toString()
+            startGamePlay()
         }
     }
     //// todo Lägg till Highscore bäst kontra sämsta tid och drag
@@ -41,10 +43,29 @@ class MainActivity : AppCompatActivity() {
         playerViewModel = ViewModelProvider(this)[PlayerViewModel::class.java]
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         initStartActivity()
 
-        startEasyGame()
 
+    }
+
+    private fun startGamePlay() {
+        if (playerViewModel.player.value?.difficulty == "easy") {
+            startEasyGame()
+        } else if (playerViewModel.player.value?.difficulty == "medium") {
+            startMediumGame()
+        } else if (player.difficulty == "hard") {
+            //Starts Hard Fragment
+        } else {
+            startEasyGame()
+        }
+    }
+
+    fun startMediumGame () {
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fcv_game_plan_am, MediumFragment(), "medium_ fragment")
+            commit()
+        }
     }
 
     /**
@@ -64,7 +85,7 @@ class MainActivity : AppCompatActivity() {
     private fun initStartActivity() {
         val intent = Intent(this, StartActivity::class.java)
         intent.putExtra("player", player)
-        startLancher.launch(intent)
+        startLauncher.launch(intent)
         onPause()
     }
 
