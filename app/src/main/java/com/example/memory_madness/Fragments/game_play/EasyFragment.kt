@@ -31,6 +31,8 @@ class EasyFragment : Fragment() {
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
     private lateinit var binding: FragmentEasyBinding
+    
+    //List of images from drawable
     private val cardId: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
         R.drawable.card6)
@@ -55,7 +57,7 @@ class EasyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        // List of ImageViews
         val containerCard = listOf(
             binding.card1Fe,
             binding.card2Fe,
