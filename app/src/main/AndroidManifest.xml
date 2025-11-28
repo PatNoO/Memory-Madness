@@ -15,10 +15,10 @@
             android:name=".WinActivity"
             android:exported="false" />
         <activity
-            android:name=".StartActivity"
+            android:name=".Activitys.StartActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activitys.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

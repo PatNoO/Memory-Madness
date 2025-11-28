@@ -44,6 +44,8 @@ class DifficultyFragment : Fragment() {
         playerViewModel.player.observe(viewLifecycleOwner) { (name, difficulty, time, moves) ->
             binding.tvDifficultyCurrentFd.text = difficulty
         }
+
+
         /**
          * Player sets difficulty yo Easy
          */

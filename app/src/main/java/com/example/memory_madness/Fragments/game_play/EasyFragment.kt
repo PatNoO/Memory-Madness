@@ -1,7 +1,6 @@
 package com.example.memory_madness.Fragments.game_play
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,13 +14,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.memory_madness.CardManager
-import com.example.memory_madness.Fragments.DifficultyFragment
 import com.example.memory_madness.Fragments.HomeMenuFragment
 import com.example.memory_madness.Fragments.WinFragment
 import com.example.memory_madness.GameViewModel
 import com.example.memory_madness.PlayerViewModel
 import com.example.memory_madness.R
-import com.example.memory_madness.StartActivity
 import com.example.memory_madness.databinding.FragmentEasyBinding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -81,6 +78,8 @@ class EasyFragment : Fragment() {
 
 
         binding.btnEndgameFe.setOnClickListener {
+            gameViewModel.resetCount()
+            gameViewModel.resetMoves()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, HomeMenuFragment(), "fragment_home_menu")
                 commit()

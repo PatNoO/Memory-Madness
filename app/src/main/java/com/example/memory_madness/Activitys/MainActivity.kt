@@ -1,4 +1,4 @@
-package com.example.memory_madness
+package com.example.memory_madness.Activitys
 
 import android.content.Intent
 import android.os.Build
@@ -9,11 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.Fragments.game_play.MediumFragment
+import com.example.memory_madness.Player
+import com.example.memory_madness.PlayerViewModel
+import com.example.memory_madness.R
 import com.example.memory_madness.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var player : Player = Player("Default","",0,0)
+    private var player : Player = Player("Default", "", 0, 0)
     private lateinit var playerViewModel : PlayerViewModel
     private lateinit var binding: ActivityMainBinding
 
@@ -22,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
 
             val playerUpdated = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                 result.data?.getSerializableExtra("player_updated", Player ::class.java)
+                 result.data?.getSerializableExtra("player_updated", Player::class.java)
 
             } else {
                 result.data?.getSerializableExtra("player_updated") as Player
@@ -63,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     fun startMediumGame () {
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fcv_game_plan_am, MediumFragment(), "medium_ fragment")
+            replace(R.id.fcv_game_plan_am, MediumFragment())
             commit()
         }
     }
@@ -73,7 +76,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun startEasyGame() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fcv_game_plan_am, EasyFragment(), "easy_fragment")
+            .replace(R.id.fcv_game_plan_am, EasyFragment())
     //            .addToBackStack(null)
             .commit()
     }
