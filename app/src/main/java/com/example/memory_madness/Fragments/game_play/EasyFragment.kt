@@ -75,7 +75,7 @@ class EasyFragment : Fragment() {
         shuffledCardIds.shuffle()
 
         setCardInfoOnImageView(shuffledCardIds, containerCard)
-        
+
 
         binding.btnEndgameFe.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {

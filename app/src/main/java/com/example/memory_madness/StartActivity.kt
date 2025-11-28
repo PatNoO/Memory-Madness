@@ -3,6 +3,7 @@ package com.example.memory_madness
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,18 @@ class StartActivity : AppCompatActivity() {
         binding = ActivityStartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val difficulty = listOf<String>("Choose Difficulty","easy", "medium", "hard")
+
+        val adapter = ArrayAdapter(this, R.layout.spinner_text, difficulty)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown)
+        binding.spinnerDifficultyAs.adapter = adapter
+
+        startGame()
+
+    }
+
+    private fun startGame() {
+
         player = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
             intent.getSerializableExtra("player", Player::class.java)!!
         } else {
@@ -26,7 +39,7 @@ class StartActivity : AppCompatActivity() {
 
         binding.btnStartAs.setOnClickListener {
 
-            if (binding.etInputNameAs.text.isNullOrEmpty()){
+            if (binding.etInputNameAs.text.isNullOrEmpty()) {
                 Toast.makeText(this, "Field Cannot be empty", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -36,10 +49,9 @@ class StartActivity : AppCompatActivity() {
             val resultIntent = Intent().apply {
                 putExtra("player_updated", player)
             }
-            setResult(RESULT_OK,resultIntent)
+            setResult(RESULT_OK, resultIntent)
             finish()
 
         }
-
     }
 }
