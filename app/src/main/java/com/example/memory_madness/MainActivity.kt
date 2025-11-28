@@ -13,7 +13,6 @@ import com.example.memory_madness.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private var player : Player? = Player("Default","",0,0)
-
     private lateinit var playerViewModel : PlayerViewModel
     private lateinit var binding: ActivityMainBinding
 
@@ -30,8 +29,9 @@ class MainActivity : AppCompatActivity() {
 
             playerUpdated?.let { player ->
                 playerViewModel.setName(player)
+                playerViewModel.setDifficulty(player)
             }
-            binding.tvMainAm.text = playerViewModel.player.value?.name.toString()
+            binding.tvMainAm.text = playerViewModel.player.value?.difficulty.toString()
         }
     }
     //// todo Lägg till Highscore bäst kontra sämsta tid och drag
@@ -43,12 +43,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initStartActivity()
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fcv_game_plan_am, EasyFragment(), "easy_fragment")
-//            .addToBackStack(null)
-            .commit()
+        startEasyGame()
 
     }
+
+    /**
+     * Starts Game level EASY
+     */
+    private fun startEasyGame() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fcv_game_plan_am, EasyFragment(), "easy_fragment")
+    //            .addToBackStack(null)
+            .commit()
+    }
+
+    /**
+     * Initiates : Start activity to collect with intent Player Name and Difficulty
+      */
 
     private fun initStartActivity() {
         val intent = Intent(this, StartActivity::class.java)

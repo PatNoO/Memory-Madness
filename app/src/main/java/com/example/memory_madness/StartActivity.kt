@@ -3,18 +3,26 @@ package com.example.memory_madness
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.memory_madness.databinding.ActivityStartBinding
 
 /// todo Gör detta till ett fragment istället !!!
 class StartActivity : AppCompatActivity() {
     private lateinit var binding : ActivityStartBinding
     private lateinit var player : Player
+    private lateinit var playerViewModel: PlayerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        playerViewModel = ViewModelProvider(this)[PlayerViewModel::class.java]
         binding = ActivityStartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -24,9 +32,76 @@ class StartActivity : AppCompatActivity() {
             intent.getSerializableExtra("player") as Player
         })
 
+        playerViewModel.player.observe(this) { (name, difficulty, time, moves) ->
+            binding.tvCurrentDifficultyAs.text = difficulty
+        }
+//        binding.tvCurrentDifficultyAs.text = player.difficulty
+
+        spinner()
+
+        startGame()
+
+    }
+
+    /**
+     * Player chooses difficulty
+     * sets player difficulty
+     * updates PlayerViewModel difficulty
+     */
+    private fun chooseDifficulty(position : Int) {
+        when (position) {
+            0 -> ""
+            1 -> {
+                player.difficulty = "easy"
+                playerViewModel.setDifficulty(player)
+            }
+            2 -> {
+                player.difficulty = "medium"
+                playerViewModel.setDifficulty(player)
+            }
+            3 -> {
+                player.difficulty = "hard"
+                playerViewModel.setDifficulty(player)
+            }
+        }
+    }
+
+    /**
+     * initiates or creates the spinner with different difficulty choices
+     */
+    private fun spinner() {
+        val difficulty = listOf("Choose Difficulty", "easy", "medium", "hard")
+
+        val adapter = ArrayAdapter(this, R.layout.spinner_text, difficulty)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown)
+        binding.spinnerDifficultyAs.adapter = adapter
+
+        binding.spinnerDifficultyAs.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    chooseDifficulty(position)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+            }
+    }
+
+    /**
+     * Sets player name and starts the game via start button
+     */
+    private fun startGame() {
+
+
         binding.btnStartAs.setOnClickListener {
 
-            if (binding.etInputNameAs.text.isNullOrEmpty()){
+            if (binding.etInputNameAs.text.isNullOrEmpty()) {
                 Toast.makeText(this, "Field Cannot be empty", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -36,10 +111,9 @@ class StartActivity : AppCompatActivity() {
             val resultIntent = Intent().apply {
                 putExtra("player_updated", player)
             }
-            setResult(RESULT_OK,resultIntent)
+            setResult(RESULT_OK, resultIntent)
             finish()
 
         }
-
     }
 }
