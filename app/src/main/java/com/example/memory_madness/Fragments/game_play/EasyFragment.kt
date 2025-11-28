@@ -3,6 +3,7 @@ package com.example.memory_madness.Fragments.game_play
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -89,6 +90,22 @@ class EasyFragment : Fragment() {
 
     }
 
+    /**
+     * Main gameplay logic.
+     *
+     * Handles:
+     *  - Card flipping
+     *  - Preventing double–clicks during animations ("busy state")
+     *  - Tracking the first and second selected card
+     *  - Checking for matches
+     *  - Flipping unmatched cards back
+     *  - Increasing move counter
+     *  - Detecting win condition
+     *  - Navigating to the Win screen when all pairs are found
+     *
+     * This function attaches click listeners to every card (ImageView)
+     * and controls the entire flow of the memory game.
+     */
     private fun gamePlay(containerCard: List<ImageView>) {
 
         /** todo prova om man kan lägga en klick listener över game lestenern som en paus knapp gör samma logik som med currentcard och turnedcard
@@ -102,7 +119,7 @@ class EasyFragment : Fragment() {
         if (timerJob == null) {
             startTimer()
         }
-
+        // Loop through all card ImageViews and add click listeners
         for (imageViewId in containerCard) {
             imageViewId.setOnClickListener { view ->
 
@@ -111,6 +128,7 @@ class EasyFragment : Fragment() {
                     return@setOnClickListener
                 }
 
+                // Get the clicked card from the ImageView's tag
                 gameViewModel.currentCard.value = view.tag as CardManager
 
                 gameViewModel.currentCard.value?.let { currentCard ->
@@ -120,6 +138,7 @@ class EasyFragment : Fragment() {
                     currentCard.containerId.setImageResource(currentCard.cardId)
                     currentCard.isFlipped = true
 
+                    // Store as first card in pair
                     if (gameViewModel.turnedCard.value == null) {
                         gameViewModel.turnedCard.value = currentCard
                         return@setOnClickListener
@@ -132,6 +151,8 @@ class EasyFragment : Fragment() {
                     }
 
                     val turnedCard = gameViewModel.turnedCard.value
+
+                    //     MATCH FOUND
 
                     if (turnedCard!!.cardId == currentCard.cardId) {
 
@@ -151,7 +172,7 @@ class EasyFragment : Fragment() {
                                 commit()
                             }
                         }
-
+                        //     NO MATCH FOUND
                     } else {
                         isBusy = true
                         currentCard.containerId.postDelayed(
@@ -175,6 +196,9 @@ class EasyFragment : Fragment() {
         }
     }
 
+    /**
+     * initiates The card id Arraylist and duplicates the play cards to get pairs
+     */
     private fun initShuffleCardList(): ArrayList<Int> {
         val shuffledCardIds = ArrayList<Int>()
         for (id in cardId) {
@@ -184,25 +208,31 @@ class EasyFragment : Fragment() {
         return shuffledCardIds
     }
 
-    private fun setCardInfoOnImageView(
-        shuffledCardIds: ArrayList<Int>,
-        containerCard: List<ImageView>
-    ) {
+    /**
+     * Connects every imageView to a CardManager object
+     * Every play card gets info or state "isFlipped, isMatched, cardId (for pair control) ..."
+     */
+    private fun setCardInfoOnImageView(shuffledCardIds: ArrayList<Int>, containerCard: List<ImageView>) {
+
         for (i in shuffledCardIds.indices) {
             val imageViewId: ImageView = containerCard[i] // View binding
             val imageId: Int = shuffledCardIds[i]       // Images Drawable
+            // sets cardManager
             val cardInfo = CardManager(
                 isFlipped = false,
                 isMatched = false,
                 cardId = imageId,
                 containerId = imageViewId
             )
-
+            // sets the cardinfo from cardManager as a tag on the imageView
             imageViewId.tag = cardInfo
+            Log.i("!!!","Card info : ${imageViewId.tag}")
         }
     }
 
-
+    /**
+     * initiates the timer for the player
+     */
     fun startTimer() {
         timerJob = viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -214,9 +244,17 @@ class EasyFragment : Fragment() {
             }
         }
     }
+
+    /**
+     * Stops the timer
+     */
     fun stopTimer() {
         timerJob?.cancel()
     }
+
+    /**
+     * Updates the timer for the player to see while playing
+     */
     fun updateTimerText() {
         val minutes = gameViewModel.timerCount.value?.div(60)
         val seconds = gameViewModel.timerCount.value?.rem(60)

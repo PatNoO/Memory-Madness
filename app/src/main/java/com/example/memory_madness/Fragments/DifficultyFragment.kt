@@ -44,23 +44,31 @@ class DifficultyFragment : Fragment() {
         playerViewModel.player.observe(viewLifecycleOwner) { (name, difficulty, time, moves) ->
             binding.tvDifficultyCurrentFd.text = difficulty
         }
-
+        /**
+         * Player sets difficulty yo Easy
+         */
         binding.btnEasyFd.setOnClickListener {
               player?.difficulty = "easy"
             playerViewModel.setDifficulty(player)
             Log.i("!!!", "player : ${player.toString()}")
         }
-
+        /**
+         * Player sets difficulty yo Medium
+         */
         binding.btnMediumFd.setOnClickListener {
             player?.difficulty = "medium"
             playerViewModel.setDifficulty(player)
         }
-
+        /**
+         * Player sets difficulty yo Hard
+         */
         binding.btnHardFd.setOnClickListener {
             player?.difficulty = "hard"
             playerViewModel.setDifficulty(player)
         }
-
+        /**
+         * Player goes back to home menu fragment
+         */
         binding.btnBackFd.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, HomeMenuFragment(), "fragment_home_menu")

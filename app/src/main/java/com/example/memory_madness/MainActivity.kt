@@ -43,12 +43,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initStartActivity()
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fcv_game_plan_am, EasyFragment(), "easy_fragment")
-//            .addToBackStack(null)
-            .commit()
+        startEasyGame()
 
     }
+
+    /**
+     * Starts Game level EASY
+     */
+    private fun startEasyGame() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fcv_game_plan_am, EasyFragment(), "easy_fragment")
+    //            .addToBackStack(null)
+            .commit()
+    }
+
+    /**
+     * Initiates : Start activity to collect with intent Player Name and Difficulty
+      */
 
     private fun initStartActivity() {
         val intent = Intent(this, StartActivity::class.java)

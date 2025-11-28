@@ -35,21 +35,27 @@ class HomeMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        /**
+         * Lets player start the game over again
+         */
         binding.btnStartFhm.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, EasyFragment(), "fragment_easy")
                 commit()
             }
         }
-
+        /**
+         * Player gets sent to difficulty menu fragment
+         */
         binding.btnDifficultyFhm.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, DifficultyFragment(), " fragmen_difficulty")
                 commit()
             }
         }
-
+        /**
+         * Player Ends Game and Quits the app overall
+         */
         binding.btnEndgameFhm.setOnClickListener {
             requireActivity().finish()
         }

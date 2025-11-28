@@ -43,6 +43,11 @@ class StartActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Player chooses difficulty
+     * sets player difficulty
+     * updates PlayerViewModel difficulty
+     */
     private fun chooseDifficulty(position : Int) {
         when (position) {
             0 -> ""
@@ -61,8 +66,11 @@ class StartActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * initiates or creates the spinner with different difficulty choices
+     */
     private fun spinner() {
-        val difficulty = listOf<String>("Choose Difficulty", "easy", "medium", "hard")
+        val difficulty = listOf("Choose Difficulty", "easy", "medium", "hard")
 
         val adapter = ArrayAdapter(this, R.layout.spinner_text, difficulty)
         adapter.setDropDownViewResource(R.layout.spinner_dropdown)
@@ -85,8 +93,10 @@ class StartActivity : AppCompatActivity() {
             }
     }
 
+    /**
+     * Sets player name and starts the game via start button
+     */
     private fun startGame() {
-
 
 
         binding.btnStartAs.setOnClickListener {
