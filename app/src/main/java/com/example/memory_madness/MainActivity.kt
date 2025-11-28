@@ -13,7 +13,6 @@ import com.example.memory_madness.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private var player : Player? = Player("Default","",0,0)
-
     private lateinit var playerViewModel : PlayerViewModel
     private lateinit var binding: ActivityMainBinding
 
@@ -30,8 +29,9 @@ class MainActivity : AppCompatActivity() {
 
             playerUpdated?.let { player ->
                 playerViewModel.setName(player)
+                playerViewModel.setDifficulty(player)
             }
-            binding.tvMainAm.text = playerViewModel.player.value?.name.toString()
+            binding.tvMainAm.text = playerViewModel.player.value?.difficulty.toString()
         }
     }
     //// todo Lägg till Highscore bäst kontra sämsta tid och drag

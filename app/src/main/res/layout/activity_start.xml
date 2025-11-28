@@ -84,9 +84,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_start_as"
                 />
 
+            <TextView
+                android:id="@+id/tv_current_difficulty_as"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/kranky"
+                android:hint="Difficulty"
+                android:textAlignment="center"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_difficulty_as" />
 
 
-<!--            <com.google.android.material.button.MaterialButton-->
+            <!--            <com.google.android.material.button.MaterialButton-->
 <!--                android:id="@+id/btn_difficulty_as"-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->
