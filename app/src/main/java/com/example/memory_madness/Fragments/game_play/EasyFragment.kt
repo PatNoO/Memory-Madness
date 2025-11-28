@@ -70,18 +70,12 @@ class EasyFragment : Fragment() {
             binding.card12Fe
         )
 
-
         val shuffledCardIds = initShuffleCardList()
 
         shuffledCardIds.shuffle()
 
         setCardInfoOnImageView(shuffledCardIds, containerCard)
-
-        var isBusy = false
-
-        if (timerJob == null) {
-            startTimer()
-        }
+        
 
         binding.btnEndgameFe.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
@@ -89,7 +83,25 @@ class EasyFragment : Fragment() {
                 commit()
             }
         }
+
+
+        gamePlay(containerCard)
+
+    }
+
+    private fun gamePlay(containerCard: List<ImageView>) {
+
+        /** todo prova om man kan lägga en klick listener över game lestenern som en paus knapp gör samma logik som med currentcard och turnedcard
+         * todo så om 1 klick är null isåfall är klick 1  = klick 2 och om klick 2 = true då returnerToListener i vår game listener
+         **/
+
         // Click listener for gameplay ( Game Play here )
+
+        var isBusy = false
+
+        if (timerJob == null) {
+            startTimer()
+        }
 
         for (imageViewId in containerCard) {
             imageViewId.setOnClickListener { view ->
@@ -134,9 +146,9 @@ class EasyFragment : Fragment() {
                         if (gameViewModel.cardPairCount.value == 6) {
                             Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
                             stopTimer()
-                            parentFragmentManager.beginTransaction().apply{
-                                replace(R.id.fcv_game_plan_am,WinFragment(), "fragment_win")
-                                    commit()
+                            parentFragmentManager.beginTransaction().apply {
+                                replace(R.id.fcv_game_plan_am, WinFragment(), "fragment_win")
+                                commit()
                             }
                         }
 
@@ -161,7 +173,6 @@ class EasyFragment : Fragment() {
             }
 
         }
-
     }
 
     private fun initShuffleCardList(): ArrayList<Int> {
