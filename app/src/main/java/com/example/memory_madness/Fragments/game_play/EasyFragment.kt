@@ -159,8 +159,8 @@ class EasyFragment : Fragment() {
 
                         Toast.makeText(requireActivity(), "Match !", Toast.LENGTH_SHORT).show()
 
-                        turnedCard.isMatched = true
                         currentCard.isMatched = true
+                        turnedCard.isMatched = true
                         gameViewModel.turnedCard.value = null
 
                         gameViewModel.increaseCardPairCount()
@@ -178,8 +178,8 @@ class EasyFragment : Fragment() {
                         isBusy = true
                         currentCard.containerId.postDelayed(
                             {
-                                turnedCard.containerId.setImageResource(R.drawable.card_backround)
-                                currentCard.containerId.setImageResource(R.drawable.card_backround)
+                                turnedCard.containerId.setImageResource(R.color.white)
+                                currentCard.containerId.setImageResource(R.color.white)
 
                                 currentCard.isFlipped = false
                                 turnedCard.isFlipped = false
@@ -202,9 +202,9 @@ class EasyFragment : Fragment() {
      */
     private fun initShuffleCardList(): ArrayList<Int> {
         val shuffledCardIds = ArrayList<Int>()
-        for (id in cardId) {
-            shuffledCardIds.add(id)
-            shuffledCardIds.add(id)
+        for (i in cardId) {
+            shuffledCardIds.add(i)
+            shuffledCardIds.add(i)
         }
         return shuffledCardIds
     }

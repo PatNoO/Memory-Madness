@@ -7,22 +7,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.memory_madness.CardManager
+import com.example.memory_madness.Fragments.WinFragment
 import com.example.memory_madness.GameViewModel
 import com.example.memory_madness.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentMediumBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 
 class MediumFragment : Fragment() {
 
-    private lateinit var binding : FragmentMediumBinding
+    private lateinit var binding: FragmentMediumBinding
     private lateinit var gameViewModel: GameViewModel
-    private lateinit var playerViewModel : PlayerViewModel
-
-    private val cardId : MutableList<Int> = mutableListOf(R.drawable.card1,R.drawable.card2,R.drawable.card3,R.drawable.card4,R.drawable.card5,
-        R.drawable.card6,R.drawable.card7,R.drawable.card8,R.drawable.card9)
+    private lateinit var playerViewModel: PlayerViewModel
+    private var timerJob : Job? = null
+    private val cardId: MutableList<Int> = mutableListOf(
+        R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
+        R.drawable.card6, R.drawable.card7, R.drawable.card8, R.drawable.card9
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +45,7 @@ class MediumFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMediumBinding.inflate(inflater,container,false)
+        binding = FragmentMediumBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -43,7 +53,7 @@ class MediumFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val containerId = listOf(
+        val containerCard = listOf(
             binding.card1Fm,
             binding.card2Fm,
             binding.card3Fm,
@@ -71,10 +81,10 @@ class MediumFragment : Fragment() {
         }
         shuffledCardId.shuffle()
 
-        for ( i in shuffledCardId.indices){
-            val imageViewId = containerId[i]
-            val imageId = shuffledCardId[i]
-            val cardInfo = CardManager (
+        for (i in shuffledCardId.indices) {
+            val imageViewId: ImageView = containerCard[i]
+            val imageId: Int = shuffledCardId[i]
+            val cardInfo = CardManager(
                 isFlipped = false,
                 isMatched = false,
                 containerId = imageViewId,
@@ -83,42 +93,105 @@ class MediumFragment : Fragment() {
             imageViewId.tag = cardInfo
         }
 
-        for (imageViewId in containerId ) {
+        if (timerJob == null ) {
+            startTimer()
+        }
+
+        var isBusy = false
+
+        for (imageViewId in containerCard) {
             imageViewId.setOnClickListener { view ->
+
+                if (isBusy) {
+                    return@setOnClickListener
+                }
 
                 gameViewModel.currentCard.value = view.tag as CardManager
 
                 gameViewModel.currentCard.value?.let { currentCard ->
 
-                    if (currentCard.isFlipped || currentCard.isMatched ) return@setOnClickListener
+                    if (currentCard.isFlipped || currentCard.isMatched) return@setOnClickListener
 
                     currentCard.containerId.setImageResource(currentCard.cardId)
                     currentCard.isFlipped = true
 
                     if (gameViewModel.turnedCard.value == null) {
-                        gameViewModel.turnedCard.value == currentCard
+                        gameViewModel.turnedCard.value = currentCard
                         return@setOnClickListener
                     }
 
                     gameViewModel.increaseMoves()
 
-                    gameViewModel.
+                    gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
+                        binding.tvMovesFm.text = "Moves : \n $moves"
+                    }
 
                     val turnedCard = gameViewModel.turnedCard.value
-                    currentCard.isFlipped = true
 
-                    if (currentCard.cardId == turnedCard!!.cardId)
+                    if (turnedCard!!.cardId == currentCard.cardId) {
                         Toast.makeText(requireActivity(), " MATCH ! ", Toast.LENGTH_SHORT).show()
-                    currentCard.isMatched = true
-                    turnedCard.isMatched = true
-                    gameViewModel.turnedCard.value = null
+
+                        currentCard.isMatched = true
+                        turnedCard.isMatched = true
+                        gameViewModel.turnedCard.value = null
+
+                        gameViewModel.increaseCardPairCount()
+
+                        if (gameViewModel.cardPairCount.value == cardId.size ) {
+                            parentFragmentManager.beginTransaction().apply {
+                                replace(R.id.fcv_game_plan_am, WinFragment())
+                                commit()
+                            }
+                        }
+
+                    } else {
+                        isBusy = true
+                        currentCard.containerId.postDelayed({
+
+                            turnedCard.containerId.setImageResource(R.color.white)
+                            currentCard.containerId.setImageResource(R.color.white)
+
+                            currentCard.isFlipped = false
+                            turnedCard.isFlipped = false
+                            gameViewModel.turnedCard.value = null
+                            isBusy = false
+                        }, 500)
+
+                    }
+
 
                 }
 
+            }
 
+        }
+    }
+
+    fun startTimer () {
+        timerJob = viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                while (true){
+                    delay(1000)
+                    gameViewModel.startCount()
+                    updateTimerText()
+                }
             }
         }
+    }
 
+    fun updateTimerText () {
+        val minutes = gameViewModel.timerCount.value?.div(60)
+        val seconds = gameViewModel.timerCount.value?.rem(60)
+        binding.tvTimeFm.text = "Time : $minutes : $seconds "
+    }
+
+    fun timerStop () {
+        timerJob?.cancel()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        timerStop()
     }
 
 }
