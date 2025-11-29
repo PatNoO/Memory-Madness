@@ -173,7 +173,7 @@ class EasyFragment : Fragment() {
 
                         gameViewModel.increaseCardPairCount()
 
-                        if (gameViewModel.cardPairCount.value == 3) {
+                        if (gameViewModel.cardPairCount.value == cardId.size) {
                             Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
                             stopTimer()
                             parentFragmentManager.beginTransaction().apply {

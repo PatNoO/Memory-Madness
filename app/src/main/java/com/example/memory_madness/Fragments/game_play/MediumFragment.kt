@@ -31,8 +31,8 @@ class MediumFragment : Fragment() {
     private var timerJob : Job? = null
     private val cardId: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
-        R.drawable.card6, R.drawable.card7, R.drawable.card8, R.drawable.card9
-    )
+        R.drawable.card6 )
+//    , R.drawable.card7, R.drawable.card8, R.drawable.card9
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,12 +66,12 @@ class MediumFragment : Fragment() {
             binding.card10Fm,
             binding.card11Fm,
             binding.card12Fm,
-            binding.card13Fm,
-            binding.card14Fm,
-            binding.card15Fm,
-            binding.card16Fm,
-            binding.card17Fm,
-            binding.card18Fm
+//            binding.card13Fm,
+//            binding.card14Fm,
+//            binding.card15Fm,
+//            binding.card16Fm,
+//            binding.card17Fm,
+//            binding.card18Fm
         )
 
         val shuffledCardId = ArrayList<Int>()
