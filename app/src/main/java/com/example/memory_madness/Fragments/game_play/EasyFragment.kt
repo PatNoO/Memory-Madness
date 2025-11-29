@@ -31,8 +31,9 @@ class EasyFragment : Fragment() {
     
     //List of images from drawable
     private val cardId: MutableList<Int> = mutableListOf(
-        R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
-        R.drawable.card6)
+        R.drawable.card1, R.drawable.card2, R.drawable.card3 )
+//    R.drawable.card4, R.drawable.card5,
+//    R.drawable.card6
     private var timerJob: Job? = null
 
 
@@ -62,12 +63,12 @@ class EasyFragment : Fragment() {
             binding.card4Fe,
             binding.card5Fe,
             binding.card6Fe,
-            binding.card7Fe,
-            binding.card8Fe,
-            binding.card9Fe,
-            binding.card10Fe,
-            binding.card11Fe,
-            binding.card12Fe
+//            binding.card7Fe,
+//            binding.card8Fe,
+//            binding.card9Fe,
+//            binding.card10Fe,
+//            binding.card11Fe,
+//            binding.card12Fe
         )
 
         val shuffledCardIds = initShuffleCardList()
@@ -76,6 +77,10 @@ class EasyFragment : Fragment() {
 
         setCardInfoOnImageView(shuffledCardIds, containerCard)
 
+        // Sets the layout xml backround to all the cards
+        for (i in 0 until containerCard.size){
+            containerCard[i].setImageResource(R.drawable.card_backround)
+        }
 
         binding.btnEndgameFe.setOnClickListener {
             gameViewModel.resetCount()
@@ -120,6 +125,9 @@ class EasyFragment : Fragment() {
         if (timerJob == null) {
             startTimer()
         }
+
+
+
         // Loop through all card ImageViews and add click listeners
         for (imageViewId in containerCard) {
             imageViewId.setOnClickListener { view ->
@@ -165,7 +173,7 @@ class EasyFragment : Fragment() {
 
                         gameViewModel.increaseCardPairCount()
 
-                        if (gameViewModel.cardPairCount.value == 6) {
+                        if (gameViewModel.cardPairCount.value == 3) {
                             Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
                             stopTimer()
                             parentFragmentManager.beginTransaction().apply {
