@@ -63,7 +63,7 @@
         android:id="@+id/cardView_gameplan_fe"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="32dp"
+        android:layout_margin="10dp"
         android:background="@color/backround_greyis"
         android:backgroundTint="@color/backround_greyis"
         app:cardCornerRadius="0dp"
@@ -81,11 +81,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:columnCount="3"
+            android:rowCount="4"
 
-            android:rowCount="4">
+            >
 
-            //android:padding="2dp"
-            // android:useDefaultMargins="true"
+            android:padding="2dp"
+            android:useDefaultMargins="true"
 
             <ImageView
                 android:id="@+id/card1_fe"

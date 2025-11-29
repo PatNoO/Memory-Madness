@@ -38,11 +38,14 @@ class WinFragment : Fragment(R.layout.fragment_win) {
         gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
 
         playerViewModel.player.observe(viewLifecycleOwner){player ->
-            binding.tvStatsFw.text = player.name
+            binding.tvStatsFw.text = "Score"
         }
+        val totalMoves = gameViewModel.moves.value
+        val totalTime = gameViewModel.timerCount.value
 
-        binding.tvMovesFw.text = gameViewModel.moves.value.toString()
-        binding.tvTimeFw.text = gameViewModel.timerCount.value.toString()
+        // todo jst nu räknar den ut bara sekunder nehöver dela upp det i minuter och sekunder vid utskrift
+        binding.tvMovesFw.text = " ${playerViewModel.player.value?.name} Moves : $totalMoves "
+        binding.tvTimeFw.text = " ${playerViewModel.player.value?.name} Time : $totalTime"
     }
 
 }

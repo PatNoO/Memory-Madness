@@ -1,4 +1,4 @@
-package com.example.memory_madness
+package com.example.memory_madness.Activitys
 
 import android.content.Intent
 import android.os.Build
@@ -6,15 +6,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
+import com.example.memory_madness.Player
+import com.example.memory_madness.PlayerViewModel
+import com.example.memory_madness.R
 import com.example.memory_madness.databinding.ActivityStartBinding
 
-/// todo Gör detta till ett fragment istället !!!
 class StartActivity : AppCompatActivity() {
     private lateinit var binding : ActivityStartBinding
     private lateinit var player : Player
@@ -35,7 +34,7 @@ class StartActivity : AppCompatActivity() {
         playerViewModel.player.observe(this) { (name, difficulty, time, moves) ->
             binding.tvCurrentDifficultyAs.text = difficulty
         }
-//        binding.tvCurrentDifficultyAs.text = player.difficulty
+
 
         spinner()
 
