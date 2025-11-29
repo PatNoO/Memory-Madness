@@ -14,7 +14,7 @@ class PlayerViewModel : ViewModel() {
         _player.value = newPlayerName
     }
 
-    fun setDifficulty (difficultyChoice : Player?) {
+    fun setDifficulty (difficultyChoice : Player) {
         _player.value = difficultyChoice
     }
 //    private var _name = MutableLiveData<String>()

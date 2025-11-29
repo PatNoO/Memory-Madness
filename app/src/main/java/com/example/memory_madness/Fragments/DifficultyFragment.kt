@@ -17,15 +17,14 @@ import com.example.memory_madness.databinding.FragmentHomeMenuBinding
 import kotlin.math.log
 
 class DifficultyFragment : Fragment() {
-    private var player: Player? = null
+    private lateinit var player : Player
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: FragmentDifficultyBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
-        player = playerViewModel.player.value
+        player = playerViewModel.player.value!!
     }
 
     override fun onCreateView(
