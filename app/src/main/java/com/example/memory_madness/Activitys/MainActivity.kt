@@ -16,7 +16,7 @@ import com.example.memory_madness.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var player : Player = Player("Default", "", 0, 0)
+    private var player : Player = Player("Default", "easy", 0, 0)
     private lateinit var playerViewModel : PlayerViewModel
     private lateinit var binding: ActivityMainBinding
 
@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity() {
     private fun startEasyGame() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fcv_game_plan_am, EasyFragment())
-    //            .addToBackStack(null)
             .commit()
     }
 
