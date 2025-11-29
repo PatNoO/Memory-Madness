@@ -178,8 +178,8 @@ class EasyFragment : Fragment() {
                         isBusy = true
                         currentCard.containerId.postDelayed(
                             {
-                                turnedCard.containerId.setImageResource(R.color.white)
-                                currentCard.containerId.setImageResource(R.color.white)
+                                turnedCard.containerId.setImageResource(R.drawable.card_backround)
+                                currentCard.containerId.setImageResource(R.drawable.card_backround)
 
                                 currentCard.isFlipped = false
                                 turnedCard.isFlipped = false
