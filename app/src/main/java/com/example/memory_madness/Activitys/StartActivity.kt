@@ -15,8 +15,8 @@ import com.example.memory_madness.R
 import com.example.memory_madness.databinding.ActivityStartBinding
 
 class StartActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityStartBinding
-    private lateinit var player : Player
+    private lateinit var binding: ActivityStartBinding
+    private lateinit var player: Player
     private lateinit var playerViewModel: PlayerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +25,7 @@ class StartActivity : AppCompatActivity() {
         binding = ActivityStartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        player = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+        player = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getSerializableExtra("player", Player::class.java)!!
         } else {
             intent.getSerializableExtra("player") as Player
@@ -47,17 +47,19 @@ class StartActivity : AppCompatActivity() {
      * sets player difficulty
      * updates PlayerViewModel difficulty
      */
-    private fun chooseDifficulty(position : Int) {
+    private fun chooseDifficulty(position: Int) {
         when (position) {
             0 -> ""
             1 -> {
                 player.difficulty = "easy"
                 playerViewModel.setDifficulty(player)
             }
+
             2 -> {
                 player.difficulty = "medium"
                 playerViewModel.setDifficulty(player)
             }
+
             3 -> {
                 player.difficulty = "hard"
                 playerViewModel.setDifficulty(player)

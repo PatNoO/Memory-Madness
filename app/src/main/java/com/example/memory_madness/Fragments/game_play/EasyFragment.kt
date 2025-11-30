@@ -28,17 +28,17 @@ class EasyFragment : Fragment() {
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
     private lateinit var binding: FragmentEasyBinding
-    
+
     //List of images from drawable
-    private val cardId: MutableList<Int> = mutableListOf(
-        R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
-        R.drawable.card6)
+    private val memoryCards: MutableList<Int> = mutableListOf(
+        R.drawable.card1, R.drawable.card2, R.drawable.card3
+    )
     private var timerJob: Job? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        playerViewModel = ViewModelProvider(requireActivity()) [PlayerViewModel::class.java]
+        playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
 
         gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
     }
@@ -55,29 +55,20 @@ class EasyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // List of ImageViews
-        val containerCard = listOf(
-            binding.card1Fe,
-            binding.card2Fe,
-            binding.card3Fe,
-            binding.card4Fe,
-            binding.card5Fe,
-            binding.card6Fe,
-            binding.card7Fe,
-            binding.card8Fe,
-            binding.card9Fe,
-            binding.card10Fe,
-            binding.card11Fe,
-            binding.card12Fe
-        )
+        val containerListCards = initImageViewList()
 
-        val shuffledCardIds = initShuffleCardList()
+        val shuffledMemoryCards = initShuffleCardList()
 
-        shuffledCardIds.shuffle()
+        shuffledMemoryCards.shuffle()
 
-        setCardInfoOnImageView(shuffledCardIds, containerCard)
+        setCardInfoOnImageView(shuffledMemoryCards, containerListCards)
 
+        // Sets the layout xml backround to all the cards
+        for (i in 0 until containerListCards.size) {
+            containerListCards[i].setImageResource(R.drawable.card_backround)
+        }
 
-        binding.btnEndgameFe.setOnClickListener {
+        binding.btnHomeMenuFe.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
             parentFragmentManager.beginTransaction().apply {
@@ -87,8 +78,20 @@ class EasyFragment : Fragment() {
         }
 
 
-        gamePlay(containerCard)
+        gamePlay(containerListCards)
 
+    }
+
+    private fun initImageViewList(): List<ImageView> {
+        val containerListCards = listOf(
+            binding.card1Fe,
+            binding.card2Fe,
+            binding.card3Fe,
+            binding.card4Fe,
+            binding.card5Fe,
+            binding.card6Fe,
+        )
+        return containerListCards
     }
 
     /**
@@ -107,7 +110,7 @@ class EasyFragment : Fragment() {
      * This function attaches click listeners to every card (ImageView)
      * and controls the entire flow of the memory game.
      */
-    private fun gamePlay(containerCard: List<ImageView>) {
+    private fun gamePlay(containerListCards: List<ImageView>) {
 
         /** todo prova om man kan lägga en klick listener över game lestenern som en paus knapp gör samma logik som med currentcard och turnedcard
          * todo så om 1 klick är null isåfall är klick 1  = klick 2 och om klick 2 = true då returnerToListener i vår game listener
@@ -120,9 +123,11 @@ class EasyFragment : Fragment() {
         if (timerJob == null) {
             startTimer()
         }
+
+
         // Loop through all card ImageViews and add click listeners
-        for (imageViewId in containerCard) {
-            imageViewId.setOnClickListener { view ->
+        for (imageView in containerListCards) {
+            imageView.setOnClickListener { view ->
 
 
                 if (isBusy) {
@@ -165,7 +170,7 @@ class EasyFragment : Fragment() {
 
                         gameViewModel.increaseCardPairCount()
 
-                        if (gameViewModel.cardPairCount.value == 6) {
+                        if (gameViewModel.cardPairCount.value == memoryCards.size) {
                             Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
                             stopTimer()
                             parentFragmentManager.beginTransaction().apply {
@@ -201,33 +206,36 @@ class EasyFragment : Fragment() {
      * initiates The card id Arraylist and duplicates the play cards to get pairs
      */
     private fun initShuffleCardList(): ArrayList<Int> {
-        val shuffledCardIds = ArrayList<Int>()
-        for (i in cardId) {
-            shuffledCardIds.add(i)
-            shuffledCardIds.add(i)
+        val shuffledMemoryCards = ArrayList<Int>()
+        for (i in memoryCards) {
+            shuffledMemoryCards.add(i)
+            shuffledMemoryCards.add(i)
         }
-        return shuffledCardIds
+        return shuffledMemoryCards
     }
 
     /**
      * Connects every imageView to a CardManager object
      * Every play card gets info or state "isFlipped, isMatched, cardId (for pair control) ..."
      */
-    private fun setCardInfoOnImageView(shuffledCardIds: ArrayList<Int>, containerCard: List<ImageView>) {
+    private fun setCardInfoOnImageView(
+        shuffledMemoryCards: ArrayList<Int>,
+        containerCard: List<ImageView>
+    ) {
 
-        for (i in shuffledCardIds.indices) {
+        for (i in shuffledMemoryCards.indices) {
             val imageViewId: ImageView = containerCard[i] // View binding
-            val imageId: Int = shuffledCardIds[i]       // Images Drawable
+            val memoryImageId: Int = shuffledMemoryCards[i]       // Images Drawable
             // sets cardManager
             val cardInfo = CardManager(
                 isFlipped = false,
                 isMatched = false,
-                cardId = imageId,
+                cardId = memoryImageId,
                 containerId = imageViewId
             )
             // sets the cardinfo from cardManager as a tag on the imageView
             imageViewId.tag = cardInfo
-            Log.i("!!!","Card info : ${imageViewId.tag}")
+            Log.i("!!!", "Card info : ${imageViewId.tag}")
         }
     }
 

@@ -1,14 +1,346 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/backround_greyis"
     tools:context=".Fragments.game_play.HardFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="102dp"
+        android:background="@color/backround_greyis"
+        android:backgroundTint="@color/backround_greyis"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="false"
+        app:layout_constraintBottom_toTopOf="@+id/cardView_gameplan_fh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_time_fh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/backround_greyis"
+                android:fontFamily="@font/kranky"
+                android:text="Time : "
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_moves_fh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/backround_greyis"
+                android:fontFamily="@font/kranky"
+                android:text="Moves : "
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/cardView_gameplan_fh"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="32dp"
+        android:background="@color/backround_greyis"
+        android:backgroundTint="@color/backround_greyis"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="3:5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <GridLayout
+            android:id="@+id/easy_grid_fh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="3"
+            android:rowCount="6">
+
+            <ImageView
+                android:id="@+id/card1_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card2_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card3_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card4_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card5_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card6_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card7_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="2"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card8_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="2"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card9_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="2"
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card10_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="3"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card11_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="3"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card12_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="3"
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card13_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="4"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+            <ImageView
+                android:id="@+id/card14_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="4"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+            <ImageView
+                android:id="@+id/card15_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="4"
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+            <ImageView
+                android:id="@+id/card16_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="5"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+            <ImageView
+                android:id="@+id/card17_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="5"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+            <ImageView
+                android:id="@+id/card18_fh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_row="5"
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:background="@drawable/card_backround"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_backround" />
+
+
+        </GridLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_home_menu_fh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/backround_greyis"
+        android:shadowColor="@color/primary_red"
+        android:text="⏎ Home Menu"
+        android:textColor="@color/primary_red"
+        android:textSize="18sp"
+        app:cornerRadius="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView_gameplan_fh"
+        app:strokeColor="@color/primary_red"
+        app:strokeWidth="2dp" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
