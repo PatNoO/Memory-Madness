@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
+import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.memory_madness.CardManager
+import com.example.memory_madness.Fragments.HomeMenuFragment
 import com.example.memory_madness.Fragments.WinFragment
 import com.example.memory_madness.GameViewModel
 import com.example.memory_madness.PlayerViewModel
@@ -28,6 +29,8 @@ class HardFragment : Fragment() {
     private lateinit var gameViewModel: GameViewModel
 
     private var timerJob: Job? = null
+
+    private var isBusy = false
 
     private val memoryCards: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
@@ -65,6 +68,33 @@ class HardFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
+        if (playerViewModel.player.value?.pauseIsOn == "on") {
+            binding.switchPauseFh.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    val savedTime = gameViewModel.timerCount.value
+                    stopTimer()
+                    gameViewModel.setCountTime(savedTime)
+                    isBusy = true
+                } else {
+                    isBusy = false
+                    startTimer()
+                }
+            }
+        }else {
+            binding.switchPauseFh.isInvisible = true
+        }
+
+        binding.btnHomeMenuFh.setOnClickListener {
+            gameViewModel.resetCount()
+            gameViewModel.resetMoves()
+            gameViewModel.resetCardPairCount()
+            stopTimer()
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                commit()
+            }
+        }
+
         gamePlay(containerListCards)
 
 
@@ -96,13 +126,20 @@ class HardFragment : Fragment() {
 
     private fun gamePlay(containerListCards: List<ImageView>) {
 
-        var isBusy = false
 
         for (imageView in containerListCards) {
             imageView.setOnClickListener { view ->
 
                 if (timerJob == null) {
+                    gameViewModel.setCountTime(30)
                     startTimer()
+                }
+
+                gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
+                    if (timerCount == 0) {
+                        stopTimer()
+                        Toast.makeText(requireActivity(), "Times Up !!", Toast.LENGTH_SHORT).show()
+                    }
                 }
 
                 if (isBusy) {
@@ -141,8 +178,12 @@ class HardFragment : Fragment() {
 
                         gameViewModel.increaseCardPairCount()
 
+                        gameViewModel.increaseTimerCount()
+                        Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
+
                         if (gameViewModel.cardPairCount.value == memoryCards.size) {
                             stopTimer()
+                            gameViewModel.resetCardPairCount()
                             parentFragmentManager.beginTransaction().apply {
                                 replace(R.id.fcv_game_plan_am, WinFragment())
                                 commit()
@@ -205,7 +246,7 @@ class HardFragment : Fragment() {
         timerJob = viewLifecycleOwner.lifecycleScope.launch {
             while (true) {
                 delay(1000)
-                gameViewModel.startCount()
+                gameViewModel.startCountDown()
                 updateTimer()
             }
 

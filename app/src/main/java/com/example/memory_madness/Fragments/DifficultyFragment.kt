@@ -31,7 +31,7 @@ class DifficultyFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDifficultyBinding.inflate(inflater,container,false)
         return binding.root
 
@@ -49,30 +49,42 @@ class DifficultyFragment : Fragment() {
          * Player sets difficulty yo Easy
          */
         binding.btnEasyFd.setOnClickListener {
-              player?.difficulty = "easy"
+              player.difficulty = "easy"
             playerViewModel.setDifficulty(player)
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                commit()
+            }
             Log.i("!!!", "player : ${player.toString()}")
         }
         /**
          * Player sets difficulty yo Medium
          */
         binding.btnMediumFd.setOnClickListener {
-            player?.difficulty = "medium"
+            player.difficulty = "medium"
             playerViewModel.setDifficulty(player)
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                commit()
+            }
         }
         /**
          * Player sets difficulty yo Hard
          */
         binding.btnHardFd.setOnClickListener {
-            player?.difficulty = "hard"
+            player.difficulty = "hard"
             playerViewModel.setDifficulty(player)
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                commit()
+            }
         }
         /**
          * Player goes back to home menu fragment
          */
         binding.btnBackFd.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fcv_game_plan_am, HomeMenuFragment(), "fragment_home_menu")
+                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                 commit()
             }
         }

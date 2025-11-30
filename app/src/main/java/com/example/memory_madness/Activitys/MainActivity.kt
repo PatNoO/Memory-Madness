@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.Fragments.game_play.HardFragment
@@ -17,7 +18,7 @@ import com.example.memory_madness.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var player: Player = Player("Default", "easy", 0, 0)
+    private var player: Player = Player("Default", "easy", "", 0, 0)
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: ActivityMainBinding
 
@@ -36,8 +37,13 @@ class MainActivity : AppCompatActivity() {
                 playerUpdated?.let { player ->
                     playerViewModel.setName(player)
                     playerViewModel.setDifficulty(player)
+                    playerViewModel.enablePause(player)
                 }
-                binding.tvMainAm.text = playerViewModel.player.value?.difficulty.toString()
+
+                playerViewModel.player.observe(this) { (name, difficulty, enablePause , time, moves) ->
+                    binding.tvMainAm.text = enablePause
+                }
+
                 startGamePlay()
             }
         }

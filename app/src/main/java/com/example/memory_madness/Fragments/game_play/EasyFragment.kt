@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -34,7 +35,7 @@ class EasyFragment : Fragment() {
         R.drawable.card1, R.drawable.card2, R.drawable.card3
     )
     private var timerJob: Job? = null
-
+    private var isBusy = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,15 +69,34 @@ class EasyFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
+        if (playerViewModel.player.value?.pauseIsOn == "on") {
+            binding.switchPauseFe.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    val savedTime = gameViewModel.timerCount.value
+                    stopTimer()
+                    gameViewModel.setCountTime(savedTime)
+                    isBusy = true
+                } else {
+                    isBusy = false
+                    startTimer()
+                }
+            }
+        }else {
+            binding.switchPauseFe.isInvisible = true
+        }
+
+
+
         binding.btnHomeMenuFe.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
+            gameViewModel.resetCardPairCount()
+            stopTimer()
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fcv_game_plan_am, HomeMenuFragment(), "fragment_home_menu")
+                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                 commit()
             }
         }
-
 
         gamePlay(containerListCards)
 
@@ -118,86 +138,101 @@ class EasyFragment : Fragment() {
 
         // Click listener for gameplay ( Game Play here )
 
-        var isBusy = false
 
-        if (timerJob == null) {
-            startTimer()
-        }
+
+
+
 
 
         // Loop through all card ImageViews and add click listeners
         for (imageView in containerListCards) {
-            imageView.setOnClickListener { view ->
+                imageView.setOnClickListener { view ->
 
 
-                if (isBusy) {
-                    return@setOnClickListener
-                }
+                    if (timerJob == null) {
+                        gameViewModel.setCountTime(20)
+                        startTimer()
+                    }
 
-                // Get the clicked card from the ImageView's tag
-                gameViewModel.currentCard.value = view.tag as CardManager
+                    gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
+                        if (timerCount == 0) {
+                            stopTimer()
+                            Toast.makeText(requireActivity(), "Times Up !!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
 
-                gameViewModel.currentCard.value?.let { currentCard ->
 
-                    if (currentCard.isFlipped || currentCard.isMatched) return@setOnClickListener
-
-                    currentCard.containerId.setImageResource(currentCard.cardId)
-                    currentCard.isFlipped = true
-
-                    // Store as first card in pair
-                    if (gameViewModel.turnedCard.value == null) {
-                        gameViewModel.turnedCard.value = currentCard
+                    if (isBusy) {
                         return@setOnClickListener
                     }
 
-                    gameViewModel.increaseMoves()
+                    // Get the clicked card from the ImageView's tag
+                    gameViewModel.currentCard.value = view.tag as CardManager
 
-                    gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
-                        binding.tvMovesFe.text = "Moves : \n $moves"
-                    }
+                    gameViewModel.currentCard.value?.let { currentCard ->
 
-                    val turnedCard = gameViewModel.turnedCard.value
+                        if (currentCard.isFlipped || currentCard.isMatched) return@setOnClickListener
 
-                    //     MATCH FOUND
+                        currentCard.containerId.setImageResource(currentCard.cardId)
+                        currentCard.isFlipped = true
 
-                    if (turnedCard!!.cardId == currentCard.cardId) {
-
-                        Toast.makeText(requireActivity(), "Match !", Toast.LENGTH_SHORT).show()
-
-                        currentCard.isMatched = true
-                        turnedCard.isMatched = true
-                        gameViewModel.turnedCard.value = null
-
-                        gameViewModel.increaseCardPairCount()
-
-                        if (gameViewModel.cardPairCount.value == memoryCards.size) {
-                            Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
-                            stopTimer()
-                            parentFragmentManager.beginTransaction().apply {
-                                replace(R.id.fcv_game_plan_am, WinFragment(), "fragment_win")
-                                commit()
-                            }
+                        // Store as first card in pair
+                        if (gameViewModel.turnedCard.value == null) {
+                            gameViewModel.turnedCard.value = currentCard
+                            return@setOnClickListener
                         }
-                        //     NO MATCH FOUND
-                    } else {
-                        isBusy = true
-                        currentCard.containerId.postDelayed(
-                            {
-                                turnedCard.containerId.setImageResource(R.drawable.card_backround)
-                                currentCard.containerId.setImageResource(R.drawable.card_backround)
 
-                                currentCard.isFlipped = false
-                                turnedCard.isFlipped = false
-                                gameViewModel.turnedCard.value = null
-                                isBusy = false
-                            }, 500
-                        )
+                        gameViewModel.increaseMoves()
 
+                        gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
+                            binding.tvMovesFe.text = "Moves : \n $moves"
+                        }
+
+                        val turnedCard = gameViewModel.turnedCard.value
+
+                        //     MATCH FOUND
+
+                        if (turnedCard!!.cardId == currentCard.cardId) {
+
+                            currentCard.isMatched = true
+                            turnedCard.isMatched = true
+                            gameViewModel.turnedCard.value = null
+
+                            gameViewModel.increaseCardPairCount()
+
+                            gameViewModel.increaseTimerCount()
+                            Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
+
+                            if (gameViewModel.cardPairCount.value == memoryCards.size) {
+                                stopTimer()
+                                gameViewModel.resetCardPairCount()
+                                parentFragmentManager.beginTransaction().apply {
+                                    replace(R.id.fcv_game_plan_am, WinFragment())
+                                    commit()
+                                }
+                            }
+                            //     NO MATCH FOUND
+                        } else {
+                            isBusy = true
+                            currentCard.containerId.postDelayed(
+                                {
+                                    turnedCard.containerId.setImageResource(R.drawable.card_backround)
+                                    currentCard.containerId.setImageResource(R.drawable.card_backround)
+
+                                    currentCard.isFlipped = false
+                                    turnedCard.isFlipped = false
+                                    gameViewModel.turnedCard.value = null
+                                    isBusy = false
+                                }, 500
+                            )
+
+                        }
                     }
+
+
                 }
 
 
-            }
 
         }
     }
@@ -247,7 +282,7 @@ class EasyFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 while (true) {
                     delay(1000)
-                    gameViewModel.startCount()
+                    gameViewModel.startCountDown()
                     updateTimerText()
                 }
             }
@@ -259,7 +294,9 @@ class EasyFragment : Fragment() {
      */
     fun stopTimer() {
         timerJob?.cancel()
+
     }
+
 
     /**
      * Updates the timer for the player to see while playing

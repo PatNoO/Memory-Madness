@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.memory_madness.CardManager
+import com.example.memory_madness.Fragments.HomeMenuFragment
 import com.example.memory_madness.Fragments.WinFragment
 import com.example.memory_madness.GameViewModel
 import com.example.memory_madness.PlayerViewModel
@@ -28,10 +30,10 @@ class MediumFragment : Fragment() {
     private lateinit var gameViewModel: GameViewModel
     private lateinit var playerViewModel: PlayerViewModel
     private var timerJob : Job? = null
+    private var isBusy = false
     private val memoryCards: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
         R.drawable.card6 )
-//    , R.drawable.card7, R.drawable.card8, R.drawable.card9
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +48,6 @@ class MediumFragment : Fragment() {
     ): View {
         binding = FragmentMediumBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,6 +64,33 @@ class MediumFragment : Fragment() {
         // Sets the layout xml backround to all the cards
         for (i in 0 until containerListCards.size){
             containerListCards[i].setImageResource(R.drawable.card_backround)
+        }
+
+        if (playerViewModel.player.value?.pauseIsOn == "on") {
+            binding.switchPauseFm.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    val savedTime = gameViewModel.timerCount.value
+                    stopTimer()
+                    gameViewModel.setCountTime(savedTime)
+                    isBusy = true
+                } else {
+                    isBusy = false
+                    startTimer()
+                }
+            }
+        }else {
+            binding.switchPauseFm.isInvisible = true
+        }
+
+        binding.btnHomeMenuFm.setOnClickListener {
+            gameViewModel.resetCount()
+            gameViewModel.resetMoves()
+            gameViewModel.resetCardPairCount()
+            stopTimer()
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                commit()
+            }
         }
 
         gamePlay(containerListCards)
@@ -89,13 +117,19 @@ class MediumFragment : Fragment() {
 
     private fun gamePlay(containerListCards: List<ImageView>) {
 
-        var isBusy = false
-
         for (imageViewId in containerListCards) {
             imageViewId.setOnClickListener { view ->
 
                 if (timerJob == null) {
+                    gameViewModel.setCountTime(20)
                     startTimer()
+                }
+
+                gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
+                    if (timerCount == 0) {
+                        stopTimer()
+                        Toast.makeText(requireActivity(), "Times Up !!", Toast.LENGTH_SHORT).show()
+                    }
                 }
 
                 if (isBusy) {
@@ -125,7 +159,6 @@ class MediumFragment : Fragment() {
                     val turnedCard = gameViewModel.turnedCard.value
 
                     if (turnedCard!!.cardId == currentCard.cardId) {
-                        Toast.makeText(requireActivity(), " MATCH ! ", Toast.LENGTH_SHORT).show()
 
                         currentCard.isMatched = true
                         turnedCard.isMatched = true
@@ -133,7 +166,13 @@ class MediumFragment : Fragment() {
 
                         gameViewModel.increaseCardPairCount()
 
+                        gameViewModel.increaseTimerCount()
+                        Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
+
+                        // WIN !!
                         if (gameViewModel.cardPairCount.value == memoryCards.size) {
+                            stopTimer()
+                            gameViewModel.resetCardPairCount()
                             parentFragmentManager.beginTransaction().apply {
                                 replace(R.id.fcv_game_plan_am, WinFragment())
                                 commit()
@@ -194,7 +233,7 @@ class MediumFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 while (true){
                     delay(1000)
-                    gameViewModel.startCount()
+                    gameViewModel.startCountDown()
                     updateTimerText()
                 }
             }
@@ -207,13 +246,13 @@ class MediumFragment : Fragment() {
         binding.tvTimeFm.text = "Time : $minutes : $seconds "
     }
 
-    fun timerStop () {
+    fun stopTimer () {
         timerJob?.cancel()
     }
 
     override fun onDetach() {
         super.onDetach()
-        timerStop()
+        stopTimer()
     }
 
 }
