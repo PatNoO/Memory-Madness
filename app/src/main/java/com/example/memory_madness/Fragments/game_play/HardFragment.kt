@@ -43,7 +43,7 @@ class HardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var containerListCards = listOf(
+        val containerListCards = listOf(
             binding.card1Fh,
             binding.card2Fh,
             binding.card3Fh,
@@ -70,8 +70,8 @@ class HardFragment : Fragment() {
 
         val shuffledMemoryCards = ArrayList<Int>()
         for (i in memoryCards){
-            shuffledMemoryCards[i]
-            shuffledMemoryCards[i]
+            shuffledMemoryCards.add(i)
+            shuffledMemoryCards.add(i)
         }
         shuffledMemoryCards.shuffle()
 
@@ -120,10 +120,19 @@ class HardFragment : Fragment() {
 
 
                     } else {
+                        currentCard.containerId.postDelayed(
+                            {
+                                currentCard.containerId.setImageResource(R.drawable.card_backround)
+                                turnedCard.containerId.setImageResource(R.drawable.card_backround)
 
-                        currentCard.isFlipped = false
-                        currentCard.containerId.setImageResource(R.drawable.card_backround)
-                        gameViewModel.turnedCard.value = null
+                                currentCard.isFlipped = false
+                                turnedCard.isFlipped = false
+                                currentCard.containerId.setImageResource(R.drawable.card_backround)
+
+                                gameViewModel.turnedCard.value = null
+                            }, 500
+                        )
+
 
                     }
 

@@ -32,8 +32,6 @@ class EasyFragment : Fragment() {
     //List of images from drawable
     private val memoryCards: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3 )
-//    R.drawable.card4, R.drawable.card5,
-//    R.drawable.card6
     private var timerJob: Job? = null
 
 
@@ -63,19 +61,13 @@ class EasyFragment : Fragment() {
             binding.card4Fe,
             binding.card5Fe,
             binding.card6Fe,
-//            binding.card7Fe,
-//            binding.card8Fe,
-//            binding.card9Fe,
-//            binding.card10Fe,
-//            binding.card11Fe,
-//            binding.card12Fe
         )
 
-        val shuffledCardIds = initShuffleCardList()
+        val shuffledMemoryCards = initShuffleCardList()
 
-        shuffledCardIds.shuffle()
+        shuffledMemoryCards.shuffle()
 
-        setCardInfoOnImageView(shuffledCardIds, containerListCards)
+        setCardInfoOnImageView(shuffledMemoryCards, containerListCards)
 
         // Sets the layout xml backround to all the cards
         for (i in 0 until containerListCards.size){

@@ -12,9 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MemoryMadness">
         <activity
-            android:name=".WinActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activitys.StartActivity"
             android:exported="false" />
         <activity
