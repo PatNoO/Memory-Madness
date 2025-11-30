@@ -174,7 +174,7 @@ class EasyFragment : Fragment() {
                             Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
                             stopTimer()
                             parentFragmentManager.beginTransaction().apply {
-                                replace(R.id.fcv_game_plan_am, WinFragment(), "fragment_win")
+                                replace(R.id.fcv_game_plan_am, WinFragment())
                                 commit()
                             }
                         }
