@@ -15,7 +15,16 @@ class GameViewModel : ViewModel() {
 //--------------------------------------------//
     // sets value from null to 0 and then start + 1
     fun startCount () {
-        timerCount.value = (timerCount.value ?: 0) +1
+    timerCount.value = timerCount.value?.minus(1)
+//    timerCount.value?.let {
+//        if (it >= 0){
+//            timerCount.value?.minus(1)
+//        }
+//        timerCount.value = (timerCount.value ?: 0) +1
+//    }
+}
+    fun setCountTime () {
+        timerCount.value = 20
     }
     fun increaseMoves () {
         moves.value = (moves.value ?: 0) +1

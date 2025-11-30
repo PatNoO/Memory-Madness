@@ -123,7 +123,14 @@ class EasyFragment : Fragment() {
         var isBusy = false
 
         if (timerJob == null) {
+            gameViewModel.setCountTime()
             startTimer()
+        }
+
+        gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
+            if (timerCount == 0){
+                Toast.makeText(requireActivity(),"Times Up !!" , Toast.LENGTH_SHORT).show()
+            }
         }
 
 
