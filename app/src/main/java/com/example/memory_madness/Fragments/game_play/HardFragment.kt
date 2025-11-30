@@ -6,12 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.memory_madness.CardManager
+import com.example.memory_madness.Fragments.WinFragment
 import com.example.memory_madness.GameViewModel
 import com.example.memory_madness.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentHardBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class HardFragment : Fragment() {
@@ -19,6 +25,8 @@ class HardFragment : Fragment() {
     private lateinit var binding : FragmentHardBinding
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
+
+    private var timerJob : Job? = null
 
     private val memoryCards: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
@@ -35,7 +43,7 @@ class HardFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHardBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -90,8 +98,18 @@ class HardFragment : Fragment() {
             imageViewId.tag = cardInfo
         }
 
+        var isBusy = false
+
         for (imageView in containerListCards) {
             imageView.setOnClickListener { view ->
+
+                if (timerJob == null) {
+                    startTimer()
+                }
+
+                if (isBusy){
+                    return@setOnClickListener
+                }
 
                 //the Object stored in this view as a tag
                 gameViewModel.currentCard.value = view.tag as CardManager
@@ -108,6 +126,12 @@ class HardFragment : Fragment() {
                         return@setOnClickListener
                     }
 
+                    gameViewModel.increaseMoves()
+
+                    gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
+                        binding.tvMovesFh.text = "Moves : \n $moves"
+                    }
+
                     val turnedCard = gameViewModel.turnedCard.value
 
                     if (currentCard.cardId == turnedCard!!.cardId) {
@@ -117,9 +141,20 @@ class HardFragment : Fragment() {
                         turnedCard.isMatched = true
                         gameViewModel.turnedCard.value = null
 
+                        gameViewModel.increaseCardPairCount()
+
+                        if (gameViewModel.cardPairCount.value == memoryCards.size) {
+                            stopTimer()
+                            parentFragmentManager.beginTransaction().apply {
+                                replace(R.id.fcv_game_plan_am, WinFragment())
+                                commit()
+                            }
+                        }
+
 
 
                     } else {
+                        isBusy = true
                         currentCard.containerId.postDelayed(
                             {
                                 currentCard.containerId.setImageResource(R.drawable.card_backround)
@@ -132,8 +167,7 @@ class HardFragment : Fragment() {
                                 gameViewModel.turnedCard.value = null
                             }, 500
                         )
-
-
+                        isBusy = false
                     }
 
                 }
@@ -143,6 +177,31 @@ class HardFragment : Fragment() {
 
     }
 
+    fun startTimer () {
+        timerJob = viewLifecycleOwner.lifecycleScope.launch {
+            while (true) {
+                delay(1000)
+                gameViewModel.startCount()
+                updateTimer()
+            }
+
+        }
+    }
+
+    fun updateTimer () {
+        val minutes = gameViewModel.timerCount.value?.div(60)
+        val seconds = gameViewModel.timerCount.value?.rem(60)
+        binding.tvTimeFh.text = "Time : \n $minutes : $seconds"
+    }
+
+    fun stopTimer () {
+        timerJob?.cancel()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        stopTimer()
+    }
 
 
 }
