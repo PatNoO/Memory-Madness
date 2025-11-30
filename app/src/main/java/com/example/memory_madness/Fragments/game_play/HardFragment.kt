@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.example.memory_madness.CardManager
 import com.example.memory_madness.GameViewModel
 import com.example.memory_madness.PlayerViewModel
 import com.example.memory_madness.R
@@ -15,11 +17,10 @@ import com.example.memory_madness.databinding.FragmentHardBinding
 class HardFragment : Fragment() {
 
     private lateinit var binding : FragmentHardBinding
-
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
 
-    private val cardId: MutableList<Int> = mutableListOf(
+    private val memoryCards: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
         R.drawable.card6, R.drawable.card7, R.drawable.card8, R.drawable.card9
     )
@@ -42,7 +43,7 @@ class HardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var containerId = listOf(
+        var containerListCards = listOf(
             binding.card1Fh,
             binding.card2Fh,
             binding.card3Fh,
@@ -63,12 +64,72 @@ class HardFragment : Fragment() {
             binding.card18Fh
         )
 
-        val shuffledCardId = ArrayList<Int>()
-        for (i in cardId){
-            shuffledCardId[i]
-            shuffledCardId[i]
+        for (i in 0 until containerListCards.size) {
+            containerListCards[i].setImageResource(R.drawable.card_backround)
         }
-        shuffledCardId.shuffle()
+
+        val shuffledMemoryCards = ArrayList<Int>()
+        for (i in memoryCards){
+            shuffledMemoryCards[i]
+            shuffledMemoryCards[i]
+        }
+        shuffledMemoryCards.shuffle()
+
+        for (i in shuffledMemoryCards.indices){
+            val imageViewId = containerListCards[i]
+            val memoryImageId = shuffledMemoryCards[i]
+            val cardInfo = CardManager (
+                isFlipped = false,
+                isMatched = false,
+                containerId = imageViewId,
+                cardId = memoryImageId
+            )
+            //Sets the tag associated with this view. A tag can be used to mark a view in its hierarchy
+            // and does not have to be unique within the hierarchy.
+            // Tags can also be used to store data within a view without resorting to another data structure
+            imageViewId.tag = cardInfo
+        }
+
+        for (imageView in containerListCards) {
+            imageView.setOnClickListener { view ->
+
+                //the Object stored in this view as a tag
+                gameViewModel.currentCard.value = view.tag as CardManager
+
+                gameViewModel.currentCard.value?.let { currentCard ->
+
+                    if (currentCard.isFlipped || currentCard.isMatched) return@setOnClickListener
+
+                    currentCard.containerId.setImageResource(currentCard.cardId)
+                    currentCard.isFlipped = true
+
+                    if (gameViewModel.turnedCard.value == null ) {
+                        gameViewModel.turnedCard.value = currentCard
+                        return@setOnClickListener
+                    }
+
+                    val turnedCard = gameViewModel.turnedCard.value
+
+                    if (currentCard.cardId == turnedCard!!.cardId) {
+                        Toast.makeText(requireActivity(), "Match!" , Toast.LENGTH_SHORT).show()
+
+                        currentCard.isMatched = true
+                        turnedCard.isMatched = true
+                        gameViewModel.turnedCard.value = null
+
+
+
+                    } else {
+
+                        currentCard.isFlipped = false
+                        currentCard.containerId.setImageResource(R.drawable.card_backround)
+                        gameViewModel.turnedCard.value = null
+
+                    }
+
+                }
+            }
+        }
 
 
     }

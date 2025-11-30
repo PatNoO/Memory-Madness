@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
+import com.example.memory_madness.Fragments.game_play.HardFragment
 import com.example.memory_madness.Fragments.game_play.MediumFragment
 import com.example.memory_madness.Player
 import com.example.memory_madness.PlayerViewModel
@@ -57,10 +58,17 @@ class MainActivity : AppCompatActivity() {
             startEasyGame()
         } else if (playerViewModel.player.value?.difficulty == "medium") {
             startMediumGame()
-        } else if (player.difficulty == "hard") {
-            //Starts Hard Fragment
+        } else if (playerViewModel.player.value?.difficulty == "hard") {
+            startHardGame()
         } else {
             startEasyGame()
+        }
+    }
+
+    fun startHardGame () {
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fcv_game_plan_am, HardFragment())
+            commit()
         }
     }
 

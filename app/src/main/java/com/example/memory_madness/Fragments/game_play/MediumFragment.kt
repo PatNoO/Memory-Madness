@@ -20,7 +20,6 @@ import com.example.memory_madness.databinding.FragmentMediumBinding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.properties.Delegates
 
 
 class MediumFragment : Fragment() {
@@ -29,7 +28,7 @@ class MediumFragment : Fragment() {
     private lateinit var gameViewModel: GameViewModel
     private lateinit var playerViewModel: PlayerViewModel
     private var timerJob : Job? = null
-    private val cardId: MutableList<Int> = mutableListOf(
+    private val memoryCards: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
         R.drawable.card6 )
 //    , R.drawable.card7, R.drawable.card8, R.drawable.card9
@@ -53,7 +52,7 @@ class MediumFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val containerCard = listOf(
+        val containerListCards = listOf(
             binding.card1Fm,
             binding.card2Fm,
             binding.card3Fm,
@@ -74,21 +73,21 @@ class MediumFragment : Fragment() {
 //            binding.card18Fm
         )
 
-        val shuffledCardId = ArrayList<Int>()
-        for (i in cardId) {
-            shuffledCardId.add(i)
-            shuffledCardId.add(i)
+        val shuffledMemoryCards = ArrayList<Int>()
+        for (i in memoryCards) {
+            shuffledMemoryCards.add(i)
+            shuffledMemoryCards.add(i)
         }
-        shuffledCardId.shuffle()
+        shuffledMemoryCards.shuffle()
 
-        for (i in shuffledCardId.indices) {
-            val imageViewId: ImageView = containerCard[i]
-            val imageId: Int = shuffledCardId[i]
+        for (i in shuffledMemoryCards.indices) {
+            val imageViewId: ImageView = containerListCards[i]
+            val memoryImageId: Int = shuffledMemoryCards[i]
             val cardInfo = CardManager(
                 isFlipped = false,
                 isMatched = false,
                 containerId = imageViewId,
-                cardId = imageId
+                cardId = memoryImageId
             )
             imageViewId.tag = cardInfo
         }
@@ -99,7 +98,7 @@ class MediumFragment : Fragment() {
 
         var isBusy = false
 
-        for (imageViewId in containerCard) {
+        for (imageViewId in containerListCards) {
             imageViewId.setOnClickListener { view ->
 
                 if (isBusy) {
@@ -137,7 +136,7 @@ class MediumFragment : Fragment() {
 
                         gameViewModel.increaseCardPairCount()
 
-                        if (gameViewModel.cardPairCount.value == cardId.size ) {
+                        if (gameViewModel.cardPairCount.value == memoryCards.size ) {
                             parentFragmentManager.beginTransaction().apply {
                                 replace(R.id.fcv_game_plan_am, WinFragment())
                                 commit()
