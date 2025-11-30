@@ -34,7 +34,7 @@ class EasyFragment : Fragment() {
         R.drawable.card1, R.drawable.card2, R.drawable.card3
     )
     private var timerJob: Job? = null
-
+    var isBusy = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +68,14 @@ class EasyFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
+        binding.switchPauseFe.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                isBusy = true
+            } else {
+                isBusy = false
+            }
+            }
+
         binding.btnHomeMenuFe.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
@@ -78,7 +86,6 @@ class EasyFragment : Fragment() {
                 commit()
             }
         }
-
 
         gamePlay(containerListCards)
 
@@ -121,7 +128,7 @@ class EasyFragment : Fragment() {
         // Click listener for gameplay ( Game Play here )
 
 
-        var isBusy = false
+
 
         if (timerJob == null) {
             gameViewModel.setCountTime()
@@ -129,90 +136,101 @@ class EasyFragment : Fragment() {
         }
 
         gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
-            if (timerCount == 0){
+            if (timerCount == 0) {
                 stopTimer()
-                Toast.makeText(requireActivity(),"Times Up !!" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Times Up !!", Toast.LENGTH_SHORT).show()
             }
         }
 
 
         // Loop through all card ImageViews and add click listeners
         for (imageView in containerListCards) {
-            imageView.setOnClickListener { view ->
 
 
-                if (isBusy) {
-                    return@setOnClickListener
-                }
 
-                // Get the clicked card from the ImageView's tag
-                gameViewModel.currentCard.value = view.tag as CardManager
+                imageView.setOnClickListener { view ->
 
-                gameViewModel.currentCard.value?.let { currentCard ->
 
-                    if (currentCard.isFlipped || currentCard.isMatched) return@setOnClickListener
 
-                    currentCard.containerId.setImageResource(currentCard.cardId)
-                    currentCard.isFlipped = true
-
-                    // Store as first card in pair
-                    if (gameViewModel.turnedCard.value == null) {
-                        gameViewModel.turnedCard.value = currentCard
+                    if (isBusy) {
                         return@setOnClickListener
                     }
 
-                    gameViewModel.increaseMoves()
+                    // Get the clicked card from the ImageView's tag
+                    gameViewModel.currentCard.value = view.tag as CardManager
 
-                    gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
-                        binding.tvMovesFe.text = "Moves : \n $moves"
-                    }
+                    gameViewModel.currentCard.value?.let { currentCard ->
 
-                    val turnedCard = gameViewModel.turnedCard.value
+                        if (currentCard.isFlipped || currentCard.isMatched) return@setOnClickListener
 
-                    //     MATCH FOUND
+                        currentCard.containerId.setImageResource(currentCard.cardId)
+                        currentCard.isFlipped = true
 
-                    if (turnedCard!!.cardId == currentCard.cardId) {
-
-                        Toast.makeText(requireActivity(), "Match !", Toast.LENGTH_SHORT).show()
-
-                        currentCard.isMatched = true
-                        turnedCard.isMatched = true
-                        gameViewModel.turnedCard.value = null
-
-                        gameViewModel.increaseCardPairCount()
-
-                        gameViewModel.increaseTimerCount()
-                        Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
-
-                        if (gameViewModel.cardPairCount.value == memoryCards.size) {
-                            Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
-                            stopTimer()
-                            gameViewModel.resetCardPairCount()
-                            parentFragmentManager.beginTransaction().apply {
-                                replace(R.id.fcv_game_plan_am, WinFragment())
-                                commit()
-                            }
+                        // Store as first card in pair
+                        if (gameViewModel.turnedCard.value == null) {
+                            gameViewModel.turnedCard.value = currentCard
+                            return@setOnClickListener
                         }
-                        //     NO MATCH FOUND
-                    } else {
-                        isBusy = true
-                        currentCard.containerId.postDelayed(
-                            {
-                                turnedCard.containerId.setImageResource(R.drawable.card_backround)
-                                currentCard.containerId.setImageResource(R.drawable.card_backround)
 
-                                currentCard.isFlipped = false
-                                turnedCard.isFlipped = false
-                                gameViewModel.turnedCard.value = null
-                                isBusy = false
-                            }, 500
-                        )
+                        gameViewModel.increaseMoves()
 
+                        gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
+                            binding.tvMovesFe.text = "Moves : \n $moves"
+                        }
+
+                        val turnedCard = gameViewModel.turnedCard.value
+
+                        //     MATCH FOUND
+
+                        if (turnedCard!!.cardId == currentCard.cardId) {
+
+                            Toast.makeText(requireActivity(), "Match !", Toast.LENGTH_SHORT).show()
+
+                            currentCard.isMatched = true
+                            turnedCard.isMatched = true
+                            gameViewModel.turnedCard.value = null
+
+                            gameViewModel.increaseCardPairCount()
+
+                            gameViewModel.increaseTimerCount()
+                            Toast.makeText(
+                                requireActivity(),
+                                "5 more seconds added",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            if (gameViewModel.cardPairCount.value == memoryCards.size) {
+                                Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT)
+                                    .show()
+                                stopTimer()
+                                gameViewModel.resetCardPairCount()
+                                parentFragmentManager.beginTransaction().apply {
+                                    replace(R.id.fcv_game_plan_am, WinFragment())
+                                    commit()
+                                }
+                            }
+                            //     NO MATCH FOUND
+                        } else {
+                            isBusy = true
+                            currentCard.containerId.postDelayed(
+                                {
+                                    turnedCard.containerId.setImageResource(R.drawable.card_backround)
+                                    currentCard.containerId.setImageResource(R.drawable.card_backround)
+
+                                    currentCard.isFlipped = false
+                                    turnedCard.isFlipped = false
+                                    gameViewModel.turnedCard.value = null
+                                    isBusy = false
+                                }, 500
+                            )
+
+                        }
                     }
+
+
                 }
 
 
-            }
 
         }
     }
@@ -276,7 +294,6 @@ class EasyFragment : Fragment() {
         timerJob?.cancel()
 
     }
-
 
 
     /**
