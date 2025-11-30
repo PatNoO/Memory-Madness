@@ -27,8 +27,8 @@ class GameViewModel : ViewModel() {
         timerCount.value = (timerCount.value ?: 0) + 5
     }
 
-    fun setCountTime() {
-        timerCount.value = 10
+    fun setCountTime(startCountNumber : Int?) {
+        timerCount.value = startCountNumber
     }
 
     fun increaseMoves() {

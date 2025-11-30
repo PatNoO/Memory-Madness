@@ -70,9 +70,13 @@ class EasyFragment : Fragment() {
 
         binding.switchPauseFe.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
+                val savedTime = gameViewModel.timerCount.value
+                stopTimer()
+                gameViewModel.setCountTime(savedTime)
                 isBusy = true
             } else {
                 isBusy = false
+                startTimer()
             }
             }
 
@@ -131,7 +135,7 @@ class EasyFragment : Fragment() {
 
 
         if (timerJob == null) {
-            gameViewModel.setCountTime()
+            gameViewModel.setCountTime(20)
             startTimer()
         }
 
