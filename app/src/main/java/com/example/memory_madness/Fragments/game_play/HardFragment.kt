@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.memory_madness.CardManager
@@ -28,6 +29,8 @@ class HardFragment : Fragment() {
     private lateinit var gameViewModel: GameViewModel
 
     private var timerJob: Job? = null
+
+    private var isBusy = false
 
     private val memoryCards: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
@@ -63,6 +66,22 @@ class HardFragment : Fragment() {
         // Sets the layout xml backround to all the cards
         for (i in 0 until containerListCards.size) {
             containerListCards[i].setImageResource(R.drawable.card_backround)
+        }
+
+        if (playerViewModel.player.value?.pauseIsOn == "on") {
+            binding.switchPauseFh.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    val savedTime = gameViewModel.timerCount.value
+                    stopTimer()
+                    gameViewModel.setCountTime(savedTime)
+                    isBusy = true
+                } else {
+                    isBusy = false
+                    startTimer()
+                }
+            }
+        }else {
+            binding.switchPauseFh.isInvisible = true
         }
 
         binding.btnHomeMenuFh.setOnClickListener {
@@ -107,13 +126,20 @@ class HardFragment : Fragment() {
 
     private fun gamePlay(containerListCards: List<ImageView>) {
 
-        var isBusy = false
 
         for (imageView in containerListCards) {
             imageView.setOnClickListener { view ->
 
                 if (timerJob == null) {
+                    gameViewModel.setCountTime(30)
                     startTimer()
+                }
+
+                gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
+                    if (timerCount == 0) {
+                        stopTimer()
+                        Toast.makeText(requireActivity(), "Times Up !!", Toast.LENGTH_SHORT).show()
+                    }
                 }
 
                 if (isBusy) {
@@ -151,6 +177,9 @@ class HardFragment : Fragment() {
                         gameViewModel.turnedCard.value = null
 
                         gameViewModel.increaseCardPairCount()
+
+                        gameViewModel.increaseTimerCount()
+                        Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
 
                         if (gameViewModel.cardPairCount.value == memoryCards.size) {
                             stopTimer()

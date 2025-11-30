@@ -35,7 +35,7 @@ class EasyFragment : Fragment() {
         R.drawable.card1, R.drawable.card2, R.drawable.card3
     )
     private var timerJob: Job? = null
-    var isBusy = false
+    private var isBusy = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,26 +141,25 @@ class EasyFragment : Fragment() {
 
 
 
-        if (timerJob == null) {
-            gameViewModel.setCountTime(20)
-            startTimer()
-        }
 
-        gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
-            if (timerCount == 0) {
-                stopTimer()
-                Toast.makeText(requireActivity(), "Times Up !!", Toast.LENGTH_SHORT).show()
-            }
-        }
 
 
         // Loop through all card ImageViews and add click listeners
         for (imageView in containerListCards) {
-
-
-
                 imageView.setOnClickListener { view ->
 
+
+                    if (timerJob == null) {
+                        gameViewModel.setCountTime(20)
+                        startTimer()
+                    }
+
+                    gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
+                        if (timerCount == 0) {
+                            stopTimer()
+                            Toast.makeText(requireActivity(), "Times Up !!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
 
 
                     if (isBusy) {
@@ -195,8 +194,6 @@ class EasyFragment : Fragment() {
 
                         if (turnedCard!!.cardId == currentCard.cardId) {
 
-                            Toast.makeText(requireActivity(), "Match !", Toast.LENGTH_SHORT).show()
-
                             currentCard.isMatched = true
                             turnedCard.isMatched = true
                             gameViewModel.turnedCard.value = null
@@ -204,15 +201,9 @@ class EasyFragment : Fragment() {
                             gameViewModel.increaseCardPairCount()
 
                             gameViewModel.increaseTimerCount()
-                            Toast.makeText(
-                                requireActivity(),
-                                "5 more seconds added",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
 
                             if (gameViewModel.cardPairCount.value == memoryCards.size) {
-                                Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT)
-                                    .show()
                                 stopTimer()
                                 gameViewModel.resetCardPairCount()
                                 parentFragmentManager.beginTransaction().apply {

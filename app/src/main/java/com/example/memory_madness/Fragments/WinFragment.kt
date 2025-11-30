@@ -46,7 +46,7 @@ class WinFragment : Fragment(R.layout.fragment_win) {
         val totalMoves = gameViewModel.moves.value
         val totalTime = gameViewModel.timerCount.value
 
-        // todo jst nu räknar den ut bara sekunder nehöver dela upp det i minuter och sekunder vid utskrift
+
         val minutes = totalTime?.div(60)
         val seconds = totalTime?.rem(60)
         binding.tvMovesFw.text = "Moves : $totalMoves "
@@ -54,6 +54,8 @@ class WinFragment : Fragment(R.layout.fragment_win) {
 
 
         binding.btnPlayAgainFw.setOnClickListener {
+            gameViewModel.resetCount()
+            gameViewModel.resetMoves()
             if (playerViewModel.player.value?.difficulty == "easy"){
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.fcv_game_plan_am, EasyFragment())
