@@ -31,13 +31,20 @@ class StartActivity : AppCompatActivity() {
             intent.getSerializableExtra("player") as Player
         })
 
-        playerViewModel.player.observe(this) { (name, difficulty, time, moves) ->
+        playerViewModel.player.observe(this) { (name, difficulty, onPause , time, moves) ->
             binding.tvCurrentDifficultyAs.text = difficulty
         }
 
 
+
         spinner()
 
+        binding.checkBoxEnablePauseSa.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                player.pauseIsOn = "on"
+                playerViewModel.enablePause(player)
+            }
+        }
         startGame()
 
     }

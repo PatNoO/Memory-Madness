@@ -18,7 +18,7 @@ import com.example.memory_madness.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var player: Player = Player("Default", "easy", 0, 0)
+    private var player: Player = Player("Default", "easy", "", 0, 0)
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: ActivityMainBinding
 
@@ -37,10 +37,11 @@ class MainActivity : AppCompatActivity() {
                 playerUpdated?.let { player ->
                     playerViewModel.setName(player)
                     playerViewModel.setDifficulty(player)
+                    playerViewModel.enablePause(player)
                 }
 
-                playerViewModel.player.observe(this) { (name, difficulty, time, moves) ->
-                    binding.tvMainAm.text = difficulty
+                playerViewModel.player.observe(this) { (name, difficulty, enablePause , time, moves) ->
+                    binding.tvMainAm.text = enablePause
                 }
 
                 startGamePlay()

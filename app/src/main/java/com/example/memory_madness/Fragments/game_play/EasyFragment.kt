@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -68,17 +69,23 @@ class EasyFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
-        binding.switchPauseFe.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                val savedTime = gameViewModel.timerCount.value
-                stopTimer()
-                gameViewModel.setCountTime(savedTime)
-                isBusy = true
-            } else {
-                isBusy = false
-                startTimer()
+        if (playerViewModel.player.value?.pauseIsOn == "on") {
+            binding.switchPauseFe.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    val savedTime = gameViewModel.timerCount.value
+                    stopTimer()
+                    gameViewModel.setCountTime(savedTime)
+                    isBusy = true
+                } else {
+                    isBusy = false
+                    startTimer()
+                }
             }
-            }
+        }else {
+            binding.switchPauseFe.isInvisible = true
+        }
+
+
 
         binding.btnHomeMenuFe.setOnClickListener {
             gameViewModel.resetCount()
