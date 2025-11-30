@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.memory_madness.CardManager
+import com.example.memory_madness.Fragments.HomeMenuFragment
 import com.example.memory_madness.Fragments.WinFragment
 import com.example.memory_madness.GameViewModel
 import com.example.memory_madness.PlayerViewModel
@@ -63,6 +64,14 @@ class MediumFragment : Fragment() {
         // Sets the layout xml backround to all the cards
         for (i in 0 until containerListCards.size){
             containerListCards[i].setImageResource(R.drawable.card_backround)
+        }
+        binding.btnHomeMenuFm.setOnClickListener {
+            gameViewModel.resetCount()
+            gameViewModel.resetMoves()
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                commit()
+            }
         }
 
         gamePlay(containerListCards)

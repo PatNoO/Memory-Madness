@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.Fragments.game_play.HardFragment
@@ -37,7 +38,11 @@ class MainActivity : AppCompatActivity() {
                     playerViewModel.setName(player)
                     playerViewModel.setDifficulty(player)
                 }
-                binding.tvMainAm.text = playerViewModel.player.value?.difficulty.toString()
+
+                playerViewModel.player.observe(this) { (name, difficulty, time, moves) ->
+                    binding.tvMainAm.text = difficulty
+                }
+
                 startGamePlay()
             }
         }

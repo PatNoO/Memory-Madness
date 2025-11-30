@@ -72,7 +72,7 @@ class EasyFragment : Fragment() {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fcv_game_plan_am, HomeMenuFragment(), "fragment_home_menu")
+                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                 commit()
             }
         }
