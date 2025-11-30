@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.memory_madness.CardManager
@@ -218,7 +217,7 @@ class HardFragment : Fragment() {
         timerJob = viewLifecycleOwner.lifecycleScope.launch {
             while (true) {
                 delay(1000)
-                gameViewModel.startCount()
+                gameViewModel.startCountDown()
                 updateTimer()
             }
 

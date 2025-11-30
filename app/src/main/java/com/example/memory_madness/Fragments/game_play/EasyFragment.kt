@@ -120,6 +120,7 @@ class EasyFragment : Fragment() {
 
         // Click listener for gameplay ( Game Play here )
 
+
         var isBusy = false
 
         if (timerJob == null) {
@@ -129,6 +130,7 @@ class EasyFragment : Fragment() {
 
         gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
             if (timerCount == 0){
+                stopTimer()
                 Toast.makeText(requireActivity(),"Times Up !!" , Toast.LENGTH_SHORT).show()
             }
         }
@@ -178,6 +180,9 @@ class EasyFragment : Fragment() {
                         gameViewModel.turnedCard.value = null
 
                         gameViewModel.increaseCardPairCount()
+
+                        gameViewModel.increaseTimerCount()
+                        Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
 
                         if (gameViewModel.cardPairCount.value == memoryCards.size) {
                             Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
@@ -257,7 +262,7 @@ class EasyFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 while (true) {
                     delay(1000)
-                    gameViewModel.startCount()
+                    gameViewModel.startCountDown()
                     updateTimerText()
                 }
             }
@@ -269,7 +274,10 @@ class EasyFragment : Fragment() {
      */
     fun stopTimer() {
         timerJob?.cancel()
+
     }
+
+
 
     /**
      * Updates the timer for the player to see while playing

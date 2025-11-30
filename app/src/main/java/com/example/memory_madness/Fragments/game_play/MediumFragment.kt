@@ -207,7 +207,7 @@ class MediumFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 while (true){
                     delay(1000)
-                    gameViewModel.startCount()
+                    gameViewModel.startCountDown()
                     updateTimerText()
                 }
             }

@@ -12,37 +12,42 @@ class GameViewModel : ViewModel() {
     val moves = MutableLiveData<Int>()
     val timerCount = MutableLiveData<Int>()
 
-//--------------------------------------------//
+    //--------------------------------------------//
     // sets value from null to 0 and then start + 1
-    fun startCount () {
-    timerCount.value = timerCount.value?.minus(1)
-//    timerCount.value?.let {
-//        if (it >= 0){
-//            timerCount.value?.minus(1)
-//        }
-//        timerCount.value = (timerCount.value ?: 0) +1
-//    }
-}
-    fun setCountTime () {
-        timerCount.value = 20
-    }
-    fun increaseMoves () {
-        moves.value = (moves.value ?: 0) +1
+    fun startCountDown() {
+
+        timerCount.value?.let {
+            if (it >= 0) {
+                timerCount.value = timerCount.value?.minus(1)
+            }
+        }
     }
 
-    fun increaseCardPairCount () {
-        cardPairCount.value = (cardPairCount.value ?: 0) +1
+    fun increaseTimerCount() {
+        timerCount.value = (timerCount.value ?: 0) + 5
     }
 
-    fun resetCardPairCount () {
+    fun setCountTime() {
+        timerCount.value = 10
+    }
+
+    fun increaseMoves() {
+        moves.value = (moves.value ?: 0) + 1
+    }
+
+    fun increaseCardPairCount() {
+        cardPairCount.value = (cardPairCount.value ?: 0) + 1
+    }
+
+    fun resetCardPairCount() {
         cardPairCount.value = 0
     }
 
-    fun resetMoves () {
+    fun resetMoves() {
         moves.value = 0
     }
 
-    fun resetCount () {
+    fun resetCount() {
         timerCount.value = 0
     }
 
