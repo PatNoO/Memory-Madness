@@ -71,6 +71,8 @@ class EasyFragment : Fragment() {
         binding.btnHomeMenuFe.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
+            gameViewModel.resetCardPairCount()
+            stopTimer()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                 commit()
@@ -173,6 +175,7 @@ class EasyFragment : Fragment() {
                         if (gameViewModel.cardPairCount.value == memoryCards.size) {
                             Toast.makeText(requireContext(), "You Won ", Toast.LENGTH_SHORT).show()
                             stopTimer()
+                            gameViewModel.resetCardPairCount()
                             parentFragmentManager.beginTransaction().apply {
                                 replace(R.id.fcv_game_plan_am, WinFragment())
                                 commit()

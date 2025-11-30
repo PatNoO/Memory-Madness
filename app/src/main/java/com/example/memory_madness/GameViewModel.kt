@@ -25,6 +25,10 @@ class GameViewModel : ViewModel() {
         cardPairCount.value = (cardPairCount.value ?: 0) +1
     }
 
+    fun resetCardPairCount () {
+        cardPairCount.value = 0
+    }
+
     fun resetMoves () {
         moves.value = 0
     }

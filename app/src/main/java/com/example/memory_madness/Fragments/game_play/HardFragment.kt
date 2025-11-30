@@ -69,6 +69,8 @@ class HardFragment : Fragment() {
         binding.btnHomeMenuFh.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
+            gameViewModel.resetCardPairCount()
+            stopTimer()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                 commit()
@@ -153,6 +155,7 @@ class HardFragment : Fragment() {
 
                         if (gameViewModel.cardPairCount.value == memoryCards.size) {
                             stopTimer()
+                            gameViewModel.resetCardPairCount()
                             parentFragmentManager.beginTransaction().apply {
                                 replace(R.id.fcv_game_plan_am, WinFragment())
                                 commit()

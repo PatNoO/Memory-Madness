@@ -68,6 +68,8 @@ class MediumFragment : Fragment() {
         binding.btnHomeMenuFm.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
+            timerStop()
+            gameViewModel.resetCardPairCount()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                 commit()
@@ -143,6 +145,8 @@ class MediumFragment : Fragment() {
                         gameViewModel.increaseCardPairCount()
 
                         if (gameViewModel.cardPairCount.value == memoryCards.size) {
+                            gameViewModel.resetCardPairCount()
+                            timerStop()
                             parentFragmentManager.beginTransaction().apply {
                                 replace(R.id.fcv_game_plan_am, WinFragment())
                                 commit()
