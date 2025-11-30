@@ -17,29 +17,30 @@ import com.example.memory_madness.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var player : Player = Player("Default", "easy", 0, 0)
-    private lateinit var playerViewModel : PlayerViewModel
+    private var player: Player = Player("Default", "easy", 0, 0)
+    private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: ActivityMainBinding
 
-    private val startLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val startLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
-        if (result.resultCode == RESULT_OK) {
+            if (result.resultCode == RESULT_OK) {
 
-            val playerUpdated = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                 result.data?.getSerializableExtra("player_updated", Player::class.java)
+                val playerUpdated = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    result.data?.getSerializableExtra("player_updated", Player::class.java)
 
-            } else {
-                result.data?.getSerializableExtra("player_updated") as Player
+                } else {
+                    result.data?.getSerializableExtra("player_updated") as Player
+                }
+
+                playerUpdated?.let { player ->
+                    playerViewModel.setName(player)
+                    playerViewModel.setDifficulty(player)
+                }
+                binding.tvMainAm.text = playerViewModel.player.value?.difficulty.toString()
+                startGamePlay()
             }
-
-            playerUpdated?.let { player ->
-                playerViewModel.setName(player)
-                playerViewModel.setDifficulty(player)
-            }
-            binding.tvMainAm.text = playerViewModel.player.value?.difficulty.toString()
-            startGamePlay()
         }
-    }
     //// todo Lägg till Highscore bäst kontra sämsta tid och drag
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,14 +66,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun startHardGame () {
+    fun startHardGame() {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fcv_game_plan_am, HardFragment())
             commit()
         }
     }
 
-    fun startMediumGame () {
+    fun startMediumGame() {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fcv_game_plan_am, MediumFragment())
             commit()
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Initiates : Start activity to collect with intent Player Name and Difficulty
-      */
+     */
 
     private fun initStartActivity() {
         val intent = Intent(this, StartActivity::class.java)

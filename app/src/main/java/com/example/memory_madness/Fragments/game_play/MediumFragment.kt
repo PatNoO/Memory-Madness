@@ -52,6 +52,23 @@ class MediumFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val containerListCards = initImageViewList()
+
+        val shuffledMemoryCards = initShuffleCardList()
+
+        shuffledMemoryCards.shuffle()
+
+        setCardInfoOnImageView(shuffledMemoryCards, containerListCards)
+
+        // Sets the layout xml backround to all the cards
+        for (i in 0 until containerListCards.size){
+            containerListCards[i].setImageResource(R.drawable.card_backround)
+        }
+
+        gamePlay(containerListCards)
+    }
+
+    private fun initImageViewList(): List<ImageView> {
         val containerListCards = listOf(
             binding.card1Fm,
             binding.card2Fm,
@@ -65,41 +82,21 @@ class MediumFragment : Fragment() {
             binding.card10Fm,
             binding.card11Fm,
             binding.card12Fm,
-//            binding.card13Fm,
-//            binding.card14Fm,
-//            binding.card15Fm,
-//            binding.card16Fm,
-//            binding.card17Fm,
-//            binding.card18Fm
-        )
 
-        val shuffledMemoryCards = ArrayList<Int>()
-        for (i in memoryCards) {
-            shuffledMemoryCards.add(i)
-            shuffledMemoryCards.add(i)
-        }
-        shuffledMemoryCards.shuffle()
-
-        for (i in shuffledMemoryCards.indices) {
-            val imageViewId: ImageView = containerListCards[i]
-            val memoryImageId: Int = shuffledMemoryCards[i]
-            val cardInfo = CardManager(
-                isFlipped = false,
-                isMatched = false,
-                containerId = imageViewId,
-                cardId = memoryImageId
             )
-            imageViewId.tag = cardInfo
-        }
+        return containerListCards
+    }
 
-        if (timerJob == null ) {
-            startTimer()
-        }
+    private fun gamePlay(containerListCards: List<ImageView>) {
 
         var isBusy = false
 
         for (imageViewId in containerListCards) {
             imageViewId.setOnClickListener { view ->
+
+                if (timerJob == null) {
+                    startTimer()
+                }
 
                 if (isBusy) {
                     return@setOnClickListener
@@ -136,7 +133,7 @@ class MediumFragment : Fragment() {
 
                         gameViewModel.increaseCardPairCount()
 
-                        if (gameViewModel.cardPairCount.value == memoryCards.size ) {
+                        if (gameViewModel.cardPairCount.value == memoryCards.size) {
                             parentFragmentManager.beginTransaction().apply {
                                 replace(R.id.fcv_game_plan_am, WinFragment())
                                 commit()
@@ -163,6 +160,32 @@ class MediumFragment : Fragment() {
 
             }
 
+        }
+    }
+
+    private fun initShuffleCardList(): ArrayList<Int> {
+        val shuffledMemoryCards = ArrayList<Int>()
+        for (i in memoryCards) {
+            shuffledMemoryCards.add(i)
+            shuffledMemoryCards.add(i)
+        }
+        return shuffledMemoryCards
+    }
+
+    private fun setCardInfoOnImageView(
+        shuffledMemoryCards: ArrayList<Int>,
+        containerListCards: List<ImageView>
+    ) {
+        for (i in shuffledMemoryCards.indices) {
+            val imageViewId: ImageView = containerListCards[i]
+            val memoryImageId: Int = shuffledMemoryCards[i]
+            val cardInfo = CardManager(
+                isFlipped = false,
+                isMatched = false,
+                containerId = imageViewId,
+                cardId = memoryImageId
+            )
+            imageViewId.tag = cardInfo
         }
     }
 

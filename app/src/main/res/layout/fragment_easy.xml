@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/backround_greyis"
     tools:context=".Fragments.game_play.EasyFragment">
 
@@ -85,8 +85,8 @@
 
             >
 
-<!--            android:padding="2dp"-->
-<!--            android:useDefaultMargins="true"-->
+            <!--            android:padding="2dp"-->
+            <!--            android:useDefaultMargins="true"-->
 
             <ImageView
                 android:id="@+id/card1_fe"
@@ -166,83 +166,83 @@
                 android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/card7_fe"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_row="2"-->
-<!--                android:layout_rowWeight="1"-->
-<!--                android:layout_column="0"-->
-<!--                android:layout_columnWeight="1"-->
-<!--                android:background="@drawable/card_backround"-->
-<!--                android:padding="8dp"-->
-<!--                android:scaleType="centerCrop"-->
-<!--                tools:src="@drawable/card_backround" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/card7_fe"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_row="2"-->
+            <!--                android:layout_rowWeight="1"-->
+            <!--                android:layout_column="0"-->
+            <!--                android:layout_columnWeight="1"-->
+            <!--                android:background="@drawable/card_backround"-->
+            <!--                android:padding="8dp"-->
+            <!--                android:scaleType="centerCrop"-->
+            <!--                tools:src="@drawable/card_backround" />-->
 
-<!--            <ImageView-->
-<!--                android:id="@+id/card8_fe"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_row="2"-->
-<!--                android:layout_rowWeight="1"-->
-<!--                android:layout_column="1"-->
-<!--                android:layout_columnWeight="1"-->
-<!--                android:background="@drawable/card_backround"-->
-<!--                android:padding="8dp"-->
-<!--                android:scaleType="centerCrop"-->
-<!--                tools:src="@drawable/card_backround" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/card8_fe"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_row="2"-->
+            <!--                android:layout_rowWeight="1"-->
+            <!--                android:layout_column="1"-->
+            <!--                android:layout_columnWeight="1"-->
+            <!--                android:background="@drawable/card_backround"-->
+            <!--                android:padding="8dp"-->
+            <!--                android:scaleType="centerCrop"-->
+            <!--                tools:src="@drawable/card_backround" />-->
 
-<!--            <ImageView-->
-<!--                android:id="@+id/card9_fe"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_row="2"-->
-<!--                android:layout_rowWeight="1"-->
-<!--                android:layout_column="2"-->
-<!--                android:layout_columnWeight="1"-->
-<!--                android:background="@drawable/card_backround"-->
-<!--                android:padding="8dp"-->
-<!--                android:scaleType="centerCrop"-->
-<!--                tools:src="@drawable/card_backround" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/card9_fe"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_row="2"-->
+            <!--                android:layout_rowWeight="1"-->
+            <!--                android:layout_column="2"-->
+            <!--                android:layout_columnWeight="1"-->
+            <!--                android:background="@drawable/card_backround"-->
+            <!--                android:padding="8dp"-->
+            <!--                android:scaleType="centerCrop"-->
+            <!--                tools:src="@drawable/card_backround" />-->
 
-<!--            <ImageView-->
-<!--                android:id="@+id/card10_fe"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_row="3"-->
-<!--                android:layout_rowWeight="1"-->
-<!--                android:layout_column="0"-->
-<!--                android:layout_columnWeight="1"-->
-<!--                android:background="@drawable/card_backround"-->
-<!--                android:padding="8dp"-->
-<!--                android:scaleType="centerCrop"-->
-<!--                tools:src="@drawable/card_backround" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/card10_fe"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_row="3"-->
+            <!--                android:layout_rowWeight="1"-->
+            <!--                android:layout_column="0"-->
+            <!--                android:layout_columnWeight="1"-->
+            <!--                android:background="@drawable/card_backround"-->
+            <!--                android:padding="8dp"-->
+            <!--                android:scaleType="centerCrop"-->
+            <!--                tools:src="@drawable/card_backround" />-->
 
-<!--            <ImageView-->
-<!--                android:id="@+id/card11_fe"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_row="3"-->
-<!--                android:layout_rowWeight="1"-->
-<!--                android:layout_column="1"-->
-<!--                android:layout_columnWeight="1"-->
-<!--                android:background="@drawable/card_backround"-->
-<!--                android:padding="8dp"-->
-<!--                android:scaleType="centerCrop"-->
-<!--                tools:src="@drawable/card_backround" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/card11_fe"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_row="3"-->
+            <!--                android:layout_rowWeight="1"-->
+            <!--                android:layout_column="1"-->
+            <!--                android:layout_columnWeight="1"-->
+            <!--                android:background="@drawable/card_backround"-->
+            <!--                android:padding="8dp"-->
+            <!--                android:scaleType="centerCrop"-->
+            <!--                tools:src="@drawable/card_backround" />-->
 
-<!--            <ImageView-->
-<!--                android:id="@+id/card12_fe"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_row="3"-->
-<!--                android:layout_rowWeight="1"-->
-<!--                android:layout_column="2"-->
-<!--                android:layout_columnWeight="1"-->
-<!--                android:background="@drawable/card_backround"-->
-<!--                android:padding="8dp"-->
-<!--                android:scaleType="centerCrop"-->
-<!--                tools:src="@drawable/card_backround" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/card12_fe"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_row="3"-->
+            <!--                android:layout_rowWeight="1"-->
+            <!--                android:layout_column="2"-->
+            <!--                android:layout_columnWeight="1"-->
+            <!--                android:background="@drawable/card_backround"-->
+            <!--                android:padding="8dp"-->
+            <!--                android:scaleType="centerCrop"-->
+            <!--                tools:src="@drawable/card_backround" />-->
 
 
         </GridLayout>
