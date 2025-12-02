@@ -1,4 +1,4 @@
-package com.example.memory_madness
+package com.example.memory_madness.DataClass
 
 import java.io.Serializable
 

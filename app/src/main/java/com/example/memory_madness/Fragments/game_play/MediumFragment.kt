@@ -12,11 +12,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.memory_madness.CardManager
+import com.example.memory_madness.DataClass.CardManager
 import com.example.memory_madness.Fragments.HomeMenuFragment
 import com.example.memory_madness.Fragments.WinFragment
-import com.example.memory_madness.GameViewModel
-import com.example.memory_madness.PlayerViewModel
+import com.example.memory_madness.ViewModell.GameViewModel
+import com.example.memory_madness.ViewModell.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentMediumBinding
 import kotlinx.coroutines.Job

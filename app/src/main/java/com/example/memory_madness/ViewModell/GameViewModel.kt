@@ -1,7 +1,8 @@
-package com.example.memory_madness
+package com.example.memory_madness.ViewModell
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.memory_madness.DataClass.CardManager
 
 class GameViewModel : ViewModel() {
 
@@ -10,7 +11,7 @@ class GameViewModel : ViewModel() {
     val cardPairCount = MutableLiveData<Int>()
 
     val moves = MutableLiveData<Int>()
-    val timerCount = MutableLiveData<Int>()
+    val timerCount = MutableLiveData<Int?>()
 
     //--------------------------------------------//
     // sets value from null to 0 and then start + 1

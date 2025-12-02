@@ -10,11 +10,11 @@ import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.memory_madness.CardManager
+import com.example.memory_madness.DataClass.CardManager
 import com.example.memory_madness.Fragments.HomeMenuFragment
 import com.example.memory_madness.Fragments.WinFragment
-import com.example.memory_madness.GameViewModel
-import com.example.memory_madness.PlayerViewModel
+import com.example.memory_madness.ViewModell.GameViewModel
+import com.example.memory_madness.ViewModell.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentHardBinding
 import kotlinx.coroutines.Job

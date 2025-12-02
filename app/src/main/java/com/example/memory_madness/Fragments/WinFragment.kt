@@ -9,12 +9,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.Fragments.game_play.HardFragment
 import com.example.memory_madness.Fragments.game_play.MediumFragment
-import com.example.memory_madness.GameViewModel
-import com.example.memory_madness.Player
-import com.example.memory_madness.PlayerViewModel
+import com.example.memory_madness.ViewModell.GameViewModel
+import com.example.memory_madness.DataClass.Player
+import com.example.memory_madness.ViewModell.PlayerViewModel
 import com.example.memory_madness.R
+import com.example.memory_madness.Utility.loadPrefsScore
 import com.example.memory_madness.databinding.FragmentWinBinding
-import com.example.memory_madness.savedPrefsScore
+import com.example.memory_madness.Utility.savedPrefsScore
 
 class WinFragment : Fragment(R.layout.fragment_win) {
 
@@ -64,6 +65,8 @@ private var playersList = mutableListOf<Player>()
         binding.tvTimeFw.text = "Time : $minutes : $seconds"
 
         binding.btnSaveScoreFw.setOnClickListener {
+           playersList = loadPrefsScore(requireContext())
+
             playerViewModel.player.let { player ->
                 val name = player.value?.name
                 val difficulty = player.value?.difficulty

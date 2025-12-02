@@ -1,8 +1,9 @@
-package com.example.memory_madness
+package com.example.memory_madness.ViewModell
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.memory_madness.DataClass.Player
 
 class PlayerViewModel : ViewModel() {
 
