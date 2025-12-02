@@ -18,9 +18,7 @@ class HighScoreFragment : Fragment() {
     lateinit var adapter : ArrayAdapter<String>
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding : FragmentHightScoreBinding
-
     private var playersList = mutableListOf<Player>()
-
     private var highScoreList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,13 +28,7 @@ class HighScoreFragment : Fragment() {
 //        val demoPlayers = listOf<Player>(Player("Erik","easy","on",10,12),
 //            Player("Johan","medium","off",15,16),
 //            Player("Lollo","Hard","on",5,26))
-        adapter.notifyDataSetChanged()
-        adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1,highScoreList)
 
-        playersList = loadPrefsScore(requireContext())
-        for (player in playersList){
-            highScoreList.add("Name : ${player.name}, Difficulty : ${player.difficulty}, pause help : ${player.pauseIsOn}, Time : ${player.time}, Moves : ${player.moves} " )
-        }
 
 
     }
@@ -51,6 +43,17 @@ class HighScoreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val minutes = playerViewModel.player.value?.time?.div(60)
+        val seconds = playerViewModel.player.value?.time?.rem(60)
+
+        playersList = loadPrefsScore(requireContext())
+        for (player in playersList){
+            highScoreList.add("Name : ${player.name}, Difficulty : ${player.difficulty},\n pause help : ${player.pauseChoice},\n Time Left : $minutes : $seconds , Moves : ${player.moves} " )
+        }
+
+        adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1,highScoreList)
+        adapter.notifyDataSetChanged()
 
         binding.lvHighScoreFhs.adapter = adapter
 

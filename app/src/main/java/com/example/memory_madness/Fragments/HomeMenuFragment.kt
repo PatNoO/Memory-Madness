@@ -70,6 +70,13 @@ class HomeMenuFragment : Fragment() {
                 commit()
             }
         }
+        binding.btnHighScoreFhm.setOnClickListener {
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fcv_game_plan_am, HighScoreFragment())
+                commit()
+            }
+        }
+
         /**
          * Player Ends Game and Quits the app overall
          */

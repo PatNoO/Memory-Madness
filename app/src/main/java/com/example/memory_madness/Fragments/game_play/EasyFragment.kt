@@ -69,7 +69,7 @@ class EasyFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
-        if (playerViewModel.player.value?.pauseIsOn == "on") {
+        if (playerViewModel.player.value?.pauseChoice == "on") {
             binding.switchPauseFe.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
                     val savedTime = gameViewModel.timerCount.value

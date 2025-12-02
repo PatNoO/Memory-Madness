@@ -67,7 +67,7 @@ private var playersList = mutableListOf<Player>()
             playerViewModel.player.let { player ->
                 val name = player.value?.name
                 val difficulty = player.value?.difficulty
-                val pauseHelp = player.value?.pauseIsOn
+                val pauseHelp = player.value?.pauseChoice
                 val time = player.value?.time
                 val moves = player.value?.moves
                 playersList.add(Player(name, difficulty, pauseHelp, time, moves ) )
