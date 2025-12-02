@@ -47,12 +47,20 @@ class HighScoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val minutes = playerViewModel.player.value?.time?.div(60)
-        val seconds = playerViewModel.player.value?.time?.rem(60)
+
 
         playersList = loadPrefsScore(requireContext())
+
         for (player in playersList) {
-            highScoreList.add("Name : ${player.name}, Difficulty : ${player.difficulty},\n pause help : ${player.pauseChoice},\n Time Left : $minutes : $seconds , Moves : ${player.moves} ")
+
+            val minutes = player.time?.div(60)
+            val seconds = player.time?.rem(60)
+
+            highScoreList.add("Name : ${player.name}\n" +
+                    "Difficulty : ${player.difficulty}\n" +
+                    "Pause help : ${player.pauseChoice}\n" +
+                    "Time Left : $minutes : $seconds\n" +
+                    "Moves : ${player.moves}")
         }
 
         adapter = ArrayAdapter<String>(
