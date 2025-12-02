@@ -51,6 +51,8 @@ class HighScoreFragment : Fragment() {
 
         playersList = loadPrefsScore(requireContext())
 
+        playersList.sortBy { it.moves }
+
         for (player in playersList) {
 
             val minutes = player.time?.div(60)
