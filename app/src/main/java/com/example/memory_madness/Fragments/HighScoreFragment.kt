@@ -30,14 +30,14 @@ class HighScoreFragment : Fragment() {
 //        val demoPlayers = listOf<Player>(Player("Erik","easy","on",10,12),
 //            Player("Johan","medium","off",15,16),
 //            Player("Lollo","Hard","on",5,26))
-
+        adapter.notifyDataSetChanged()
         adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1,highScoreList)
 
         playersList = loadPrefsScore(requireContext())
         for (player in playersList){
             highScoreList.add("Name : ${player.name}, Difficulty : ${player.difficulty}, pause help : ${player.pauseIsOn}, Time : ${player.time}, Moves : ${player.moves} " )
         }
-        
+
 
     }
 
