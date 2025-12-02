@@ -19,14 +19,19 @@ fun savedPrefsScore (context: Context, players : List<Player>){
 }
 
 fun loadPrefsScore (context: Context) : MutableList<Player> {
+
     val scorePrefs = context.getSharedPreferences("score_prefs", Context.MODE_PRIVATE)
-    val gson = Gson()
+//    val gson = Gson()
 
-    val json = scorePrefs.getString("player_score_key", null)
-    val type = object : TypeToken<MutableList<Player>>() {}.type
+    val json = scorePrefs.getString("player_score_key", null) ?: return mutableListOf()
 
-    val highScoreList : MutableList<Player> = gson.fromJson(json, type)
+    return try {
+        val type = object : TypeToken<MutableList<Player>>() {}.type
+        Gson().fromJson<MutableList<Player>>(json, type) ?: mutableListOf()
+    } catch (e: Exception) {
+        e.printStackTrace()
+        mutableListOf()
+    }
 
-    return highScoreList
-
+//    val highScoreList : MutableList<Player> = gson.fromJson(json, type)
 }

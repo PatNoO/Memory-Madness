@@ -23,8 +23,8 @@ class WinFragment : Fragment(R.layout.fragment_win) {
     private lateinit var gameViewModel: GameViewModel
     private lateinit var binding: FragmentWinBinding
 
-//    private var highScoreList = mutableListOf<String>()
-private var playersList = mutableListOf<Player>()
+    //    private var highScoreList = mutableListOf<String>()
+    private var playersList = mutableListOf<Player>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ private var playersList = mutableListOf<Player>()
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentWinBinding.inflate(inflater,container,false)
+        binding = FragmentWinBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,7 +46,7 @@ private var playersList = mutableListOf<Player>()
         playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
         gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
 
-            binding.tvStatsFw.text = "Score"
+        binding.tvStatsFw.text = "Score"
 
         val totalMoves = gameViewModel.moves.value
         val totalTime = gameViewModel.timerCount.value
@@ -65,7 +65,7 @@ private var playersList = mutableListOf<Player>()
         binding.tvTimeFw.text = "Time : $minutes : $seconds"
 
         binding.btnSaveScoreFw.setOnClickListener {
-           playersList = loadPrefsScore(requireContext())
+            playersList = loadPrefsScore(requireContext())
 
             playerViewModel.player.let { player ->
                 val name = player.value?.name
@@ -73,9 +73,11 @@ private var playersList = mutableListOf<Player>()
                 val pauseHelp = player.value?.pauseChoice
                 val time = player.value?.time
                 val moves = player.value?.moves
-                playersList.add(Player(name, difficulty, pauseHelp, time, moves ) )
+                playersList.add(Player(name, difficulty, pauseHelp, time, moves))
 
                 savedPrefsScore(requireContext(), playersList)
+
+
             }
         }
 
@@ -83,7 +85,7 @@ private var playersList = mutableListOf<Player>()
         binding.btnPlayAgainFw.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
-            if (playerViewModel.player.value?.difficulty == "easy"){
+            if (playerViewModel.player.value?.difficulty == "easy") {
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.fcv_game_plan_am, EasyFragment())
                     commit()
@@ -93,7 +95,7 @@ private var playersList = mutableListOf<Player>()
                     replace(R.id.fcv_game_plan_am, MediumFragment())
                     commit()
                 }
-            }else if (playerViewModel.player.value?.difficulty == "hard") {
+            } else if (playerViewModel.player.value?.difficulty == "hard") {
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.fcv_game_plan_am, HardFragment())
                     commit()

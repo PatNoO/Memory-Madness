@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.DataClass.Player
 import com.example.memory_madness.Fragments.game_play.EasyFragment
@@ -23,7 +24,10 @@ class HighScoreFragment : Fragment() {
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: FragmentHightScoreBinding
     private var playersList = mutableListOf<Player>()
-    private var highScoreList = mutableListOf<String>()
+    private var highScoreListEasy = mutableListOf<String>()
+    private var highScoreListMedium = mutableListOf<String>()
+    private var highScoreListHard = mutableListOf<String>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
@@ -53,28 +57,21 @@ class HighScoreFragment : Fragment() {
 
         playersList.sortBy { it.moves }
 
-        for (player in playersList) {
+        addHighScoreList()
 
-            val minutes = player.time?.div(60)
-            val seconds = player.time?.rem(60)
-
-            highScoreList.add("Name : ${player.name}\n" +
-                    "Difficulty : ${player.difficulty}\n" +
-                    "Pause help : ${player.pauseChoice}\n" +
-                    "Time Left : $minutes : $seconds\n" +
-                    "Moves : ${player.moves}")
+        binding.btnShowEasyFsh.setOnClickListener {
+            adapter = adapterEasy()
+            binding.lvHighScoreFhs.adapter = adapterEasy()
         }
+        binding.btnShowMediumFsh.setOnClickListener {
+            adapter = adapterMedium()
+            binding.lvHighScoreFhs.adapter = adapter
+        }
+        binding.btnShowHardFsh.setOnClickListener {
 
-        adapter = ArrayAdapter<String>(
-            requireContext(),
-            android.R.layout.simple_list_item_1,
-            highScoreList
-        )
-        adapter.notifyDataSetChanged()
-
-//        highScoreList.sort()
-
-        binding.lvHighScoreFhs.adapter = adapter
+            adapter = adapterHard()
+            binding.lvHighScoreFhs.adapter = adapter
+        }
 
         binding.btnPlayAgainFsh.setOnClickListener {
             if (playerViewModel.player.value?.difficulty == "easy") {
@@ -108,6 +105,82 @@ class HighScoreFragment : Fragment() {
             }
         }
 
+        adapter = adapterEasy()
+        binding.lvHighScoreFhs.adapter = adapter
+
+    }
+
+    private fun adapterEasy(): ArrayAdapter<String> {
+        adapter = ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            highScoreListEasy
+        )
+        adapter.notifyDataSetChanged()
+
+        return adapter
+    }
+
+    private fun adapterMedium(): ArrayAdapter<String> {
+        adapter = ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            highScoreListMedium
+        )
+        adapter.notifyDataSetChanged()
+
+        return adapter
+    }
+
+    private fun adapterHard(): ArrayAdapter<String> {
+        adapter = ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            highScoreListHard
+        )
+        adapter.notifyDataSetChanged()
+
+        return adapter
+    }
+
+    fun addHighScoreList() {
+
+        for (player in playersList) {
+            if (player.difficulty == "easy") {
+                val minutes = player.time?.div(60)
+                val seconds = player.time?.rem(60)
+
+                highScoreListEasy.add(
+                    "Name : ${player.name}\n" +
+                            "Difficulty : ${player.difficulty}\n" +
+                            "Pause help : ${player.pauseChoice}\n" +
+                            "Time Left : $minutes : $seconds\n" +
+                            "Moves : ${player.moves}"
+                )
+            } else if (player.difficulty == "medium") {
+                val minutes = player.time?.div(60)
+                val seconds = player.time?.rem(60)
+
+                highScoreListMedium.add(
+                    "Name : ${player.name}\n" +
+                            "Difficulty : ${player.difficulty}\n" +
+                            "Pause help : ${player.pauseChoice}\n" +
+                            "Time Left : $minutes : $seconds\n" +
+                            "Moves : ${player.moves}"
+                )
+            } else if (player.difficulty == "hard") {
+                val minutes = player.time?.div(60)
+                val seconds = player.time?.rem(60)
+
+                highScoreListHard.add(
+                    "Name : ${player.name}\n" +
+                            "Difficulty : ${player.difficulty}\n" +
+                            "Pause help : ${player.pauseChoice}\n" +
+                            "Time Left : $minutes : $seconds\n" +
+                            "Moves : ${player.moves}"
+                )
+            }
+        }
     }
 
 }
