@@ -5,21 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.Fragments.game_play.HardFragment
 import com.example.memory_madness.Fragments.game_play.MediumFragment
-import com.example.memory_madness.GameViewModel
-import com.example.memory_madness.PlayerViewModel
+import com.example.memory_madness.ViewModell.GameViewModel
+import com.example.memory_madness.DataClass.Player
+import com.example.memory_madness.ViewModell.PlayerViewModel
 import com.example.memory_madness.R
+import com.example.memory_madness.Utility.loadPrefsScore
 import com.example.memory_madness.databinding.FragmentWinBinding
+import com.example.memory_madness.Utility.savedPrefsScore
 
 class WinFragment : Fragment(R.layout.fragment_win) {
 
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
     private lateinit var binding: FragmentWinBinding
+
+    //    private var highScoreList = mutableListOf<String>()
+    private var playersList = mutableListOf<Player>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +36,7 @@ class WinFragment : Fragment(R.layout.fragment_win) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentWinBinding.inflate(inflater,container,false)
+        binding = FragmentWinBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,10 +46,17 @@ class WinFragment : Fragment(R.layout.fragment_win) {
         playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
         gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
 
-            binding.tvStatsFw.text = "Score"
+        binding.tvStatsFw.text = "Score"
 
         val totalMoves = gameViewModel.moves.value
         val totalTime = gameViewModel.timerCount.value
+
+        if (totalTime != null) {
+            playerViewModel.player.value?.time = totalTime
+        }
+        if (totalMoves != null) {
+            playerViewModel.player.value?.moves = totalMoves
+        }
 
 
         val minutes = totalTime?.div(60)
@@ -52,11 +64,28 @@ class WinFragment : Fragment(R.layout.fragment_win) {
         binding.tvMovesFw.text = "Moves : $totalMoves "
         binding.tvTimeFw.text = "Time : $minutes : $seconds"
 
+        binding.btnSaveScoreFw.setOnClickListener {
+            playersList = loadPrefsScore(requireContext())
+
+            playerViewModel.player.let { player ->
+                val name = player.value?.name
+                val difficulty = player.value?.difficulty
+                val pauseHelp = player.value?.pauseChoice
+                val time = player.value?.time
+                val moves = player.value?.moves
+                playersList.add(Player(name, difficulty, pauseHelp, time, moves))
+
+                savedPrefsScore(requireContext(), playersList)
+
+
+            }
+        }
+
 
         binding.btnPlayAgainFw.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
-            if (playerViewModel.player.value?.difficulty == "easy"){
+            if (playerViewModel.player.value?.difficulty == "easy") {
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.fcv_game_plan_am, EasyFragment())
                     commit()
@@ -66,7 +95,7 @@ class WinFragment : Fragment(R.layout.fragment_win) {
                     replace(R.id.fcv_game_plan_am, MediumFragment())
                     commit()
                 }
-            }else if (playerViewModel.player.value?.difficulty == "hard") {
+            } else if (playerViewModel.player.value?.difficulty == "hard") {
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.fcv_game_plan_am, HardFragment())
                     commit()

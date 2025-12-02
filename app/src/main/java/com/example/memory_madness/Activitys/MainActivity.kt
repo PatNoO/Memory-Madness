@@ -6,13 +6,12 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.Fragments.game_play.HardFragment
 import com.example.memory_madness.Fragments.game_play.MediumFragment
-import com.example.memory_madness.Player
-import com.example.memory_madness.PlayerViewModel
+import com.example.memory_madness.DataClass.Player
+import com.example.memory_madness.ViewModell.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.ActivityMainBinding
 

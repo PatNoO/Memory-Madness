@@ -10,11 +10,11 @@ import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.memory_madness.CardManager
+import com.example.memory_madness.DataClass.CardManager
 import com.example.memory_madness.Fragments.HomeMenuFragment
 import com.example.memory_madness.Fragments.WinFragment
-import com.example.memory_madness.GameViewModel
-import com.example.memory_madness.PlayerViewModel
+import com.example.memory_madness.ViewModell.GameViewModel
+import com.example.memory_madness.ViewModell.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentHardBinding
 import kotlinx.coroutines.Job
@@ -68,7 +68,7 @@ class HardFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
-        if (playerViewModel.player.value?.pauseIsOn == "on") {
+        if (playerViewModel.player.value?.pauseChoice == "on") {
             binding.switchPauseFh.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
                     val savedTime = gameViewModel.timerCount.value

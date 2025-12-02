@@ -1,7 +1,6 @@
 package com.example.memory_madness.Fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.Fragments.game_play.HardFragment
 import com.example.memory_madness.Fragments.game_play.MediumFragment
-import com.example.memory_madness.Player
-import com.example.memory_madness.PlayerViewModel
+import com.example.memory_madness.ViewModell.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentHomeMenuBinding
 
@@ -70,6 +68,13 @@ class HomeMenuFragment : Fragment() {
                 commit()
             }
         }
+        binding.btnHighScoreFhm.setOnClickListener {
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fcv_game_plan_am, HighScoreFragment())
+                commit()
+            }
+        }
+
         /**
          * Player Ends Game and Quits the app overall
          */

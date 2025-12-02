@@ -9,8 +9,8 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.Player
-import com.example.memory_madness.PlayerViewModel
+import com.example.memory_madness.DataClass.Player
+import com.example.memory_madness.ViewModell.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.ActivityStartBinding
 
@@ -31,7 +31,7 @@ class StartActivity : AppCompatActivity() {
             intent.getSerializableExtra("player") as Player
         })
 
-        playerViewModel.player.observe(this) { (name, difficulty, onPause , time, moves) ->
+        playerViewModel.player.observe(this) { (name, difficulty, pauseChoice, time, moves) ->
             binding.tvCurrentDifficultyAs.text = difficulty
         }
 
@@ -40,9 +40,13 @@ class StartActivity : AppCompatActivity() {
         spinner()
 
         binding.checkBoxEnablePauseSa.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked){
-                player.pauseIsOn = "on"
+            if (isChecked) {
+                player.pauseChoice = "on"
                 playerViewModel.enablePause(player)
+            } else {
+                player.pauseChoice = "off"
+                playerViewModel.enablePause(player)
+
             }
         }
         startGame()

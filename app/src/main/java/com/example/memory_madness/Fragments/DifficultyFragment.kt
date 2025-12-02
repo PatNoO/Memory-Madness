@@ -6,15 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.Player
-import com.example.memory_madness.PlayerViewModel
+import com.example.memory_madness.DataClass.Player
+import com.example.memory_madness.ViewModell.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentDifficultyBinding
-import com.example.memory_madness.databinding.FragmentEasyBinding
-import com.example.memory_madness.databinding.FragmentHomeMenuBinding
-import kotlin.math.log
 
 class DifficultyFragment : Fragment() {
     private lateinit var player : Player
