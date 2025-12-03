@@ -13,8 +13,9 @@ class GameViewModel : ViewModel() {
     val moves = MutableLiveData<Int>()
     val timerCount = MutableLiveData<Int?>()
 
+
     //--------------------------------------------//
-    // sets value from null to 0 and then start + 1
+
     fun startCountDown() {
 
         timerCount.value?.let {
@@ -23,7 +24,7 @@ class GameViewModel : ViewModel() {
             }
         }
     }
-
+    // sets value from null to 0 and then start + ..
     fun increaseTimerCount() {
         timerCount.value = (timerCount.value ?: 0) + 5
     }

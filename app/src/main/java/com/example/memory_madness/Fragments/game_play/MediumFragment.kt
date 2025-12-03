@@ -31,6 +31,7 @@ class MediumFragment : Fragment() {
     private lateinit var playerViewModel: PlayerViewModel
     private var timerJob : Job? = null
     private var isBusy = false
+    private var loseBusy = false
     private val memoryCards: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
         R.drawable.card6 )
@@ -52,6 +53,9 @@ class MediumFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.tvLoseFm.isInvisible = true
+        binding.btnPlayAgainFm.isInvisible = true
 
         val containerListCards = initImageViewList()
 
@@ -128,7 +132,19 @@ class MediumFragment : Fragment() {
                 gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
                     if (timerCount == 0) {
                         stopTimer()
-                        Toast.makeText(requireActivity(), "Times Up !!", Toast.LENGTH_SHORT).show()
+                        loseBusy = true
+                        binding.tvLoseFm.isInvisible = false
+                        binding.btnPlayAgainFm.isInvisible = false
+                        binding.btnPlayAgainFm.setOnClickListener {
+                            loseBusy = false
+                            gameViewModel.resetCardPairCount()
+                            gameViewModel.resetCount()
+                            gameViewModel.resetMoves()
+                            parentFragmentManager.beginTransaction().apply {
+                                replace(R.id.fcv_game_plan_am, MediumFragment())
+                                commit()
+                            }
+                        }
                     }
                 }
 
@@ -167,7 +183,6 @@ class MediumFragment : Fragment() {
                         gameViewModel.increaseCardPairCount()
 
                         gameViewModel.increaseTimerCount()
-                        Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
 
                         // WIN !!
                         if (gameViewModel.cardPairCount.value == memoryCards.size) {
@@ -243,7 +258,7 @@ class MediumFragment : Fragment() {
     fun updateTimerText () {
         val minutes = gameViewModel.timerCount.value?.div(60)
         val seconds = gameViewModel.timerCount.value?.rem(60)
-        binding.tvTimeFm.text = "Time : $minutes : $seconds "
+        binding.tvTimeFm.text = "Time : \n $minutes : $seconds "
     }
 
     fun stopTimer () {

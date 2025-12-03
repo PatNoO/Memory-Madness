@@ -81,6 +81,14 @@ class WinFragment : Fragment(R.layout.fragment_win) {
             }
         }
 
+        binding.btnHighScoreFw.setOnClickListener {
+            gameViewModel.resetCount()
+            gameViewModel.resetMoves()
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fcv_game_plan_am, HighScoreFragment())
+                commit()
+            }
+        }
 
         binding.btnPlayAgainFw.setOnClickListener {
             gameViewModel.resetCount()
@@ -91,16 +99,22 @@ class WinFragment : Fragment(R.layout.fragment_win) {
                     commit()
                 }
             } else if (playerViewModel.player.value?.difficulty == "medium") {
+                gameViewModel.resetCount()
+                gameViewModel.resetMoves()
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.fcv_game_plan_am, MediumFragment())
                     commit()
                 }
             } else if (playerViewModel.player.value?.difficulty == "hard") {
+                gameViewModel.resetCount()
+                gameViewModel.resetMoves()
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.fcv_game_plan_am, HardFragment())
                     commit()
                 }
             } else {
+                gameViewModel.resetCount()
+                gameViewModel.resetMoves()
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.fcv_game_plan_am, EasyFragment())
                     commit()
@@ -109,6 +123,8 @@ class WinFragment : Fragment(R.layout.fragment_win) {
         }
 
         binding.btnHomeFw.setOnClickListener {
+            gameViewModel.resetCount()
+            gameViewModel.resetMoves()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                 commit()

@@ -36,6 +36,7 @@ class EasyFragment : Fragment() {
     )
     private var timerJob: Job? = null
     private var isBusy = false
+    private var loseBusy = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,13 +56,21 @@ class EasyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // sets the lose text and play again button to invisible for the player
+        binding.btnPlayAgainFe.isInvisible = true
+        binding.tvLoseFe.isInvisible = true
+
         // List of ImageViews
         val containerListCards = initImageViewList()
 
+        // Double the list of cards/Drawables so player can get pair
         val shuffledMemoryCards = initShuffleCardList()
 
+        // shuffle cards
         shuffledMemoryCards.shuffle()
 
+        // connects the cardManager info to the imageViews
         setCardInfoOnImageView(shuffledMemoryCards, containerListCards)
 
         // Sets the layout xml backround to all the cards
@@ -69,6 +78,7 @@ class EasyFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
+        // Pause function
         if (playerViewModel.player.value?.pauseChoice == "on") {
             binding.switchPauseFe.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
@@ -87,6 +97,7 @@ class EasyFragment : Fragment() {
 
 
 
+        //  Button for home Menu And resets all players score and time
         binding.btnHomeMenuFe.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
@@ -98,10 +109,14 @@ class EasyFragment : Fragment() {
             }
         }
 
+        // play game
         gamePlay(containerListCards)
 
     }
 
+    /**
+     * Creates a list of imagesViews
+     */
     private fun initImageViewList(): List<ImageView> {
         val containerListCards = listOf(
             binding.card1Fe,
@@ -132,19 +147,7 @@ class EasyFragment : Fragment() {
      */
     private fun gamePlay(containerListCards: List<ImageView>) {
 
-        /** todo prova om man kan lägga en klick listener över game lestenern som en paus knapp gör samma logik som med currentcard och turnedcard
-         * todo så om 1 klick är null isåfall är klick 1  = klick 2 och om klick 2 = true då returnerToListener i vår game listener
-         **/
-
-        // Click listener for gameplay ( Game Play here )
-
-
-
-
-
-
-
-        // Loop through all card ImageViews and add click listeners
+        // Loop through all card ImageViews and add click listener
         for (imageView in containerListCards) {
                 imageView.setOnClickListener { view ->
 
@@ -154,25 +157,41 @@ class EasyFragment : Fragment() {
                         startTimer()
                     }
 
+                    // Times up and Player loses can only click play again and home menu button
+                    // Makes lose text and Play again button be seen by the player otherwise it is invisible
                     gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
                         if (timerCount == 0) {
                             stopTimer()
-                            Toast.makeText(requireActivity(), "Times Up !!", Toast.LENGTH_SHORT).show()
+                            loseBusy = true
+                            binding.tvLoseFe.isInvisible = false
+                            binding.btnPlayAgainFe.isInvisible = false
+                            binding.btnPlayAgainFe.setOnClickListener {
+                                loseBusy = false
+                                gameViewModel.resetCardPairCount()
+                                gameViewModel.resetCount()
+                                gameViewModel.resetMoves()
+                                parentFragmentManager.beginTransaction().apply {
+                                    replace(R.id.fcv_game_plan_am, EasyFragment())
+                                    commit()
+                                }
+                            }
                         }
                     }
 
-
-                    if (isBusy) {
+                    // if 2 card is flipped player cant click for a delay time
+                    // and if times is up (lose) then player can only press play again or home menu
+                    if (isBusy || loseBusy) {
                         return@setOnClickListener
                     }
 
-                    // Get the clicked card from the ImageView's tag
+                    // Get the clicked card from the ImageView's tag with all the info from CardManager
                     gameViewModel.currentCard.value = view.tag as CardManager
 
                     gameViewModel.currentCard.value?.let { currentCard ->
 
                         if (currentCard.isFlipped || currentCard.isMatched) return@setOnClickListener
 
+                        //show image
                         currentCard.containerId.setImageResource(currentCard.cardId)
                         currentCard.isFlipped = true
 
@@ -201,7 +220,8 @@ class EasyFragment : Fragment() {
                             gameViewModel.increaseCardPairCount()
 
                             gameViewModel.increaseTimerCount()
-                            Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
+
+                            //   WIN  //
 
                             if (gameViewModel.cardPairCount.value == memoryCards.size) {
                                 stopTimer()
@@ -211,7 +231,7 @@ class EasyFragment : Fragment() {
                                     commit()
                                 }
                             }
-                            //     NO MATCH FOUND
+                            //     NO MATCH FOUND   //
                         } else {
                             isBusy = true
                             currentCard.containerId.postDelayed(

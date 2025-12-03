@@ -19,7 +19,6 @@ import com.example.memory_madness.Utility.loadPrefsScore
 
 
 class HighScoreFragment : Fragment() {
-
     lateinit var adapter: ArrayAdapter<String>
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: FragmentHightScoreBinding
@@ -28,16 +27,9 @@ class HighScoreFragment : Fragment() {
     private var highScoreListMedium = mutableListOf<String>()
     private var highScoreListHard = mutableListOf<String>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
         super.onCreate(savedInstanceState)
-
-//        val demoPlayers = listOf<Player>(Player("Erik","easy","on",10,12),
-//            Player("Johan","medium","off",15,16),
-//            Player("Lollo","Hard","on",5,26))
-
-
     }
 
     override fun onCreateView(
@@ -57,16 +49,18 @@ class HighScoreFragment : Fragment() {
 
         playersList.sortBy { it.moves }
 
-        addHighScoreList()
+        showHighScoreList()
 
         binding.btnShowEasyFsh.setOnClickListener {
             adapter = adapterEasy()
             binding.lvHighScoreFhs.adapter = adapterEasy()
         }
+
         binding.btnShowMediumFsh.setOnClickListener {
             adapter = adapterMedium()
             binding.lvHighScoreFhs.adapter = adapter
         }
+
         binding.btnShowHardFsh.setOnClickListener {
 
             adapter = adapterHard()
@@ -105,6 +99,7 @@ class HighScoreFragment : Fragment() {
             }
         }
 
+        // default adapter
         adapter = adapterEasy()
         binding.lvHighScoreFhs.adapter = adapter
 
@@ -143,7 +138,7 @@ class HighScoreFragment : Fragment() {
         return adapter
     }
 
-    fun addHighScoreList() {
+    fun showHighScoreList() {
 
         for (player in playersList) {
             if (player.difficulty == "easy") {
