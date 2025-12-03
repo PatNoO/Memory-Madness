@@ -31,7 +31,7 @@ class StartActivity : AppCompatActivity() {
             intent.getSerializableExtra("player") as Player
         })
 
-        playerViewModel.player.observe(this) { (name, difficulty, pauseChoice, time, moves) ->
+        playerViewModel.player.observe(this) { (_, difficulty) ->
             binding.tvCurrentDifficultyAs.text = difficulty
         }
 
@@ -43,10 +43,6 @@ class StartActivity : AppCompatActivity() {
             if (isChecked) {
                 player.pauseChoice = "on"
                 playerViewModel.enablePause(player)
-            } else {
-//                player.pauseChoice = "off"
-//                playerViewModel.enablePause(player)
-
             }
         }
         startGame()
