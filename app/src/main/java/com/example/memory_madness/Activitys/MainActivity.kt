@@ -39,14 +39,9 @@ class MainActivity : AppCompatActivity() {
                     playerViewModel.enablePause(player)
                 }
 
-                playerViewModel.player.observe(this) { (name, difficulty, enablePause , time, moves) ->
-                    binding.tvMainAm.text = enablePause
-                }
-
                 startGamePlay()
             }
         }
-    //// todo Lägg till Highscore bäst kontra sämsta tid och drag
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,16 +99,5 @@ class MainActivity : AppCompatActivity() {
         startLauncher.launch(intent)
         onPause()
     }
-
-
-//    override fun updatePlayer(moves: Int, time: Int) {
-////        player?.moves = moves
-////        binding.tvMainAm.text = moves.toString()
-//        val minutes = time / 60
-//        val seconds = time % 60
-//        binding.tvMainAm.text = "Time $minutes : $seconds"
-//
-//    }
-
 
 }

@@ -8,21 +8,12 @@
     android:layout_height="match_parent"
     tools:context=".Activitys.MainActivity">
 
-    <TextView
-        android:id="@+id/tv_main_am"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Heloo"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcv_game_plan_am"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="24dp"
+        android:layout_margin="16dp"
         app:cardElevation="0dp"
         android:background="@color/backround_greyis"
         android:backgroundTint="@color/backround_greyis"
