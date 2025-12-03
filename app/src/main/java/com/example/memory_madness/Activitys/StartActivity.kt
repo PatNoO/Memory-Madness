@@ -44,8 +44,8 @@ class StartActivity : AppCompatActivity() {
                 player.pauseChoice = "on"
                 playerViewModel.enablePause(player)
             } else {
-                player.pauseChoice = "off"
-                playerViewModel.enablePause(player)
+//                player.pauseChoice = "off"
+//                playerViewModel.enablePause(player)
 
             }
         }

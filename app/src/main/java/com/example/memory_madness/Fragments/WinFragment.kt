@@ -81,6 +81,14 @@ class WinFragment : Fragment(R.layout.fragment_win) {
             }
         }
 
+        binding.btnHighScoreFw.setOnClickListener {
+            gameViewModel.resetCount()
+            gameViewModel.resetMoves()
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fcv_game_plan_am, HighScoreFragment())
+                commit()
+            }
+        }
 
         binding.btnPlayAgainFw.setOnClickListener {
             gameViewModel.resetCount()
