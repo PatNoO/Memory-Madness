@@ -90,12 +90,14 @@ class MediumFragment : Fragment() {
             }
         }
 
+        enablePauseButton()
+
         gamePlay(containerListCards)
     }
 
     private fun enablePauseButton() {
         if (playerViewModel.player.value?.pauseChoice == "on") {
-            binding.switchPauseFm.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.switchPauseFm.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     val savedTime = gameViewModel.timerCount.value
                     stopTimer()
@@ -103,13 +105,14 @@ class MediumFragment : Fragment() {
                     isBusy = true
                 } else {
                     if (gameViewModel.timerCount.value == null) {
-                        gameViewModel.setCountTime(20)
+                        timerJob = null
+                        isBusy = false
+                    } else {
+                        isBusy = false
+                        startTimer()
                     }
                 }
             }
-        } else {
-            isBusy = false
-            startTimer()
         }
     }
 

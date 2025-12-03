@@ -85,13 +85,6 @@ class EasyFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
-        // Pause function
-        // todo timer blir fel om man börjar med att pause spelet
-        enablePauseButton()
-
-
-
-
 
         //  Button for home Menu And resets all players score and time
         binding.btnHomeMenuFe.setOnClickListener {
@@ -104,6 +97,9 @@ class EasyFragment : Fragment() {
                 commit()
             }
         }
+
+        // Pause function
+        enablePauseButton()
 
         // play game
         gamePlay(containerListCards)
