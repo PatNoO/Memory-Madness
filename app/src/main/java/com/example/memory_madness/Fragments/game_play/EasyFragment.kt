@@ -36,6 +36,7 @@ class EasyFragment : Fragment() {
     )
     private var timerJob: Job? = null
     private var isBusy = false
+    private var loseBusy = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,8 @@ class EasyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.btnPlayAgainFe.isInvisible = true
+        binding.tvLoseFe.isInvisible = true
         // List of ImageViews
         val containerListCards = initImageViewList()
 
@@ -132,18 +135,6 @@ class EasyFragment : Fragment() {
      */
     private fun gamePlay(containerListCards: List<ImageView>) {
 
-        /** todo prova om man kan lägga en klick listener över game lestenern som en paus knapp gör samma logik som med currentcard och turnedcard
-         * todo så om 1 klick är null isåfall är klick 1  = klick 2 och om klick 2 = true då returnerToListener i vår game listener
-         **/
-
-        // Click listener for gameplay ( Game Play here )
-
-
-
-
-
-
-
         // Loop through all card ImageViews and add click listeners
         for (imageView in containerListCards) {
                 imageView.setOnClickListener { view ->
@@ -157,12 +148,24 @@ class EasyFragment : Fragment() {
                     gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
                         if (timerCount == 0) {
                             stopTimer()
-                            Toast.makeText(requireActivity(), "Times Up !!", Toast.LENGTH_SHORT).show()
+                            loseBusy = true
+                            binding.tvLoseFe.isInvisible = false
+                            binding.btnPlayAgainFe.isInvisible = false
+                            binding.btnPlayAgainFe.setOnClickListener {
+                                loseBusy = false
+                                gameViewModel.resetCardPairCount()
+                                gameViewModel.resetCount()
+                                gameViewModel.resetMoves()
+                                parentFragmentManager.beginTransaction().apply {
+                                    replace(R.id.fcv_game_plan_am, EasyFragment())
+                                    commit()
+                                }
+                            }
                         }
                     }
 
 
-                    if (isBusy) {
+                    if (isBusy || loseBusy) {
                         return@setOnClickListener
                     }
 
@@ -202,6 +205,8 @@ class EasyFragment : Fragment() {
 
                             gameViewModel.increaseTimerCount()
                             Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
+
+                            //   WIN
 
                             if (gameViewModel.cardPairCount.value == memoryCards.size) {
                                 stopTimer()

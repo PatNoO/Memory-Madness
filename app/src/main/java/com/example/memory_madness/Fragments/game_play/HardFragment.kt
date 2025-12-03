@@ -27,9 +27,7 @@ class HardFragment : Fragment() {
     private lateinit var binding: FragmentHardBinding
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
-
     private var timerJob: Job? = null
-
     private var isBusy = false
 
     private val memoryCards: MutableList<Int> = mutableListOf(
