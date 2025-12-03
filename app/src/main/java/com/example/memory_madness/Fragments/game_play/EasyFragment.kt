@@ -62,6 +62,12 @@ class EasyFragment : Fragment() {
         binding.btnPlayAgainFe.isInvisible = true
         binding.tvLoseFe.isInvisible = true
 
+        if (playerViewModel.player.value?.pauseChoice == "on" ){
+            binding.switchPauseFe.isVisible = true
+        } else {
+            binding.switchPauseFe.isInvisible = true
+        }
+
         // List of ImageViews
         val containerListCards = initImageViewList()
 
@@ -83,11 +89,7 @@ class EasyFragment : Fragment() {
         // todo timer blir fel om man börjar med att pause spelet
         enablePauseButton()
 
-        if (playerViewModel.player.value?.pauseChoice == "on" ){
-            binding.switchPauseFe.isVisible = true
-        } else {
-            binding.switchPauseFe.isInvisible = true
-        }
+
 
 
 
@@ -118,7 +120,8 @@ class EasyFragment : Fragment() {
                     isBusy = true
                 } else {
                     if (gameViewModel.timerCount.value == null ){
-                        gameViewModel.setCountTime(20)
+                        timerJob = null
+                        isBusy= false
                     } else {
                         isBusy = false
                         startTimer()
