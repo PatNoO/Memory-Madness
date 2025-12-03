@@ -45,17 +45,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-<!--            <EditText-->
-<!--                android:id="@+id/et_input_new_name_fhm"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="52dp"-->
-<!--                android:ems="10"-->
-<!--                android:inputType="text"-->
-<!--                android:hint="New Player"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/tv_home_head_fhm" />-->
+            <EditText
+                android:id="@+id/et_change_name_fhm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:hint="New Player"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_start_fhm" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_start_fhm"
@@ -78,18 +80,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:textColor="@color/primary_red"
-                android:textSize="18sp"
                 android:backgroundTint="@color/backround_greyis"
-                app:strokeColor="@color/primary_red"
-                app:strokeWidth="2dp"
-                app:cornerRadius="4dp"
                 android:shadowColor="@color/primary_red"
                 android:text="@string/difficulty"
+                android:textColor="@color/primary_red"
+                android:textSize="18sp"
+                app:cornerRadius="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_start_fhm" />
+                app:layout_constraintTop_toBottomOf="@+id/et_change_name_fhm"
+                app:strokeColor="@color/primary_red"
+                app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_high_score_fhm"
