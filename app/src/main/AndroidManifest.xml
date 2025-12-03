@@ -13,9 +13,11 @@
         android:theme="@style/Theme.MemoryMadness">
         <activity
             android:name=".Activitys.StartActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
