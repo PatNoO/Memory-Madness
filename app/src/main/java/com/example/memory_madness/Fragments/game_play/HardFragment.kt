@@ -29,6 +29,7 @@ class HardFragment : Fragment() {
     private lateinit var gameViewModel: GameViewModel
     private var timerJob: Job? = null
     private var isBusy = false
+    private var loseBusy = false
 
     private val memoryCards: MutableList<Int> = mutableListOf(
         R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
@@ -52,6 +53,8 @@ class HardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tvLoseFh.isInvisible = true
+        binding.btnPlayAgainFh.isInvisible = true
 
         val containerListCards = initImageViewList()
 
@@ -136,7 +139,19 @@ class HardFragment : Fragment() {
                 gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
                     if (timerCount == 0) {
                         stopTimer()
-                        Toast.makeText(requireActivity(), "Times Up !!", Toast.LENGTH_SHORT).show()
+                        loseBusy = true
+                        binding.tvLoseFh.isInvisible = false
+                        binding.btnPlayAgainFh.isInvisible = false
+                        binding.btnPlayAgainFh.setOnClickListener {
+                            loseBusy = false
+                            gameViewModel.resetCardPairCount()
+                            gameViewModel.resetCount()
+                            gameViewModel.resetMoves()
+                            parentFragmentManager.beginTransaction().apply {
+                                replace(R.id.fcv_game_plan_am, HardFragment())
+                                commit()
+                            }
+                        }
                     }
                 }
 
