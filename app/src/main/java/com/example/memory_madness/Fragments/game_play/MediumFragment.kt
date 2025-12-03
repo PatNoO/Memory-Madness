@@ -183,7 +183,6 @@ class MediumFragment : Fragment() {
                         gameViewModel.increaseCardPairCount()
 
                         gameViewModel.increaseTimerCount()
-                        Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
 
                         // WIN !!
                         if (gameViewModel.cardPairCount.value == memoryCards.size) {

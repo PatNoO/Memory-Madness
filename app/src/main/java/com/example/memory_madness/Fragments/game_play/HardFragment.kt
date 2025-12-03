@@ -183,7 +183,6 @@ class HardFragment : Fragment() {
                     val turnedCard = gameViewModel.turnedCard.value
 
                     if (currentCard.cardId == turnedCard!!.cardId) {
-                        Toast.makeText(requireActivity(), "Match!", Toast.LENGTH_SHORT).show()
 
                         currentCard.isMatched = true
                         turnedCard.isMatched = true
@@ -192,7 +191,6 @@ class HardFragment : Fragment() {
                         gameViewModel.increaseCardPairCount()
 
                         gameViewModel.increaseTimerCount()
-                        Toast.makeText(requireActivity(), "5 more seconds added", Toast.LENGTH_SHORT).show()
 
                         if (gameViewModel.cardPairCount.value == memoryCards.size) {
                             stopTimer()
