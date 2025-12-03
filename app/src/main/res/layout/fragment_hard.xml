@@ -8,16 +8,16 @@
     tools:context=".Fragments.game_play.HardFragment">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_marginTop="102dp"
+        android:layout_marginTop="16dp"
         android:background="@color/backround_greyis"
         android:backgroundTint="@color/backround_greyis"
         app:cardCornerRadius="0dp"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="false"
-        app:layout_constraintBottom_toTopOf="@+id/cardView_gameplan_fh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -63,17 +63,17 @@
         android:id="@+id/cardView_gameplan_fh"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="32dp"
+        android:layout_margin="16dp"
         android:background="@color/backround_greyis"
         android:backgroundTint="@color/backround_greyis"
         app:cardCornerRadius="0dp"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/switch_pause_fh"
         app:layout_constraintDimensionRatio="3:5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/cardView3">
 
 
         <GridLayout
@@ -81,7 +81,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:columnCount="3"
-            android:rowCount="6">
+            android:rowCount="6"
+            android:useDefaultMargins="true"
+
+            >
 
             <ImageView
                 android:id="@+id/card1_fh"
@@ -92,8 +95,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -104,9 +106,7 @@
                 android:layout_rowWeight="1"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
-                android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:background="@drawable/card_backround" android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -117,9 +117,7 @@
                 android:layout_rowWeight="1"
                 android:layout_column="2"
                 android:layout_columnWeight="1"
-                android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:background="@drawable/card_backround" android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -131,8 +129,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -144,8 +141,7 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -157,8 +153,7 @@
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -170,8 +165,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -183,8 +177,7 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -196,8 +189,7 @@
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -209,8 +201,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -222,8 +213,7 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -235,8 +225,7 @@
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -248,8 +237,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
             <ImageView
@@ -261,9 +249,9 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
+
             <ImageView
                 android:id="@+id/card15_fh"
                 android:layout_width="0dp"
@@ -273,9 +261,9 @@
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
+
             <ImageView
                 android:id="@+id/card16_fh"
                 android:layout_width="0dp"
@@ -285,9 +273,9 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
+
             <ImageView
                 android:id="@+id/card17_fh"
                 android:layout_width="0dp"
@@ -297,9 +285,9 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
+
             <ImageView
                 android:id="@+id/card18_fh"
                 android:layout_width="0dp"
@@ -309,8 +297,7 @@
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:background="@drawable/card_backround"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:src="@drawable/card_backround" />
 
 
@@ -324,9 +311,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/backround_greyis"
         android:shadowColor="@color/primary_red"
         android:text="⏎ Home Menu"
@@ -337,7 +323,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView_gameplan_fh"
         app:strokeColor="@color/primary_red"
         app:strokeWidth="2dp" />
 
@@ -345,11 +330,11 @@
         android:id="@+id/switch_pause_fh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="Switch"
         app:layout_constraintBottom_toTopOf="@+id/btn_home_menu_fh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView_gameplan_fh"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 
