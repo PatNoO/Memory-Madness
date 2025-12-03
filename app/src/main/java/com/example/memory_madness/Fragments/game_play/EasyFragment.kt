@@ -79,6 +79,7 @@ class EasyFragment : Fragment() {
         }
 
         // Pause function
+        // todo timer blir fel om man börjar med att pause spelet
         if (playerViewModel.player.value?.pauseChoice == "on") {
             binding.switchPauseFe.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
