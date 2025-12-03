@@ -21,7 +21,6 @@ fun savedPrefsScore (context: Context, players : List<Player>){
 fun loadPrefsScore (context: Context) : MutableList<Player> {
 
     val scorePrefs = context.getSharedPreferences("score_prefs", Context.MODE_PRIVATE)
-//    val gson = Gson()
 
     val json = scorePrefs.getString("player_score_key", null) ?: return mutableListOf()
 
@@ -33,5 +32,4 @@ fun loadPrefsScore (context: Context) : MutableList<Player> {
         mutableListOf()
     }
 
-//    val highScoreList : MutableList<Player> = gson.fromJson(json, type)
 }

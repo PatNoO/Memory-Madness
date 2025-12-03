@@ -155,7 +155,7 @@ class HardFragment : Fragment() {
                     }
                 }
 
-                if (isBusy) {
+                if (isBusy || loseBusy) {
                     return@setOnClickListener
                 }
 

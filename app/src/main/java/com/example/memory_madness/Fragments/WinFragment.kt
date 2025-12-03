@@ -22,8 +22,6 @@ class WinFragment : Fragment(R.layout.fragment_win) {
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
     private lateinit var binding: FragmentWinBinding
-
-    //    private var highScoreList = mutableListOf<String>()
     private var playersList = mutableListOf<Player>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
