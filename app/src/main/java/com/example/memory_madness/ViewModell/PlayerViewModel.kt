@@ -26,4 +26,8 @@ class PlayerViewModel : ViewModel() {
     fun enablePause(pauseChoice: Player) {
         _player.value = pauseChoice
     }
+
+    fun updatePause(pauseChoice : String) {
+        _player.value?.pauseChoice = pauseChoice
+    }
 }

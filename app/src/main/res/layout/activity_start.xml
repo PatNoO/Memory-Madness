@@ -50,11 +50,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="52dp"
                 android:ems="10"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textColorLink="@color/black"
                 android:inputType="text"
                 android:hint="@string/name"
-                android:textColorHint="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_home_head_as" />
@@ -114,25 +113,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_current_difficulty_as" />
-
-
-            <!--            <com.google.android.material.button.MaterialButton-->
-<!--                android:id="@+id/btn_difficulty_as"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="32dp"-->
-<!--                android:textColor="@color/primary_red"-->
-<!--                android:textSize="18sp"-->
-<!--                android:backgroundTint="@color/backround_greyis"-->
-<!--                app:strokeColor="@color/primary_red"-->
-<!--                app:strokeWidth="2dp"-->
-<!--                app:cornerRadius="4dp"-->
-<!--                android:shadowColor="@color/primary_red"-->
-<!--                android:text="@string/difficulty"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.0"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/btn_start_as" />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
