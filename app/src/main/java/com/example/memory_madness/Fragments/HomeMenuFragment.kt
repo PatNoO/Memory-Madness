@@ -36,6 +36,13 @@ class HomeMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnEnterNameFhm.setOnClickListener {
+                playerViewModel.changeName(binding.etChangeNameFhm.text.toString())
+
+        }
+
+
+
         /**
          * Lets player start the game over again
          */

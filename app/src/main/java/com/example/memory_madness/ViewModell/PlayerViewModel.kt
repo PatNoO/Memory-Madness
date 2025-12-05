@@ -11,8 +11,12 @@ class PlayerViewModel : ViewModel() {
     private val _player = MutableLiveData<Player>()
     val player: LiveData<Player> = _player
 
-    fun setName(newPlayerName: Player) {
-        _player.value = newPlayerName
+    fun setName(playerName: Player) {
+        _player.value = playerName
+    }
+
+    fun changeName (newPlayerName : String) {
+        _player.value?.name = newPlayerName
     }
 
     fun setDifficulty(difficultyChoice: Player) {

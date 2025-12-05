@@ -85,8 +85,18 @@ class EasyFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
-
         //  Button for home Menu And resets all players score and time
+        homeMenuButton()
+
+        // Pause function
+        enablePauseButton()
+
+        // play game
+        gamePlay(containerListCards)
+
+    }
+
+    private fun homeMenuButton() {
         binding.btnHomeMenuFe.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
@@ -97,13 +107,6 @@ class EasyFragment : Fragment() {
                 commit()
             }
         }
-
-        // Pause function
-        enablePauseButton()
-
-        // play game
-        gamePlay(containerListCards)
-
     }
 
     private fun enablePauseButton() {
