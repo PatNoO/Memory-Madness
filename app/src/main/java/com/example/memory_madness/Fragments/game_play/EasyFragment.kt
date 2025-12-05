@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -61,6 +62,12 @@ class EasyFragment : Fragment() {
         binding.btnPlayAgainFe.isInvisible = true
         binding.tvLoseFe.isInvisible = true
 
+        if (playerViewModel.player.value?.pauseChoice == "on" ){
+            binding.switchPauseFe.isVisible = true
+        } else {
+            binding.switchPauseFe.isInvisible = true
+        }
+
         // List of ImageViews
         val containerListCards = initImageViewList()
 
@@ -78,27 +85,18 @@ class EasyFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
-        // Pause function
-        // todo timer blir fel om man börjar med att pause spelet
-        if (playerViewModel.player.value?.pauseChoice == "on") {
-            binding.switchPauseFe.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) {
-                    val savedTime = gameViewModel.timerCount.value
-                    stopTimer()
-                    gameViewModel.setCountTime(savedTime)
-                    isBusy = true
-                } else {
-                    isBusy = false
-                    startTimer()
-                }
-            }
-        }else {
-            binding.switchPauseFe.isInvisible = true
-        }
-
-
-
         //  Button for home Menu And resets all players score and time
+        homeMenuButton()
+
+        // Pause function
+        enablePauseButton()
+
+        // play game
+        gamePlay(containerListCards)
+
+    }
+
+    private fun homeMenuButton() {
         binding.btnHomeMenuFe.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
@@ -109,10 +107,28 @@ class EasyFragment : Fragment() {
                 commit()
             }
         }
+    }
 
-        // play game
-        gamePlay(containerListCards)
+    private fun enablePauseButton() {
+        if (playerViewModel.player.value?.pauseChoice == "on") {
+            binding.switchPauseFe.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    val savedTime = gameViewModel.timerCount.value
+                    stopTimer()
+                    gameViewModel.setCountTime(savedTime)
+                    isBusy = true
+                } else {
+                    if (gameViewModel.timerCount.value == null ){
+                        timerJob = null
+                        isBusy= false
+                    } else {
+                        isBusy = false
+                        startTimer()
+                    }
 
+                }
+            }
+        }
     }
 
     /**
@@ -152,11 +168,17 @@ class EasyFragment : Fragment() {
         for (imageView in containerListCards) {
                 imageView.setOnClickListener { view ->
 
+                    // if 2 card is flipped player cant click for a delay time
+                    // and if times is up (lose) then player can only press play again or home menu
+                    if (isBusy || loseBusy) {
+                        return@setOnClickListener
+                    }
 
                     if (timerJob == null) {
                         gameViewModel.setCountTime(20)
                         startTimer()
                     }
+
 
                     // Times up and Player loses can only click play again and home menu button
                     // Makes lose text and Play again button be seen by the player otherwise it is invisible
@@ -179,11 +201,7 @@ class EasyFragment : Fragment() {
                         }
                     }
 
-                    // if 2 card is flipped player cant click for a delay time
-                    // and if times is up (lose) then player can only press play again or home menu
-                    if (isBusy || loseBusy) {
-                        return@setOnClickListener
-                    }
+
 
                     // Get the clicked card from the ImageView's tag with all the info from CardManager
                     gameViewModel.currentCard.value = view.tag as CardManager

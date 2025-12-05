@@ -51,7 +51,7 @@ class DifficultyFragment : Fragment() {
                 replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                 commit()
             }
-            Log.i("!!!", "player : ${player.toString()}")
+            Log.i("!!!", "player : ${player}")
         }
         /**
          * Player sets difficulty yo Medium

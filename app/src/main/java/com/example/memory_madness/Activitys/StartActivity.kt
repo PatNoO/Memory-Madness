@@ -35,8 +35,6 @@ class StartActivity : AppCompatActivity() {
             binding.tvCurrentDifficultyAs.text = difficulty
         }
 
-
-
         spinner()
 
         binding.checkBoxEnablePauseSa.setOnCheckedChangeListener { buttonView, isChecked ->

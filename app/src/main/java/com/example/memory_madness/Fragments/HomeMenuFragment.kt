@@ -36,6 +36,25 @@ class HomeMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // lets player change their name
+        binding.btnEnterNameFhm.setOnClickListener {
+            playerViewModel.changeName(binding.etChangeNameFhm.text.toString())
+
+        }
+
+        if (playerViewModel.player.value?.pauseChoice == "on"){
+            binding.checkBoxEnablePauseFhm.isChecked = true
+        }
+
+        binding.checkBoxEnablePauseFhm.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                playerViewModel.updatePause("on")
+            } else
+                playerViewModel.updatePause("off")
+        }
+
+
+
         /**
          * Lets player start the game over again
          */

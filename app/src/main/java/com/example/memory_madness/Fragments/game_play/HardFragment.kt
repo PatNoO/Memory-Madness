@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.memory_madness.DataClass.CardManager
@@ -56,6 +57,12 @@ class HardFragment : Fragment() {
         binding.tvLoseFh.isInvisible = true
         binding.btnPlayAgainFh.isInvisible = true
 
+        if (playerViewModel.player.value?.pauseChoice == "on"){
+            binding.switchPauseFh.isVisible = true
+        } else {
+            binding.switchPauseFh.isInvisible = true
+        }
+
         val containerListCards = initImageViewList()
 
         val shuffledMemoryCards = initShuffleCardList()
@@ -69,21 +76,6 @@ class HardFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
-        if (playerViewModel.player.value?.pauseChoice == "on") {
-            binding.switchPauseFh.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) {
-                    val savedTime = gameViewModel.timerCount.value
-                    stopTimer()
-                    gameViewModel.setCountTime(savedTime)
-                    isBusy = true
-                } else {
-                    isBusy = false
-                    startTimer()
-                }
-            }
-        }else {
-            binding.switchPauseFh.isInvisible = true
-        }
 
         binding.btnHomeMenuFh.setOnClickListener {
             gameViewModel.resetCount()
@@ -96,9 +88,31 @@ class HardFragment : Fragment() {
             }
         }
 
+        enablePauseButton()
         gamePlay(containerListCards)
 
 
+    }
+
+    private fun enablePauseButton() {
+        if (playerViewModel.player.value?.pauseChoice == "on") {
+            binding.switchPauseFh.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    val savedTime = gameViewModel.timerCount.value
+                    stopTimer()
+                    gameViewModel.setCountTime(savedTime)
+                    isBusy = true
+                } else {
+                    if (gameViewModel.timerCount.value == null) {
+                        timerJob = null
+                        isBusy = false
+                    } else {
+                        isBusy = false
+                        startTimer()
+                    }
+                }
+            }
+        }
     }
 
     private fun initImageViewList(): List<ImageView> {
@@ -131,6 +145,10 @@ class HardFragment : Fragment() {
         for (imageView in containerListCards) {
             imageView.setOnClickListener { view ->
 
+                if (isBusy || loseBusy) {
+                    return@setOnClickListener
+                }
+
                 if (timerJob == null) {
                     gameViewModel.setCountTime(30)
                     startTimer()
@@ -155,9 +173,7 @@ class HardFragment : Fragment() {
                     }
                 }
 
-                if (isBusy) {
-                    return@setOnClickListener
-                }
+
 
                 //the Object stored in this view as a tag
                 gameViewModel.currentCard.value = view.tag as CardManager
