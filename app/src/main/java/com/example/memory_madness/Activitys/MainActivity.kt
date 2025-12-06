@@ -17,7 +17,7 @@ import com.example.memory_madness.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var player: Player = Player("Default", "easy", "", 0, 0)
+    private var player: Player = Player("Default", "easy", "", 0, 0, 0)
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: ActivityMainBinding
 

@@ -15,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.memory_madness.Activitys.EnumClass.CardTheme
 import com.example.memory_madness.DataClass.CardManager
 import com.example.memory_madness.Fragments.HomeMenuFragment
 import com.example.memory_madness.Fragments.WinFragment
@@ -32,8 +33,8 @@ class EasyFragment : Fragment() {
     private lateinit var binding: FragmentEasyBinding
 
     //List of images from drawable
-    private val memoryCards: MutableList<Int> = mutableListOf(
-        R.drawable.card1, R.drawable.card2, R.drawable.card3
+    private var memoryCards: List<Int> = mutableListOf(
+//        R.drawable.card1, R.drawable.card2, R.drawable.card3
     )
     private var timerJob: Job? = null
     private var isBusy = false
@@ -67,6 +68,9 @@ class EasyFragment : Fragment() {
         } else {
             binding.switchPauseFe.isInvisible = true
         }
+        memoryCards = listOf(CardTheme.CHRISTMAS_THEME.themeSet[1],
+            CardTheme.CHRISTMAS_THEME.themeSet[2],
+            CardTheme.CHRISTMAS_THEME.themeSet[3])
 
         // List of ImageViews
         val containerListCards = initImageViewList()
@@ -84,6 +88,7 @@ class EasyFragment : Fragment() {
         for (i in 0 until containerListCards.size) {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
+
 
         //  Button for home Menu And resets all players score and time
         homeMenuButton()
