@@ -108,7 +108,7 @@ class HighScoreFragment : Fragment() {
     private fun adapterEasy(): ArrayAdapter<String> {
         adapter = ArrayAdapter<String>(
             requireContext(),
-            android.R.layout.simple_list_item_1,
+            R.layout.simple_list_black_text,
             highScoreListEasy
         )
         adapter.notifyDataSetChanged()
@@ -119,7 +119,7 @@ class HighScoreFragment : Fragment() {
     private fun adapterMedium(): ArrayAdapter<String> {
         adapter = ArrayAdapter<String>(
             requireContext(),
-            android.R.layout.simple_list_item_1,
+            R.layout.simple_list_black_text,
             highScoreListMedium
         )
         adapter.notifyDataSetChanged()
@@ -130,7 +130,7 @@ class HighScoreFragment : Fragment() {
     private fun adapterHard(): ArrayAdapter<String> {
         adapter = ArrayAdapter<String>(
             requireContext(),
-            android.R.layout.simple_list_item_1,
+            R.layout.simple_list_black_text,
             highScoreListHard
         )
         adapter.notifyDataSetChanged()

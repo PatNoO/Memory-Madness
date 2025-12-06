@@ -1,5 +1,6 @@
 package com.example.memory_madness.Fragments
 
+import android.R.attr.theme
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -71,7 +72,8 @@ class WinFragment : Fragment(R.layout.fragment_win) {
                 val pauseHelp = player.value?.pauseChoice
                 val time = player.value?.time
                 val moves = player.value?.moves
-                playersList.add(Player(name, difficulty, pauseHelp, time, moves))
+                val theme = player.value?.theme
+                playersList.add(Player(name, difficulty, pauseHelp, time, moves, theme  ))
 
                 savedPrefsScore(requireContext(), playersList)
 

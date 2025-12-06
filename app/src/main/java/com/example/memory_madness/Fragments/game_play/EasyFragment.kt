@@ -8,13 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.memory_madness.Activitys.EnumClass.CardTheme
 import com.example.memory_madness.DataClass.CardManager
 import com.example.memory_madness.Fragments.HomeMenuFragment
 import com.example.memory_madness.Fragments.WinFragment
@@ -30,11 +30,7 @@ class EasyFragment : Fragment() {
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
     private lateinit var binding: FragmentEasyBinding
-
-    //List of images from drawable
-    private val memoryCards: MutableList<Int> = mutableListOf(
-        R.drawable.card1, R.drawable.card2, R.drawable.card3
-    )
+    private var memoryCards = mutableListOf<Int>()
     private var timerJob: Job? = null
     private var isBusy = false
     private var loseBusy = false
@@ -42,7 +38,6 @@ class EasyFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
-
         gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
     }
 
@@ -59,15 +54,10 @@ class EasyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // sets the lose text and play again button to invisible for the player
-        binding.btnPlayAgainFe.isInvisible = true
-        binding.tvLoseFe.isInvisible = true
+        setVisibility()
 
-        if (playerViewModel.player.value?.pauseChoice == "on" ){
-            binding.switchPauseFe.isVisible = true
-        } else {
-            binding.switchPauseFe.isInvisible = true
-        }
-
+        // sets the chosen theme drawable images on cards
+        setThemeOnCard()
         // List of ImageViews
         val containerListCards = initImageViewList()
 
@@ -94,6 +84,38 @@ class EasyFragment : Fragment() {
         // play game
         gamePlay(containerListCards)
 
+    }
+
+    private fun setVisibility() {
+
+        binding.btnPlayAgainFe.isInvisible = true
+        binding.tvLoseFe.isInvisible = true
+
+        if (playerViewModel.player.value?.pauseChoice == "on") {
+            binding.switchPauseFe.isVisible = true
+        } else {
+            binding.switchPauseFe.isInvisible = true
+        }
+    }
+
+    private fun setThemeOnCard() {
+        if (playerViewModel.player.value?.theme == CardTheme.HALLOWEEN_THEME) {
+            for (i in 0 until 3) {
+                memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
+            }
+        } else if (playerViewModel.player.value?.theme == CardTheme.CHRISTMAS_THEME) {
+            for (i in 0 until 3) {
+                memoryCards.add(CardTheme.CHRISTMAS_THEME.themeSet[i])
+            }
+        } else if (playerViewModel.player.value?.theme == CardTheme.EASTER_THEME) {
+            for (i in 0 until 3) {
+                memoryCards.add(CardTheme.EASTER_THEME.themeSet[i])
+            }
+        } else if (playerViewModel.player.value?.theme == CardTheme.STPATRICKSDAY_THEME) {
+            for (i in 0 until 3) {
+                memoryCards.add(CardTheme.STPATRICKSDAY_THEME.themeSet[i])
+            }
+        }
     }
 
     private fun homeMenuButton() {

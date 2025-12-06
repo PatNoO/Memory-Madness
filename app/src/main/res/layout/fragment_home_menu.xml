@@ -35,12 +35,12 @@
                 android:id="@+id/tv_home_head_fhm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:layout_marginTop="32dp"
-                android:textSize="32sp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/kranky"
                 android:text="Memory Madness \n Menu"
                 android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -66,13 +66,13 @@
                 android:id="@+id/et_change_name_fhm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:ems="10"
-                android:textAlignment="center"
                 android:hint="New Player"
                 android:inputType="text"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_start_fhm" />
 
@@ -80,16 +80,16 @@
                 android:id="@+id/btn_enter_name_fhm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="30dp"
                 android:backgroundTint="@color/backround_greyis"
                 android:shadowColor="@color/primary_red"
-                android:text="Save New Name"
+                android:text="Save"
                 android:textColor="@color/primary_red"
                 android:textSize="18sp"
                 app:cornerRadius="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_change_name_fhm"
+                app:layout_constraintStart_toEndOf="@+id/et_change_name_fhm"
+                app:layout_constraintTop_toBottomOf="@+id/btn_start_fhm"
                 app:strokeColor="@color/primary_red"
                 app:strokeWidth="2dp" />
 
@@ -98,17 +98,16 @@
                 android:id="@+id/checkBox_enable_pause_fhm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="130dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="130dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/kranky"
-                android:text="Enable Pause"
+                android:text="Enable\nPause"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_enter_name_fhm" />
+                app:layout_constraintBottom_toTopOf="@+id/btn_endgame_fhm"
+                app:layout_constraintEnd_toEndOf="@+id/btn_change_theme_fhm"
+                app:layout_constraintStart_toStartOf="@+id/btn_change_theme_fhm"
+                app:layout_constraintTop_toBottomOf="@+id/btn_change_theme_fhm" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_difficulty_fhm"
@@ -124,7 +123,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox_enable_pause_fhm"
+                app:layout_constraintTop_toBottomOf="@+id/et_change_name_fhm"
                 app:strokeColor="@color/primary_red"
                 app:strokeWidth="2dp" />
 
@@ -147,20 +146,70 @@
                 app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_change_theme_fhm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/backround_greyis"
+                android:shadowColor="@color/primary_red"
+                android:text="Theme"
+                android:textColor="@color/primary_red"
+                android:textSize="18sp"
+                app:cornerRadius="4dp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_endgame_fhm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_high_score_fhm"
+                app:strokeColor="@color/primary_red"
+                app:strokeWidth="2dp" />
+
+
+            <ImageView
+                android:id="@+id/card_theme_fhm"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/backround_greyis"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toTopOf="@+id/tv_theme_fhm"
+                app:layout_constraintDimensionRatio="3:4"
+                app:layout_constraintEnd_toStartOf="@+id/btn_change_theme_fhm"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_high_score_fhm" />
+
+            <TextView
+                android:id="@+id/tv_theme_fhm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/kranky"
+                android:hint="Haloween"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_endgame_fhm"
+                app:layout_constraintEnd_toEndOf="@+id/card_theme_fhm"
+                app:layout_constraintStart_toStartOf="@+id/card_theme_fhm" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_endgame_fhm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/backround_greyis"
                 android:shadowColor="@color/primary_red"
                 android:text="End Game"
                 android:textColor="@color/primary_red"
                 android:textSize="18sp"
                 app:cornerRadius="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_high_score_fhm"
                 app:strokeColor="@color/primary_red"
                 app:strokeWidth="2dp" />
 

@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.memory_madness.Activitys.EnumClass.CardTheme
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.Fragments.game_play.HardFragment
 import com.example.memory_madness.Fragments.game_play.MediumFragment
@@ -17,7 +18,7 @@ import com.example.memory_madness.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var player: Player = Player("Default", "easy", "", 0, 0)
+    private var player: Player = Player("Default", "easy", "", 0, 0, CardTheme.HALLOWEEN_THEME)
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: ActivityMainBinding
 

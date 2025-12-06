@@ -16,6 +16,8 @@
     <string name="time">Time :</string>
     <string name="moves">Moves :</string>
     <string name="play_again">Play Again</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="halloween">🎃HALLOWEEN🎃</string>
+    <string name="christmas">🎄CHRISTMAS🎄</string>
+    <string name="easter">🐣EASTER🐣</string>
+    <string name="st_patrick_s_day">☘️ST,PATRICK\'S DAY☘️</string>
 </resources>
