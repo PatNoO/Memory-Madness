@@ -15,10 +15,8 @@
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-
-        <!-- NAME (CENTERED) -->
         <TextView
-            android:id="@+id/tvPlayerName"
+            android:id="@+id/tv_player_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Name"
@@ -31,53 +29,53 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvDifficulty"
+            android:id="@+id/tv_difficulty"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Difficulty: Easy"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/tvPlayerName"
+            app:layout_constraintTop_toBottomOf="@id/tv_player_name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvPause"
+            app:layout_constraintEnd_toStartOf="@id/tv_pause"
             app:layout_constraintHorizontal_weight="1"
             android:layout_marginTop="12dp" />
 
         <TextView
-            android:id="@+id/tvPause"
+            android:id="@+id/tv_pause"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Pause: on"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/tvPlayerName"
-            app:layout_constraintStart_toEndOf="@id/tvDifficulty"
+            app:layout_constraintTop_toBottomOf="@id/tv_player_name"
+            app:layout_constraintStart_toEndOf="@id/tv_difficulty"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             android:layout_marginTop="12dp" />
 
         <TextView
-            android:id="@+id/tvTimeLeft"
+            android:id="@+id/tv_time_left"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Time: 00:00"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/tvDifficulty"
+            app:layout_constraintTop_toBottomOf="@id/tv_difficulty"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvMoves"
+            app:layout_constraintEnd_toStartOf="@id/tv_moves"
             app:layout_constraintHorizontal_weight="1"
             android:layout_marginTop="8dp" />
 
         <TextView
-            android:id="@+id/tvMoves"
+            android:id="@+id/tv_moves"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Moves: 0"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/tvPause"
-            app:layout_constraintStart_toEndOf="@id/tvTimeLeft"
+            app:layout_constraintTop_toBottomOf="@id/tv_pause"
+            app:layout_constraintStart_toEndOf="@id/tv_time_left"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             android:layout_marginTop="8dp" />
