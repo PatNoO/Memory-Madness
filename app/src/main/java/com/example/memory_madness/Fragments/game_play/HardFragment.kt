@@ -11,6 +11,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.memory_madness.Activitys.EnumClass.CardTheme
 import com.example.memory_madness.DataClass.CardManager
 import com.example.memory_madness.Fragments.HomeMenuFragment
 import com.example.memory_madness.Fragments.WinFragment
@@ -31,11 +32,7 @@ class HardFragment : Fragment() {
     private var timerJob: Job? = null
     private var isBusy = false
     private var loseBusy = false
-
-    private val memoryCards: MutableList<Int> = mutableListOf(
-        R.drawable.card1, R.drawable.card2, R.drawable.card3, R.drawable.card4, R.drawable.card5,
-        R.drawable.card6, R.drawable.card7, R.drawable.card8, R.drawable.card9
-    )
+    private val memoryCards = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,14 +51,10 @@ class HardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvLoseFh.isInvisible = true
-        binding.btnPlayAgainFh.isInvisible = true
 
-        if (playerViewModel.player.value?.pauseChoice == "on"){
-            binding.switchPauseFh.isVisible = true
-        } else {
-            binding.switchPauseFh.isInvisible = true
-        }
+        setVisibility()
+
+        setThemeOnCard()
 
         val containerListCards = initImageViewList()
 
@@ -76,7 +69,16 @@ class HardFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
+        homeMenuButton()
 
+        enablePauseButton()
+
+        gamePlay(containerListCards)
+
+
+    }
+
+    private fun homeMenuButton() {
         binding.btnHomeMenuFh.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
@@ -87,11 +89,37 @@ class HardFragment : Fragment() {
                 commit()
             }
         }
+    }
 
-        enablePauseButton()
-        gamePlay(containerListCards)
+    private fun setVisibility() {
+        binding.tvLoseFh.isInvisible = true
+        binding.btnPlayAgainFh.isInvisible = true
 
+        if (playerViewModel.player.value?.pauseChoice == "on") {
+            binding.switchPauseFh.isVisible = true
+        } else {
+            binding.switchPauseFh.isInvisible = true
+        }
+    }
 
+    private fun setThemeOnCard() {
+        if (playerViewModel.player.value?.theme == CardTheme.HALLOWEEN_THEME) {
+            for (i in 0 until 9) {
+                memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
+            }
+        } else if (playerViewModel.player.value?.theme == CardTheme.CHRISTMAS_THEME) {
+            for (i in 0 until 9) {
+                memoryCards.add(CardTheme.CHRISTMAS_THEME.themeSet[i])
+            }
+        } else if (playerViewModel.player.value?.theme == CardTheme.EASTER_THEME) {
+            for (i in 0 until 9) {
+                memoryCards.add(CardTheme.EASTER_THEME.themeSet[i])
+            }
+        } else if (playerViewModel.player.value?.theme == CardTheme.STPATRICKSDAY_THEME) {
+            for (i in 0 until 9) {
+                memoryCards.add(CardTheme.STPATRICKSDAY_THEME.themeSet[i])
+            }
+        }
     }
 
     private fun enablePauseButton() {

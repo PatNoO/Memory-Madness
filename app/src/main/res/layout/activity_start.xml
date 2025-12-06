@@ -112,7 +112,6 @@
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/card_start_sa"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_current_difficulty_as" />
 
@@ -129,27 +128,42 @@
                 android:textSize="18sp"
                 app:cornerRadius="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/card_start_sa"
                 app:layout_constraintTop_toBottomOf="@+id/tv_current_difficulty_as"
                 app:strokeColor="@color/primary_red"
                 app:strokeWidth="2dp" />
 
             <ImageView
                 android:id="@+id/card_theme_sa"
-                android:layout_width="88dp"
-                android:layout_height="122dp"
-                android:background="@drawable/card_backround"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="32dp"
+                android:background="@color/backround_greyis"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintDimensionRatio="3:4"
+                app:layout_constraintEnd_toStartOf="@+id/btn_change_theme"
+                app:layout_constraintStart_toEndOf="@+id/checkBox_enable_pause_sa"
                 app:layout_constraintTop_toBottomOf="@+id/tv_current_difficulty_as" />
 
+            <TextView
+                android:id="@+id/tv_theme_sa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/kranky"
+                android:hint="Haloween"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="@+id/card_theme_sa"
+                app:layout_constraintStart_toStartOf="@+id/card_theme_sa"
+                app:layout_constraintTop_toBottomOf="@+id/card_theme_sa" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
