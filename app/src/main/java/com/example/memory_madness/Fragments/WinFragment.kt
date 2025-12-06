@@ -72,6 +72,7 @@ class WinFragment : Fragment(R.layout.fragment_win) {
                 val pauseHelp = player.value?.pauseChoice
                 val time = player.value?.time
                 val moves = player.value?.moves
+                val theme = player.value?.theme
                 playersList.add(Player(name, difficulty, pauseHelp, time, moves, theme  ))
 
                 savedPrefsScore(requireContext(), playersList)

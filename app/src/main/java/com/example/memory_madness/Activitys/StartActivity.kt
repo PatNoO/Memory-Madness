@@ -3,12 +3,14 @@ package com.example.memory_madness.Activitys
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.memory_madness.Activitys.EnumClass.CardTheme
 import com.example.memory_madness.DataClass.Player
 import com.example.memory_madness.ViewModell.PlayerViewModel
 import com.example.memory_madness.R
@@ -35,9 +37,64 @@ class StartActivity : AppCompatActivity() {
             binding.tvCurrentDifficultyAs.text = difficulty
         }
 
+        playerViewModel.player.observe(this) { theme ->
+            binding.cardThemeSa.drawable
+        }
+        var clickCount = 0
+
+        Log.i("!!!", "$player")
+        binding.btnChangeTheme.setOnClickListener {
+            clickCount++
+            when (clickCount) {
+                1 -> {
+                        playerViewModel.setTheme(playerTheme = CardTheme.HALLOWEEN_THEME)
+                        binding.cardThemeSa.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
+                    player.theme = CardTheme.HALLOWEEN_THEME
+
+                    Log.i("!!!", "$player")
+
+                }
+
+                2 -> {
+                        playerViewModel.setTheme(playerTheme = CardTheme.CHRISTMAS_THEME)
+                        binding.cardThemeSa.setImageResource(CardTheme.CHRISTMAS_THEME.themeSet[1])
+                    player.theme = CardTheme.CHRISTMAS_THEME
+
+                    Log.i("!!!", "$player")
+
+
+                }
+
+                3 ->{
+                        playerViewModel.setTheme(playerTheme = CardTheme.EASTER_THEME)
+                        binding.cardThemeSa.setImageResource(CardTheme.EASTER_THEME.themeSet[1])
+                    player.theme = CardTheme.EASTER_THEME
+
+                    Log.i("!!!", "$player")
+
+                }
+
+                4 -> {
+                        playerViewModel.setTheme(playerTheme = CardTheme.STPATRICKSDAY_THEME)
+                        binding.cardThemeSa.setImageResource(CardTheme.STPATRICKSDAY_THEME.themeSet[1])
+                    player.theme = CardTheme.STPATRICKSDAY_THEME
+                    Log.i("!!!", "${player}")
+                }
+
+
+                5 -> {
+                    playerViewModel.setTheme(playerTheme = CardTheme.HALLOWEEN_THEME)
+                    player.theme = CardTheme.HALLOWEEN_THEME
+                    binding.cardThemeSa.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
+                    clickCount = 1
+                    Log.i("!!!", "$player")
+                }
+            }
+        }
+
         spinner()
 
-        binding.checkBoxEnablePauseSa.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.checkBoxEnablePauseSa.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 player.pauseChoice = "on"
                 playerViewModel.enablePause(player)
