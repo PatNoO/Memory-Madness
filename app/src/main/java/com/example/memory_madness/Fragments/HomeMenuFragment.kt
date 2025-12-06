@@ -1,12 +1,14 @@
 package com.example.memory_madness.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.example.memory_madness.Activitys.EnumClass.CardTheme
 import com.example.memory_madness.Fragments.game_play.EasyFragment
 import com.example.memory_madness.Fragments.game_play.HardFragment
 import com.example.memory_madness.Fragments.game_play.MediumFragment
@@ -53,6 +55,63 @@ class HomeMenuFragment : Fragment() {
                 playerViewModel.updatePause("off")
         }
 
+        playerViewModel.player.observe(this) { theme ->
+            binding.cardThemeFhm.setImageResource(playerViewModel.player.value?.theme!!.themeSet[1])
+        }
+
+        var clickCount = 0
+
+        binding.btnChangeThemeFhm.setOnClickListener {
+            clickCount++
+            when (clickCount) {
+                1 -> {
+                    playerViewModel.setTheme(playerTheme = CardTheme.HALLOWEEN_THEME)
+                    binding.cardThemeFhm.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
+//                    player.theme = CardTheme.HALLOWEEN_THEME
+                    binding.tvThemeFhm.text = "🎃HALLOWEEN🎃"
+//                    Log.i("!!!", "$player")
+
+                }
+
+                2 -> {
+                    playerViewModel.setTheme(playerTheme = CardTheme.CHRISTMAS_THEME)
+                    binding.cardThemeFhm.setImageResource(CardTheme.CHRISTMAS_THEME.themeSet[1])
+//                    player.theme = CardTheme.CHRISTMAS_THEME
+                    binding.tvThemeFhm.text = "🎄CHRISTMAS🎄"
+//                    Log.i("!!!", "$player")
+
+
+                }
+
+                3 -> {
+                    playerViewModel.setTheme(playerTheme = CardTheme.EASTER_THEME)
+                    binding.cardThemeFhm.setImageResource(CardTheme.EASTER_THEME.themeSet[1])
+//                    player.theme = CardTheme.EASTER_THEME
+                    binding.tvThemeFhm.text = "🐣EASTER🐣"
+//                    Log.i("!!!", "$player")
+
+                }
+
+                4 -> {
+                    playerViewModel.setTheme(playerTheme = CardTheme.STPATRICKSDAY_THEME)
+                    binding.cardThemeFhm.setImageResource(CardTheme.STPATRICKSDAY_THEME.themeSet[1])
+//                    player.theme = CardTheme.STPATRICKSDAY_THEME
+                    binding.tvThemeFhm.text = "☘️ST,PATRICK'S DAY☘️"
+//                    Log.i("!!!", "${player}")
+                }
+
+
+                5 -> {
+                    playerViewModel.setTheme(playerTheme = CardTheme.HALLOWEEN_THEME)
+//                    player.theme = CardTheme.HALLOWEEN_THEME
+                    binding.cardThemeFhm.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
+                    binding.tvThemeFhm.text = "🎃HALLOWEEN🎃"
+                    clickCount = 1
+//                    Log.i("!!!", "$player")
+                }
+            }
+        }
+
 
 
         /**
@@ -74,8 +133,6 @@ class HomeMenuFragment : Fragment() {
                    replace(R.id.fcv_game_plan_am, HardFragment())
                    commit()
                }
-           } else {
-               Toast.makeText(requireActivity(), "Välj svårighetsgrad", Toast.LENGTH_SHORT).show()
            }
         }
         /**

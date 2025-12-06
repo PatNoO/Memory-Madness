@@ -37,61 +37,61 @@ class StartActivity : AppCompatActivity() {
             binding.tvCurrentDifficultyAs.text = difficulty
         }
 
-        playerViewModel.player.observe(this) { theme ->
-            binding.cardThemeSa.drawable
-        }
+
+
+
+        binding.cardThemeSa.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
+        player.theme = CardTheme.HALLOWEEN_THEME
+
         var clickCount = 0
 
         binding.btnChangeTheme.setOnClickListener {
             clickCount++
             when (clickCount) {
                 1 -> {
-                    playerViewModel.setTheme(playerTheme = CardTheme.HALLOWEEN_THEME)
-                    binding.cardThemeSa.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
-                    player.theme = CardTheme.HALLOWEEN_THEME
-                    binding.tvThemeSa.text = "🎃HALLOWEEN🎃"
-                    Log.i("!!!", "$player")
-
-                }
-
-                2 -> {
                     playerViewModel.setTheme(playerTheme = CardTheme.CHRISTMAS_THEME)
                     binding.cardThemeSa.setImageResource(CardTheme.CHRISTMAS_THEME.themeSet[1])
                     player.theme = CardTheme.CHRISTMAS_THEME
                     binding.tvThemeSa.text = "🎄CHRISTMAS🎄"
                     Log.i("!!!", "$player")
 
-
                 }
 
-                3 -> {
+                2 -> {
                     playerViewModel.setTheme(playerTheme = CardTheme.EASTER_THEME)
                     binding.cardThemeSa.setImageResource(CardTheme.EASTER_THEME.themeSet[1])
                     player.theme = CardTheme.EASTER_THEME
                     binding.tvThemeSa.text = "🐣EASTER🐣"
                     Log.i("!!!", "$player")
 
+
                 }
 
-                4 -> {
+                3 -> {
                     playerViewModel.setTheme(playerTheme = CardTheme.STPATRICKSDAY_THEME)
                     binding.cardThemeSa.setImageResource(CardTheme.STPATRICKSDAY_THEME.themeSet[1])
                     player.theme = CardTheme.STPATRICKSDAY_THEME
                     binding.tvThemeSa.text = "☘️ST,PATRICK'S DAY☘️"
                     Log.i("!!!", "${player}")
+
                 }
 
-
-                5 -> {
+                4 -> {
                     playerViewModel.setTheme(playerTheme = CardTheme.HALLOWEEN_THEME)
                     player.theme = CardTheme.HALLOWEEN_THEME
                     binding.cardThemeSa.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
                     binding.tvThemeSa.text = "🎃HALLOWEEN🎃"
-                    clickCount = 1
+                    clickCount = 0
                     Log.i("!!!", "$player")
                 }
+
             }
         }
+        //                    playerViewModel.setTheme(playerTheme = CardTheme.HALLOWEEN_THEME)
+//                    binding.cardThemeSa.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
+//                    player.theme = CardTheme.HALLOWEEN_THEME
+//                    binding.tvThemeSa.text = "🎃HALLOWEEN🎃"
+//                    Log.i("!!!", "$player")
 
         spinner()
 
