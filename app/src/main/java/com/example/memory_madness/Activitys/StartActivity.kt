@@ -42,7 +42,6 @@ class StartActivity : AppCompatActivity() {
         }
         var clickCount = 0
 
-        Log.i("!!!", "$player")
         binding.btnChangeTheme.setOnClickListener {
             clickCount++
             when (clickCount) {

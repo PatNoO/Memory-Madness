@@ -32,14 +32,14 @@
 
             <TextView
                 android:id="@+id/tv_home_head_as"
-                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="52dp"
-                android:textSize="32sp"
                 android:fontFamily="@font/kranky"
                 android:text="@string/welcome_to_memory_madness"
                 android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
