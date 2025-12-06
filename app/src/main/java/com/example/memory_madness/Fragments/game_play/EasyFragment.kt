@@ -31,11 +31,7 @@ class EasyFragment : Fragment() {
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
     private lateinit var binding: FragmentEasyBinding
-
-    //List of images from drawable
-    private var memoryCards: List<Int> = mutableListOf(
-//        R.drawable.card1, R.drawable.card2, R.drawable.card3
-    )
+    private var memoryCards = mutableListOf<Int>()
     private var timerJob: Job? = null
     private var isBusy = false
     private var loseBusy = false
@@ -68,9 +64,25 @@ class EasyFragment : Fragment() {
         } else {
             binding.switchPauseFe.isInvisible = true
         }
-        memoryCards = listOf(CardTheme.CHRISTMAS_THEME.themeSet[1],
-            CardTheme.CHRISTMAS_THEME.themeSet[2],
-            CardTheme.CHRISTMAS_THEME.themeSet[3])
+
+        if (playerViewModel.player.value?.theme == CardTheme.HALLOWEEN_THEME) {
+            for (i in 0 until 3 ) {
+                memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
+            }
+        } else if (playerViewModel.player.value?.theme == CardTheme.CHRISTMAS_THEME) {
+            for (i in 0 until 3) {
+                memoryCards.add(CardTheme.CHRISTMAS_THEME.themeSet[i])
+            }
+        } else if (playerViewModel.player.value?.theme == CardTheme.EASTER_THEME) {
+            for (i in 0 until 3 ) {
+                memoryCards.add(CardTheme.EASTER_THEME.themeSet[i])
+            }
+        } else if (playerViewModel.player.value?.theme == CardTheme.STPATRICKSDAY_THEME) {
+            for ( i in 0 until 3) {
+                memoryCards.add(CardTheme.STPATRICKSDAY_THEME.themeSet[i])
+            }
+        }
+        
 
         // List of ImageViews
         val containerListCards = initImageViewList()
