@@ -42,6 +42,7 @@ class StartActivity : AppCompatActivity() {
 
         binding.cardThemeSa.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
         player.theme = CardTheme.HALLOWEEN_THEME
+        binding.tvThemeSa.text = getString(R.string.halloween)
 
         var clickCount = 0
 
@@ -52,7 +53,7 @@ class StartActivity : AppCompatActivity() {
                     playerViewModel.setTheme(playerTheme = CardTheme.CHRISTMAS_THEME)
                     binding.cardThemeSa.setImageResource(CardTheme.CHRISTMAS_THEME.themeSet[1])
                     player.theme = CardTheme.CHRISTMAS_THEME
-                    binding.tvThemeSa.text = "🎄CHRISTMAS🎄"
+                    binding.tvThemeSa.text = getString(R.string.christmas)
                     Log.i("!!!", "$player")
 
                 }
@@ -61,7 +62,7 @@ class StartActivity : AppCompatActivity() {
                     playerViewModel.setTheme(playerTheme = CardTheme.EASTER_THEME)
                     binding.cardThemeSa.setImageResource(CardTheme.EASTER_THEME.themeSet[1])
                     player.theme = CardTheme.EASTER_THEME
-                    binding.tvThemeSa.text = "🐣EASTER🐣"
+                    binding.tvThemeSa.text = getString(R.string.easter)
                     Log.i("!!!", "$player")
 
 
@@ -71,7 +72,7 @@ class StartActivity : AppCompatActivity() {
                     playerViewModel.setTheme(playerTheme = CardTheme.STPATRICKSDAY_THEME)
                     binding.cardThemeSa.setImageResource(CardTheme.STPATRICKSDAY_THEME.themeSet[1])
                     player.theme = CardTheme.STPATRICKSDAY_THEME
-                    binding.tvThemeSa.text = "☘️ST,PATRICK'S DAY☘️"
+                    binding.tvThemeSa.text = getString(R.string.st_patrick_s_day)
                     Log.i("!!!", "${player}")
 
                 }
@@ -80,7 +81,7 @@ class StartActivity : AppCompatActivity() {
                     playerViewModel.setTheme(playerTheme = CardTheme.HALLOWEEN_THEME)
                     player.theme = CardTheme.HALLOWEEN_THEME
                     binding.cardThemeSa.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
-                    binding.tvThemeSa.text = "🎃HALLOWEEN🎃"
+                    binding.tvThemeSa.text = getString(R.string.halloween)
                     clickCount = 0
                     Log.i("!!!", "$player")
                 }

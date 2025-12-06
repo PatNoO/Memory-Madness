@@ -17,4 +17,8 @@
     <string name="time">Tid :</string>
     <string name="moves">Drag :</string>
     <string name="play_again">Spela igen</string>
+    <string name="halloween">🎃HALLOWEEN🎃</string>
+    <string name="christmas">🎄JUL🎄</string>
+    <string name="easter">🐣PÅSK🐣</string>
+    <string name="st_patrick_s_day">☘️ST,PATRICK\'S DAY☘️</string>
 </resources>

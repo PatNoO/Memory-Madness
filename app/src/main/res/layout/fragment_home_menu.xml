@@ -162,32 +162,35 @@
                 app:strokeColor="@color/primary_red"
                 app:strokeWidth="2dp" />
 
+
             <ImageView
                 android:id="@+id/card_theme_fhm"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:background="@color/backround_greyis"
                 android:scaleType="fitCenter"
-                app:layout_constraintBottom_toTopOf="@+id/tv_theme_sa"
+                app:layout_constraintBottom_toTopOf="@+id/tv_theme_fhm"
                 app:layout_constraintDimensionRatio="3:4"
                 app:layout_constraintEnd_toStartOf="@+id/btn_change_theme_fhm"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_high_score_fhm" />
-
 
             <TextView
                 android:id="@+id/tv_theme_fhm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/kranky"
                 android:hint="Haloween"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/card_theme_fhm"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/btn_endgame_fhm"
                 app:layout_constraintEnd_toEndOf="@+id/card_theme_fhm"
                 app:layout_constraintStart_toStartOf="@+id/card_theme_fhm" />

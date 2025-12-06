@@ -55,16 +55,17 @@ class HomeMenuFragment : Fragment() {
                 playerViewModel.updatePause("off")
         }
 
-        playerViewModel.player.observe(this) { theme ->
+        playerViewModel.player.observe(viewLifecycleOwner) { theme ->
             binding.cardThemeFhm.setImageResource(playerViewModel.player.value?.theme!!.themeSet[1])
+
             if (playerViewModel.player.value?.theme == CardTheme.HALLOWEEN_THEME){
-                binding.tvThemeFhm.text = "🎃HALLOWEEN🎃"
+                binding.tvThemeFhm.text = getString(R.string.halloween)
             }else if (playerViewModel.player.value?.theme == CardTheme.CHRISTMAS_THEME){
-                binding.tvThemeFhm.text = "🎄CHRISTMAS🎄"
+                binding.tvThemeFhm.text = getString(R.string.christmas)
             } else if (playerViewModel.player.value?.theme == CardTheme.EASTER_THEME){
-                binding.tvThemeFhm.text = "🐣EASTER🐣"
+                binding.tvThemeFhm.text = getString(R.string.easter)
             } else if (playerViewModel.player.value?.theme == CardTheme.EASTER_THEME){
-                binding.tvThemeFhm.text = "☘️ST,PATRICK'S DAY☘️"
+                binding.tvThemeFhm.text = getString(R.string.st_patrick_s_day)
             }
         }
 
@@ -76,37 +77,29 @@ class HomeMenuFragment : Fragment() {
                 1 -> {
                         playerViewModel.setTheme(playerTheme = CardTheme.HALLOWEEN_THEME)
                         binding.cardThemeFhm.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
-                        binding.tvThemeFhm.text = "🎃HALLOWEEN🎃"
+                        binding.tvThemeFhm.text = getString(R.string.halloween)
 
                 }
 
                 2 -> {
                     playerViewModel.setTheme(playerTheme = CardTheme.CHRISTMAS_THEME)
                     binding.cardThemeFhm.setImageResource(CardTheme.CHRISTMAS_THEME.themeSet[1])
-                    binding.tvThemeFhm.text = "🎄CHRISTMAS🎄"
+                    binding.tvThemeFhm.text = getString(R.string.christmas)
 
                 }
 
                 3 -> {
                     playerViewModel.setTheme(playerTheme = CardTheme.EASTER_THEME)
                     binding.cardThemeFhm.setImageResource(CardTheme.EASTER_THEME.themeSet[1])
-                    binding.tvThemeFhm.text = "🐣EASTER🐣"
+                    binding.tvThemeFhm.text = getString(R.string.easter)
 
                 }
 
                 4 -> {
                     playerViewModel.setTheme(playerTheme = CardTheme.STPATRICKSDAY_THEME)
                     binding.cardThemeFhm.setImageResource(CardTheme.STPATRICKSDAY_THEME.themeSet[1])
-                    binding.tvThemeFhm.text = "☘️ST,PATRICK'S DAY☘️"
+                    binding.tvThemeFhm.text = getString(R.string.st_patrick_s_day)
                     clickCount = 0
-                }
-
-
-                5 -> {
-//                    playerViewModel.setTheme(playerTheme = CardTheme.HALLOWEEN_THEME)
-//                    binding.cardThemeFhm.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
-//                    binding.tvThemeFhm.text = "🎃HALLOWEEN🎃"
-//                    clickCount = 0
                 }
             }
         }
