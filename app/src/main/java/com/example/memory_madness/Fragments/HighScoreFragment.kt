@@ -53,13 +53,17 @@ class HighScoreFragment : Fragment() {
         playersList.sortBy { it.moves }
 
         showHighScoreList()
+
         adapter = HighScoreRecyclerAdapter(highScoreListEasy)
-        binding.rvHighScoreFhs.adapter = adapter
         binding.rvHighScoreFhs.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvHighScoreFhs.adapter = adapter
 
 
-            binding.btnShowEasyFsh.setOnClickListener {
-                adapter.updateList(highScoreListEasy)
+
+
+
+        binding.btnShowEasyFsh.setOnClickListener {
+            adapter.updateList(highScoreListEasy)
         }
 
         binding.btnShowMediumFsh.setOnClickListener {
