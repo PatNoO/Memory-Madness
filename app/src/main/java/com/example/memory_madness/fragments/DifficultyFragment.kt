@@ -7,13 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.memory_madness.data_class.Player
 import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentDifficultyBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class DifficultyFragment : Fragment() {
-    private lateinit var player : Player
+    private lateinit var player: Player
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: FragmentDifficultyBinding
 
@@ -28,7 +31,7 @@ class DifficultyFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDifficultyBinding.inflate(inflater,container,false)
+        binding = FragmentDifficultyBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -36,7 +39,7 @@ class DifficultyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        playerViewModel.player.observe(viewLifecycleOwner) { (name, difficulty, time, moves) ->
+        playerViewModel.player.observe(viewLifecycleOwner) { (_, difficulty) ->
             binding.tvDifficultyCurrentFd.text = difficulty
         }
 
@@ -45,13 +48,15 @@ class DifficultyFragment : Fragment() {
          * Player sets difficulty yo Easy
          */
         binding.btnEasyFd.setOnClickListener {
-              player.difficulty = "easy"
+            player.difficulty = "easy"
             playerViewModel.setDifficulty(player)
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
-                commit()
+            lifecycleScope.launch {
+                delay(800)
+                parentFragmentManager.beginTransaction().apply {
+                    replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                    commit()
+                }
             }
-            Log.i("!!!", "player : ${player}")
         }
         /**
          * Player sets difficulty yo Medium
@@ -59,10 +64,14 @@ class DifficultyFragment : Fragment() {
         binding.btnMediumFd.setOnClickListener {
             player.difficulty = "medium"
             playerViewModel.setDifficulty(player)
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
-                commit()
+            lifecycleScope.launch {
+                delay(800)
+                parentFragmentManager.beginTransaction().apply {
+                    replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                    commit()
+                }
             }
+
         }
         /**
          * Player sets difficulty yo Hard
@@ -70,10 +79,14 @@ class DifficultyFragment : Fragment() {
         binding.btnHardFd.setOnClickListener {
             player.difficulty = "hard"
             playerViewModel.setDifficulty(player)
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
-                commit()
+            lifecycleScope.launch {
+                delay(800)
+                parentFragmentManager.beginTransaction().apply {
+                    replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                    commit()
+                }
             }
+
         }
         /**
          * Player goes back to home menu fragment
