@@ -26,11 +26,10 @@ import kotlinx.coroutines.launch
 
 
 class MediumFragment : Fragment() {
-
     private lateinit var binding: FragmentMediumBinding
     private lateinit var gameViewModel: GameViewModel
     private lateinit var playerViewModel: PlayerViewModel
-    private var timerJob : Job? = null
+    private var timerJob: Job? = null
     private var isBusy = false
     private var loseBusy = false
     private val memoryCards = mutableListOf<Int>()
@@ -66,10 +65,18 @@ class MediumFragment : Fragment() {
         setCardInfoOnImageView(shuffledMemoryCards, containerListCards)
 
         // Sets the layout xml backround to all the cards
-        for (i in 0 until containerListCards.size){
+        for (i in 0 until containerListCards.size) {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
+        homeMenuButton()
+
+        enablePauseButton()
+
+        gamePlay(containerListCards)
+    }
+
+    private fun homeMenuButton() {
         binding.btnHomeMenuFm.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
@@ -80,10 +87,6 @@ class MediumFragment : Fragment() {
                 commit()
             }
         }
-
-        enablePauseButton()
-
-        gamePlay(containerListCards)
     }
 
     private fun setVisibility() {
@@ -98,21 +101,35 @@ class MediumFragment : Fragment() {
     }
 
     private fun setThemeOnCard() {
-        if (playerViewModel.player.value?.theme == CardTheme.HALLOWEEN_THEME) {
-            for (i in 0 until 6) {
-                memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
+        when (playerViewModel.player.value?.theme) {
+            CardTheme.HALLOWEEN_THEME -> {
+                for (i in 0 until 6) {
+                    memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
+                }
             }
-        } else if (playerViewModel.player.value?.theme == CardTheme.CHRISTMAS_THEME) {
-            for (i in 0 until 6) {
-                memoryCards.add(CardTheme.CHRISTMAS_THEME.themeSet[i])
+
+            CardTheme.CHRISTMAS_THEME -> {
+                for (i in 0 until 6) {
+                    memoryCards.add(CardTheme.CHRISTMAS_THEME.themeSet[i])
+                }
             }
-        } else if (playerViewModel.player.value?.theme == CardTheme.EASTER_THEME) {
-            for (i in 0 until 6) {
-                memoryCards.add(CardTheme.EASTER_THEME.themeSet[i])
+
+            CardTheme.EASTER_THEME -> {
+                for (i in 0 until 6) {
+                    memoryCards.add(CardTheme.EASTER_THEME.themeSet[i])
+                }
             }
-        } else if (playerViewModel.player.value?.theme == CardTheme.STPATRICKSDAY_THEME) {
-            for (i in 0 until 6) {
-                memoryCards.add(CardTheme.STPATRICKSDAY_THEME.themeSet[i])
+
+            CardTheme.STPATRICKSDAY_THEME -> {
+                for (i in 0 until 6) {
+                    memoryCards.add(CardTheme.STPATRICKSDAY_THEME.themeSet[i])
+                }
+            }
+
+            else -> {
+                for (i in 0 until 6) {
+                    memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
+                }
             }
         }
     }
@@ -138,24 +155,6 @@ class MediumFragment : Fragment() {
         }
     }
 
-    private fun initImageViewList(): List<ImageView> {
-        val containerListCards = listOf(
-            binding.card1Fm,
-            binding.card2Fm,
-            binding.card3Fm,
-            binding.card4Fm,
-            binding.card5Fm,
-            binding.card6Fm,
-            binding.card7Fm,
-            binding.card8Fm,
-            binding.card9Fm,
-            binding.card10Fm,
-            binding.card11Fm,
-            binding.card12Fm,
-
-            )
-        return containerListCards
-    }
 
     private fun gamePlay(containerListCards: List<ImageView>) {
 
@@ -209,7 +208,7 @@ class MediumFragment : Fragment() {
                     gameViewModel.increaseMoves()
 
                     gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
-                        binding.tvMovesFm.text = "Moves : \n $moves"
+                        binding.tvMovesFm.text = getString(R.string.moves, moves)
                     }
 
                     val turnedCard = gameViewModel.turnedCard.value
@@ -257,6 +256,25 @@ class MediumFragment : Fragment() {
         }
     }
 
+    private fun initImageViewList(): List<ImageView> {
+        val containerListCards = listOf(
+            binding.card1Fm,
+            binding.card2Fm,
+            binding.card3Fm,
+            binding.card4Fm,
+            binding.card5Fm,
+            binding.card6Fm,
+            binding.card7Fm,
+            binding.card8Fm,
+            binding.card9Fm,
+            binding.card10Fm,
+            binding.card11Fm,
+            binding.card12Fm,
+
+            )
+        return containerListCards
+    }
+
     private fun initShuffleCardList(): ArrayList<Int> {
         val shuffledMemoryCards = ArrayList<Int>()
         for (i in memoryCards) {
@@ -283,10 +301,10 @@ class MediumFragment : Fragment() {
         }
     }
 
-    fun startTimer () {
+    fun startTimer() {
         timerJob = viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                while (true){
+                while (true) {
                     delay(1000)
                     gameViewModel.startCountDown()
                     updateTimerText()
@@ -295,13 +313,13 @@ class MediumFragment : Fragment() {
         }
     }
 
-    fun updateTimerText () {
+    fun updateTimerText() {
         val minutes = gameViewModel.timerCount.value?.div(60)
         val seconds = gameViewModel.timerCount.value?.rem(60)
-        binding.tvTimeFm.text = "Time : \n $minutes : $seconds "
+        binding.tvTimeFm.text = getString(R.string.time, minutes, seconds)
     }
 
-    fun stopTimer () {
+    fun stopTimer() {
         timerJob?.cancel()
     }
 

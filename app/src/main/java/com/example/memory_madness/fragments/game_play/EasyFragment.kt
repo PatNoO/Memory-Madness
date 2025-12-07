@@ -75,7 +75,7 @@ class EasyFragment : Fragment() {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
-        //  Button for home Menu And resets all players score and time
+        //Button for home Menu And resets all players score and time
         homeMenuButton()
 
         // Pause function
@@ -86,6 +86,10 @@ class EasyFragment : Fragment() {
 
     }
 
+    /**
+     * Sets visibility on pause switch button depending on players choice
+     * and sets lose text and play again button to inVisible
+     */
     private fun setVisibility() {
 
         binding.btnPlayAgainFe.isInvisible = true
@@ -98,26 +102,42 @@ class EasyFragment : Fragment() {
         }
     }
 
+    /**
+     * sets the memory cards to the correct theme that player hae chosen
+     */
     private fun setThemeOnCard() {
-        if (playerViewModel.player.value?.theme == CardTheme.HALLOWEEN_THEME) {
-            for (i in 0 until 3) {
-                memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
+        when (playerViewModel.player.value?.theme) {
+            CardTheme.HALLOWEEN_THEME -> {
+                for (i in 0 until 3) {
+                    memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
+                }
             }
-        } else if (playerViewModel.player.value?.theme == CardTheme.CHRISTMAS_THEME) {
-            for (i in 0 until 3) {
-                memoryCards.add(CardTheme.CHRISTMAS_THEME.themeSet[i])
+            CardTheme.CHRISTMAS_THEME -> {
+                for (i in 0 until 3) {
+                    memoryCards.add(CardTheme.CHRISTMAS_THEME.themeSet[i])
+                }
             }
-        } else if (playerViewModel.player.value?.theme == CardTheme.EASTER_THEME) {
-            for (i in 0 until 3) {
-                memoryCards.add(CardTheme.EASTER_THEME.themeSet[i])
+            CardTheme.EASTER_THEME -> {
+                for (i in 0 until 3) {
+                    memoryCards.add(CardTheme.EASTER_THEME.themeSet[i])
+                }
             }
-        } else if (playerViewModel.player.value?.theme == CardTheme.STPATRICKSDAY_THEME) {
-            for (i in 0 until 3) {
-                memoryCards.add(CardTheme.STPATRICKSDAY_THEME.themeSet[i])
+            CardTheme.STPATRICKSDAY_THEME -> {
+                for (i in 0 until 3) {
+                    memoryCards.add(CardTheme.STPATRICKSDAY_THEME.themeSet[i])
+                }
+            }
+            else -> {
+                for (i in 0 until 3) {
+                    memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
+                }
             }
         }
     }
 
+    /**
+     * Player Home menu button
+     */
     private fun homeMenuButton() {
         binding.btnHomeMenuFe.setOnClickListener {
             gameViewModel.resetCount()
@@ -131,6 +151,10 @@ class EasyFragment : Fragment() {
         }
     }
 
+    /**
+     * checks if player has chosen to enable pause button
+     *  if pause is On/Activated then it will pause the game on players command
+     */
     private fun enablePauseButton() {
         if (playerViewModel.player.value?.pauseChoice == "on") {
             binding.switchPauseFe.setOnCheckedChangeListener { _, isChecked ->
@@ -153,20 +177,7 @@ class EasyFragment : Fragment() {
         }
     }
 
-    /**
-     * Creates a list of imagesViews
-     */
-    private fun initImageViewList(): List<ImageView> {
-        val containerListCards = listOf(
-            binding.card1Fe,
-            binding.card2Fe,
-            binding.card3Fe,
-            binding.card4Fe,
-            binding.card5Fe,
-            binding.card6Fe,
-        )
-        return containerListCards
-    }
+
 
     /**
      * Main gameplay logic.
@@ -201,7 +212,6 @@ class EasyFragment : Fragment() {
                         startTimer()
                     }
 
-
                     // Times up and Player loses can only click play again and home menu button
                     // Makes lose text and Play again button be seen by the player otherwise it is invisible
                     gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
@@ -223,8 +233,6 @@ class EasyFragment : Fragment() {
                         }
                     }
 
-
-
                     // Get the clicked card from the ImageView's tag with all the info from CardManager
                     gameViewModel.currentCard.value = view.tag as CardManager
 
@@ -245,7 +253,7 @@ class EasyFragment : Fragment() {
                         gameViewModel.increaseMoves()
 
                         gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
-                            binding.tvMovesFe.text = "Moves : \n $moves"
+                            binding.tvMovesFe.text = getString(R.string.moves, moves)
                         }
 
                         val turnedCard = gameViewModel.turnedCard.value
@@ -299,6 +307,21 @@ class EasyFragment : Fragment() {
     }
 
     /**
+     * Creates a list of imagesViews
+     */
+    private fun initImageViewList(): List<ImageView> {
+        val containerListCards = listOf(
+            binding.card1Fe,
+            binding.card2Fe,
+            binding.card3Fe,
+            binding.card4Fe,
+            binding.card5Fe,
+            binding.card6Fe,
+        )
+        return containerListCards
+    }
+
+    /**
      * initiates The card id Arraylist and duplicates the play cards to get pairs
      */
     private fun initShuffleCardList(): ArrayList<Int> {
@@ -329,7 +352,7 @@ class EasyFragment : Fragment() {
                 cardId = memoryImageId,
                 containerId = imageViewId
             )
-            // sets the cardinfo from cardManager as a tag on the imageView
+            // sets the cardInfo from cardManager as a tag on the imageView
             imageViewId.tag = cardInfo
             Log.i("!!!", "Card info : ${imageViewId.tag}")
         }
@@ -365,7 +388,7 @@ class EasyFragment : Fragment() {
     fun updateTimerText() {
         val minutes = gameViewModel.timerCount.value?.div(60)
         val seconds = gameViewModel.timerCount.value?.rem(60)
-        binding.tvTimeFe.text = "Time : \n $minutes : $seconds"
+        binding.tvTimeFe.text = getString(R.string.time, minutes, seconds)
 
     }
 

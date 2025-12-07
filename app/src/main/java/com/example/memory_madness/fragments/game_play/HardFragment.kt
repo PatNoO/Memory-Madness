@@ -24,7 +24,6 @@ import kotlinx.coroutines.launch
 
 
 class HardFragment : Fragment() {
-
     private lateinit var binding: FragmentHardBinding
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
@@ -38,7 +37,6 @@ class HardFragment : Fragment() {
         playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
         gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,8 +71,6 @@ class HardFragment : Fragment() {
         enablePauseButton()
 
         gamePlay(containerListCards)
-
-
     }
 
     private fun homeMenuButton() {
@@ -102,21 +98,34 @@ class HardFragment : Fragment() {
     }
 
     private fun setThemeOnCard() {
-        if (playerViewModel.player.value?.theme == CardTheme.HALLOWEEN_THEME) {
-            for (i in 0 until 9) {
-                memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
+        when (playerViewModel.player.value?.theme) {
+            CardTheme.HALLOWEEN_THEME -> {
+                for (i in 0 until 9) {
+                    memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
+                }
             }
-        } else if (playerViewModel.player.value?.theme == CardTheme.CHRISTMAS_THEME) {
-            for (i in 0 until 9) {
-                memoryCards.add(CardTheme.CHRISTMAS_THEME.themeSet[i])
+
+            CardTheme.CHRISTMAS_THEME -> {
+                for (i in 0 until 9) {
+                    memoryCards.add(CardTheme.CHRISTMAS_THEME.themeSet[i])
+                }
             }
-        } else if (playerViewModel.player.value?.theme == CardTheme.EASTER_THEME) {
-            for (i in 0 until 9) {
-                memoryCards.add(CardTheme.EASTER_THEME.themeSet[i])
+
+            CardTheme.EASTER_THEME -> {
+                for (i in 0 until 9) {
+                    memoryCards.add(CardTheme.EASTER_THEME.themeSet[i])
+                }
             }
-        } else if (playerViewModel.player.value?.theme == CardTheme.STPATRICKSDAY_THEME) {
-            for (i in 0 until 9) {
-                memoryCards.add(CardTheme.STPATRICKSDAY_THEME.themeSet[i])
+
+            CardTheme.STPATRICKSDAY_THEME -> {
+                for (i in 0 until 9) {
+                    memoryCards.add(CardTheme.STPATRICKSDAY_THEME.themeSet[i])
+                }
+            }
+
+            else -> {
+                for (i in 0 until 9)
+                    memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
             }
         }
     }
@@ -142,32 +151,7 @@ class HardFragment : Fragment() {
         }
     }
 
-    private fun initImageViewList(): List<ImageView> {
-        val containerListCards = listOf(
-            binding.card1Fh,
-            binding.card2Fh,
-            binding.card3Fh,
-            binding.card4Fh,
-            binding.card5Fh,
-            binding.card6Fh,
-            binding.card7Fh,
-            binding.card8Fh,
-            binding.card9Fh,
-            binding.card10Fh,
-            binding.card11Fh,
-            binding.card12Fh,
-            binding.card13Fh,
-            binding.card14Fh,
-            binding.card15Fh,
-            binding.card16Fh,
-            binding.card17Fh,
-            binding.card18Fh
-        )
-        return containerListCards
-    }
-
     private fun gamePlay(containerListCards: List<ImageView>) {
-
 
         for (imageView in containerListCards) {
             imageView.setOnClickListener { view ->
@@ -200,9 +184,6 @@ class HardFragment : Fragment() {
                     }
                 }
 
-
-
-                //the Object stored in this view as a tag
                 gameViewModel.currentCard.value = view.tag as CardManager
 
                 gameViewModel.currentCard.value?.let { currentCard ->
@@ -220,7 +201,7 @@ class HardFragment : Fragment() {
                     gameViewModel.increaseMoves()
 
                     gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
-                        binding.tvMovesFh.text = "Moves : \n $moves"
+                        binding.tvMovesFh.text = getString(R.string.moves, moves)
                     }
 
                     val turnedCard = gameViewModel.turnedCard.value
@@ -244,7 +225,6 @@ class HardFragment : Fragment() {
                             }
                         }
 
-
                     } else {
                         isBusy = true
                         currentCard.containerId.postDelayed(
@@ -265,6 +245,30 @@ class HardFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun initImageViewList(): List<ImageView> {
+        val containerListCards = listOf(
+            binding.card1Fh,
+            binding.card2Fh,
+            binding.card3Fh,
+            binding.card4Fh,
+            binding.card5Fh,
+            binding.card6Fh,
+            binding.card7Fh,
+            binding.card8Fh,
+            binding.card9Fh,
+            binding.card10Fh,
+            binding.card11Fh,
+            binding.card12Fh,
+            binding.card13Fh,
+            binding.card14Fh,
+            binding.card15Fh,
+            binding.card16Fh,
+            binding.card17Fh,
+            binding.card18Fh
+        )
+        return containerListCards
     }
 
     private fun initShuffleCardList(): ArrayList<Int> {
@@ -289,9 +293,7 @@ class HardFragment : Fragment() {
                 containerId = imageViewId,
                 cardId = memoryImageId
             )
-            //Sets the tag associated with this view. A tag can be used to mark a view in its hierarchy
-            // and does not have to be unique within the hierarchy.
-            // Tags can also be used to store data within a view without resorting to another data structure
+
             imageViewId.tag = cardInfo
         }
     }
@@ -310,7 +312,7 @@ class HardFragment : Fragment() {
     fun updateTimer() {
         val minutes = gameViewModel.timerCount.value?.div(60)
         val seconds = gameViewModel.timerCount.value?.rem(60)
-        binding.tvTimeFh.text = "Time : \n $minutes : $seconds"
+        binding.tvTimeFh.text = getString(R.string.time, minutes, seconds)
     }
 
     fun stopTimer() {

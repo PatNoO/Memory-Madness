@@ -13,8 +13,8 @@
     <string name="you_beat_the_game">You beat the game !</string>
     <string name="stats">Stats :</string>
     <string name="home_menu">⏎ Home menu</string>
-    <string name="time">Time :</string>
-    <string name="moves">Moves :</string>
+    <string name="time">Time \n%1$d : %2$d</string>
+    <string name="moves">Moves \n%1$d</string>
     <string name="play_again">Play Again</string>
     <string name="halloween">🎃HALLOWEEN🎃</string>
     <string name="christmas">🎄CHRISTMAS🎄</string>
