@@ -104,19 +104,25 @@ class WinFragment : Fragment() {
     }
 
     private fun saveScoreButton() {
+        var clickCount = 0
         binding.btnSaveScoreFw.setOnClickListener {
-            playersList = loadPrefsScore(requireContext())
+            clickCount++
+            when (clickCount) {
+                1 -> {
+                    playersList = loadPrefsScore(requireContext())
 
-            playerViewModel.player.let { player ->
-                val name = player.value?.name
-                val difficulty = player.value?.difficulty
-                val pauseHelp = player.value?.pauseChoice
-                val time = player.value?.time
-                val moves = player.value?.moves
-                val theme = player.value?.theme
-                playersList.add(Player(name, difficulty, pauseHelp, time, moves, theme))
+                    playerViewModel.player.let { player ->
+                        val name = player.value?.name
+                        val difficulty = player.value?.difficulty
+                        val pauseHelp = player.value?.pauseChoice
+                        val time = player.value?.time
+                        val moves = player.value?.moves
+                        val theme = player.value?.theme
+                        playersList.add(Player(name, difficulty, pauseHelp, time, moves, theme))
 
-                savedPrefsScore(requireContext(), playersList)
+                        savedPrefsScore(requireContext(), playersList)
+                    }
+                }
 
 
             }
