@@ -7,7 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.activitys.enum_class.CardTheme
+import com.example.memory_madness.enum_class.CardTheme
 import com.example.memory_madness.fragments.game_play.EasyFragment
 import com.example.memory_madness.fragments.game_play.HardFragment
 import com.example.memory_madness.fragments.game_play.MediumFragment

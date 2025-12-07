@@ -10,7 +10,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.memory_madness.activitys.enum_class.CardTheme
+import com.example.memory_madness.enum_class.CardTheme
 import com.example.memory_madness.data_class.CardManager
 import com.example.memory_madness.fragments.HomeMenuFragment
 import com.example.memory_madness.fragments.WinFragment

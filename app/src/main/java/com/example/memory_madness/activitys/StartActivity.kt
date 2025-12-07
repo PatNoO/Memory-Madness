@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.activitys.enum_class.CardTheme
+import com.example.memory_madness.enum_class.CardTheme
 import com.example.memory_madness.data_class.Player
 import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R

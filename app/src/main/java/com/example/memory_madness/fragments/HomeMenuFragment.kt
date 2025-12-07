@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.activitys.enum_class.CardTheme
+import com.example.memory_madness.enum_class.CardTheme
 import com.example.memory_madness.fragments.game_play.EasyFragment
 import com.example.memory_madness.fragments.game_play.HardFragment
 import com.example.memory_madness.fragments.game_play.MediumFragment

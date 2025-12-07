@@ -3,7 +3,7 @@ package com.example.memory_madness.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.memory_madness.activitys.enum_class.CardTheme
+import com.example.memory_madness.enum_class.CardTheme
 import com.example.memory_madness.data_class.Player
 
 class PlayerViewModel : ViewModel() {
