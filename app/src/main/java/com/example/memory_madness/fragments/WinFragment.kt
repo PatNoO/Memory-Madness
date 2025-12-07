@@ -15,6 +15,7 @@ import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.utility.loadPrefsScore
 import com.example.memory_madness.databinding.FragmentWinBinding
+import com.example.memory_madness.enum_class.CardTheme
 import com.example.memory_madness.utility.savedPrefsScore
 
 class WinFragment : Fragment() {
@@ -45,6 +46,8 @@ class WinFragment : Fragment() {
 
         showWinScore()
 
+        showsCurrentTheme()
+
         saveScoreButton()
 
         highScoreButton()
@@ -52,6 +55,32 @@ class WinFragment : Fragment() {
         playAgainButton()
 
         homeMenuButton()
+    }
+
+    private fun showsCurrentTheme() {
+        playerViewModel.player.observe(viewLifecycleOwner) {
+            binding.cardThemeFw.setImageResource(playerViewModel.player.value?.theme!!.themeSet[1])
+
+            when (playerViewModel.player.value?.theme) {
+                CardTheme.HALLOWEEN_THEME -> {
+                    binding.tvThemeFw.text = getString(R.string.halloween)
+                }
+
+                CardTheme.CHRISTMAS_THEME -> {
+                    binding.tvThemeFw.text = getString(R.string.christmas)
+                }
+
+                CardTheme.EASTER_THEME -> {
+                    binding.tvThemeFw.text = getString(R.string.easter)
+                }
+
+                CardTheme.STPATRICKSDAY_THEME -> {
+                    binding.tvThemeFw.text = getString(R.string.st_patrick_s_day)
+                }
+
+                else -> {}
+            }
+        }
     }
 
     private fun showWinScore() {
