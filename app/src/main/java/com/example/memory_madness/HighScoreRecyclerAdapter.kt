@@ -28,10 +28,10 @@ class HighScoreRecyclerAdapter(private var players: List<Player>) :
         val seconds = player.time?.rem(60)
 
         holder.binding.tvPlayerName.text = "${player.name}"
-        holder.binding.tvDifficulty.text = "Difficulty : ${player.difficulty}"
-        holder.binding.tvPause.text = "Pause help : ${player.pauseChoice}"
-        holder.binding.tvTimeLeft.text = "Time Left : $minutes : $seconds"
-        holder.binding.tvMoves.text = "Moves : ${player.moves}"
+        holder.binding.tvDifficulty.text = holder.itemView.context.getString(R.string.difficulty_highscore, player.difficulty)
+        holder.binding.tvPause.text = holder.itemView.context.getString(R.string.pause_help_highscore, player.pauseChoice)
+        holder.binding.tvTimeLeft.text = holder.itemView.context.getString(R.string.time_left_highscore, minutes, seconds)
+        holder.binding.tvMoves.text = holder.itemView.context.getString(R.string.moves_highscore, player.moves)
     }
 
     override fun getItemCount(): Int {

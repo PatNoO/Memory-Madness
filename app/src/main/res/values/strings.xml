@@ -20,6 +20,8 @@
     <string name="christmas">🎄CHRISTMAS🎄</string>
     <string name="easter">🐣EASTER🐣</string>
     <string name="st_patrick_s_day">☘️ST,PATRICK\'S DAY☘️</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="difficulty_highscore">Difficulty : %1$s</string>
+    <string name="pause_help_highscore">Pause help : %1$s</string>
+    <string name="time_left_highscore">Time Left : %1$d : %2$d</string>
+    <string name="moves_highscore">Moves : %1$d</string>
 </resources>
