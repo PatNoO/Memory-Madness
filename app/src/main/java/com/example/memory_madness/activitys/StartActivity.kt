@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.util.rangeTo
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.enum_class.CardTheme
 import com.example.memory_madness.data_class.Player
@@ -166,7 +167,12 @@ class StartActivity : AppCompatActivity() {
      * initiates or creates the spinner with different difficulty choices
      */
     private fun spinner() {
-        val difficulty = listOf("Choose Difficulty", "easy", "medium", "hard")
+        val difficulty = listOf(
+            getString(R.string.choose_difficulty),
+            getString(R.string.easy),
+            getString(R.string.medium),
+            getString(R.string.hard)
+        )
 
         val adapter = ArrayAdapter(this, R.layout.spinner_text, difficulty)
         adapter.setDropDownViewResource(R.layout.spinner_dropdown)
