@@ -56,7 +56,7 @@
                 android:textColor="@color/primary_red"
                 android:textSize="18sp"
                 app:cornerRadius="4dp"
-                app:layout_constraintBottom_toTopOf="@+id/lv_high_score_fhs"
+                app:layout_constraintBottom_toTopOf="@+id/rv_high_score_fhs"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_win_head1_fhs"
@@ -74,7 +74,7 @@
                 android:textColor="@color/primary_red"
                 android:textSize="18sp"
                 app:cornerRadius="4dp"
-                app:layout_constraintBottom_toTopOf="@+id/lv_high_score_fhs"
+                app:layout_constraintBottom_toTopOf="@+id/rv_high_score_fhs"
                 app:layout_constraintEnd_toStartOf="@+id/btn_show_hard_fsh"
                 app:layout_constraintStart_toEndOf="@+id/btn_show_easy_fsh"
                 app:layout_constraintTop_toBottomOf="@+id/tv_win_head1_fhs"
@@ -93,27 +93,43 @@
                 android:textColor="@color/primary_red"
                 android:textSize="18sp"
                 app:cornerRadius="4dp"
-                app:layout_constraintBottom_toTopOf="@+id/lv_high_score_fhs"
+                app:layout_constraintBottom_toTopOf="@+id/rv_high_score_fhs"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_win_head1_fhs"
                 app:layout_constraintVertical_bias="0.525"
                 app:strokeColor="@color/primary_red"
                 app:strokeWidth="2dp" />
 
-            <ListView
-                android:id="@+id/lv_high_score_fhs"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="88dp"
-                android:layout_marginBottom="10dp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@+id/btn_play_again_fsh"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_win_head1_fhs"
-                app:layout_constraintVertical_bias="0.0" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_high_score_fhs"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/btn_play_again_fsh"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_show_medium_fsh"
+                    tools:listitem="@layout/list_high_score_item"
+                    tools:itemCount="4"/>
+
+
+
+
+<!--            <ListView-->
+<!--                android:id="@+id/lv_high_score_fhs"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_marginTop="88dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/black"-->
+<!--                app:layout_constraintBottom_toTopOf="@+id/btn_play_again_fsh"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="1.0"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/tv_win_head1_fhs"-->
+<!--                app:layout_constraintVertical_bias="0.0" />-->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_play_again_fsh"
