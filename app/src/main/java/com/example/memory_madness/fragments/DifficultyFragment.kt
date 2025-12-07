@@ -33,19 +33,28 @@ class DifficultyFragment : Fragment() {
     ): View {
         binding = FragmentDifficultyBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // observes so that difficulty text shows correct text for player
         playerViewModel.player.observe(viewLifecycleOwner) { (_, difficulty) ->
-            binding.tvDifficultyCurrentFd.text = difficulty
+            when (difficulty) {
+                "easy" -> {
+                    binding.tvDifficultyCurrentFd.text = getString(R.string.easy)
+                }
+                "medium" -> {
+                    binding.tvDifficultyCurrentFd.text = getString(R.string.medium)
+                }
+                "hard" -> {
+                    binding.tvDifficultyCurrentFd.text = getString(R.string.hard)
+                }
+            }
         }
 
-
         /**
-         * Player sets difficulty yo Easy
+         * Player sets difficulty to Easy
          */
         binding.btnEasyFd.setOnClickListener {
             player.difficulty = "easy"
@@ -59,7 +68,7 @@ class DifficultyFragment : Fragment() {
             }
         }
         /**
-         * Player sets difficulty yo Medium
+         * Player sets difficulty to Medium
          */
         binding.btnMediumFd.setOnClickListener {
             player.difficulty = "medium"
@@ -71,10 +80,9 @@ class DifficultyFragment : Fragment() {
                     commit()
                 }
             }
-
         }
         /**
-         * Player sets difficulty yo Hard
+         * Player sets difficulty to Hard
          */
         binding.btnHardFd.setOnClickListener {
             player.difficulty = "hard"
@@ -86,7 +94,6 @@ class DifficultyFragment : Fragment() {
                     commit()
                 }
             }
-
         }
         /**
          * Player goes back to home menu fragment
@@ -97,7 +104,5 @@ class DifficultyFragment : Fragment() {
                 commit()
             }
         }
-
     }
-
 }

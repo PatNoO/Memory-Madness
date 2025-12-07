@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                     playerViewModel.enablePause(player)
                 }
 
+                // starts Game
                 startGamePlay()
             }
         }
@@ -50,23 +51,34 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Starts Start Activity
         initStartActivity()
-
-
     }
 
+    /**
+     * Starts Game
+     * Checks difficulty so correct Game Starts
+     */
     private fun startGamePlay() {
-        if (playerViewModel.player.value?.difficulty == "easy") {
-            startEasyGame()
-        } else if (playerViewModel.player.value?.difficulty == "medium") {
-            startMediumGame()
-        } else if (playerViewModel.player.value?.difficulty == "hard") {
-            startHardGame()
-        } else {
-            startEasyGame()
+        when (playerViewModel.player.value?.difficulty) {
+            "easy" -> {
+                startEasyGame()
+            }
+            "medium" -> {
+                startMediumGame()
+            }
+            "hard" -> {
+                startHardGame()
+            }
+            else -> {
+                startEasyGame()
+            }
         }
     }
 
+    /**
+     * Starts Game level HARD
+     */
     fun startHardGame() {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fcv_game_plan_am, HardFragment())
@@ -74,6 +86,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Starts Game level MEDIUM
+     */
     fun startMediumGame() {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fcv_game_plan_am, MediumFragment())
