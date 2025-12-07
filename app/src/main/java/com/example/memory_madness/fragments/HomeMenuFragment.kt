@@ -2,6 +2,7 @@ package com.example.memory_madness.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -85,9 +86,14 @@ class HomeMenuFragment : Fragment() {
      */
     private fun changeNameButton() {
         binding.btnEnterNameFhm.setOnClickListener {
-            playerViewModel.changeName(binding.etChangeNameFhm.text.toString())
-
+            if (binding.etChangeNameFhm.text.isNullOrEmpty()){
+                return@setOnClickListener
+            }else {
+                playerViewModel.changeName(binding.etChangeNameFhm.text.toString())
+                Log.i("!!!", "${playerViewModel.player.value}")
+            }
         }
+
     }
 
     /**
