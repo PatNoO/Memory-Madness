@@ -142,12 +142,14 @@ class EasyFragment : Fragment() {
 
     /**
      * Player Home menu button
+     * Resets GameViewModel values
      */
     private fun homeMenuButton() {
         binding.btnHomeMenuFe.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
             gameViewModel.resetCardPairCount()
+            gameViewModel.turnedCard.value = null
             stopTimer()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, HomeMenuFragment())
@@ -220,6 +222,7 @@ class EasyFragment : Fragment() {
                     if (timerCount == 0) {
                         stopTimer()
                         loseBusy = true
+                        timerJob = null
                         binding.tvLoseFe.isInvisible = false
                         binding.btnPlayAgainFe.isInvisible = false
                         binding.btnPlayAgainFe.setOnClickListener {

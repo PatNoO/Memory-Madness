@@ -60,7 +60,7 @@ class DifficultyFragment : Fragment() {
             player.difficulty = "easy"
             playerViewModel.setDifficulty(player)
             lifecycleScope.launch {
-                delay(800)
+                delay(400)
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                     commit()
@@ -74,7 +74,7 @@ class DifficultyFragment : Fragment() {
             player.difficulty = "medium"
             playerViewModel.setDifficulty(player)
             lifecycleScope.launch {
-                delay(800)
+                delay(400)
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                     commit()
@@ -88,7 +88,7 @@ class DifficultyFragment : Fragment() {
             player.difficulty = "hard"
             playerViewModel.setDifficulty(player)
             lifecycleScope.launch {
-                delay(800)
+                delay(400)
                 parentFragmentManager.beginTransaction().apply {
                     replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                     commit()

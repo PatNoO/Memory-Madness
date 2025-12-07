@@ -81,6 +81,7 @@ class MediumFragment : Fragment() {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
             gameViewModel.resetCardPairCount()
+            gameViewModel.turnedCard.value = null
             stopTimer()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, HomeMenuFragment())
@@ -173,6 +174,7 @@ class MediumFragment : Fragment() {
                     if (timerCount == 0) {
                         stopTimer()
                         loseBusy = true
+                        timerJob = null
                         binding.tvLoseFm.isInvisible = false
                         binding.btnPlayAgainFm.isInvisible = false
                         binding.btnPlayAgainFm.setOnClickListener {
