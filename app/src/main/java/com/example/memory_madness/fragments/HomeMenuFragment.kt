@@ -34,6 +34,9 @@ class HomeMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        playerViewModel.player.observe(viewLifecycleOwner) { (_, difficulty ) ->
+            binding.tvDifficultyFhm.text = getString(R.string.difficulty_home_menu, difficulty)
+        }
 
 
         changeNameButton()

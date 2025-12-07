@@ -35,4 +35,5 @@
     <string name="save">Spara</string>
     <string name="end_game">Avsluta Spel</string>
     <string name="save_score">Spara Poäng</string>
+    <string name="difficulty_home_menu">Svårighetsgrad\n %1$s</string>
 </resources>

@@ -145,6 +145,22 @@
                 app:strokeColor="@color/primary_red"
                 app:strokeWidth="2dp" />
 
+
+            <TextView
+                android:id="@+id/tv_difficulty_fhm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/kranky"
+                android:hint="@string/difficulty"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/btn_change_theme_fhm"
+                app:layout_constraintEnd_toEndOf="@+id/btn_change_theme_fhm"
+                app:layout_constraintStart_toStartOf="@+id/btn_change_theme_fhm"
+                app:layout_constraintTop_toBottomOf="@+id/btn_high_score_fhm" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_change_theme_fhm"
                 android:layout_width="wrap_content"
