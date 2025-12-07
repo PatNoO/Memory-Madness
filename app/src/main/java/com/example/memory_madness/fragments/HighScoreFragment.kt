@@ -19,8 +19,8 @@ import com.example.memory_madness.utility.loadPrefsScore
 
 
 class HighScoreFragment : Fragment() {
-//    lateinit var adapter: ArrayAdapter<String>
-    private lateinit var adapter : HighScoreRecyclerAdapter
+
+    private lateinit var adapter: HighScoreRecyclerAdapter
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: FragmentHightScoreBinding
     private var playersList = mutableListOf<Player>()
@@ -44,34 +44,47 @@ class HighScoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initHighScoreList()
 
+        initAdapter()
 
-        playersList = loadPrefsScore(requireContext())
+        showChosenHighScoreListButtons()
 
-        playersList.sortBy { it.moves }
+        playAgainButton()
 
-        showHighScoreList()
+        homeMenuButton()
+    }
 
+    /**
+     * initiates Adapter
+     * sets default adapter to highScoreEasy
+     */
+    private fun initAdapter() {
         adapter = HighScoreRecyclerAdapter(highScoreListEasy)
         binding.rvHighScoreFhs.layoutManager = LinearLayoutManager(requireContext())
         binding.rvHighScoreFhs.adapter = adapter
+    }
 
-
-
-
-
+    /**
+     * Buttons to show Easy Medium or Hard HighScore List
+     */
+    private fun showChosenHighScoreListButtons() {
         binding.btnShowEasyFsh.setOnClickListener {
             adapter.updateList(highScoreListEasy)
         }
-
         binding.btnShowMediumFsh.setOnClickListener {
             adapter.updateList(highScoreListMedium)
         }
-
         binding.btnShowHardFsh.setOnClickListener {
             adapter.updateList(highScoreListHard)
         }
+    }
 
+    /**
+     * Player Plays again
+     * Checks player difficulty
+     */
+    private fun playAgainButton() {
         binding.btnPlayAgainFsh.setOnClickListener {
             when (playerViewModel.player.value?.difficulty) {
                 "easy" -> {
@@ -101,98 +114,33 @@ class HighScoreFragment : Fragment() {
                 }
             }
         }
+    }
 
+    /**
+     * Player goes to HomeMenu
+     */
+    private fun homeMenuButton() {
         binding.btnHomeFsh.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                 commit()
             }
         }
-
-
     }
 
-    fun showHighScoreList () {
-        for (player in playersList){
-            when (player.difficulty){
+    /**
+     * Initiates the list with correct score from Player difficulty
+     */
+    fun initHighScoreList() {
+        playersList = loadPrefsScore(requireContext())
+        playersList.sortBy { it.moves }
+        for (player in playersList) {
+            when (player.difficulty) {
                 "easy" -> highScoreListEasy.add(player)
                 "medium" -> highScoreListMedium.add(player)
                 "hard" -> highScoreListHard.add(player)
             }
         }
     }
-
-//    private fun adapterEasy(): ArrayAdapter<String> {
-//        adapter = ArrayAdapter<String>(
-//            requireContext(),
-//            R.layout.simple_list_black_text,
-//            highScoreListEasy
-//        )
-//        adapter.notifyDataSetChanged()
-//
-//        return adapter
-//    }
-//
-//    private fun adapterMedium(): ArrayAdapter<String> {
-//        adapter = ArrayAdapter<String>(
-//            requireContext(),
-//            R.layout.simple_list_black_text,
-//            highScoreListMedium
-//        )
-//        adapter.notifyDataSetChanged()
-//
-//        return adapter
-//    }
-//
-//    private fun adapterHard(): ArrayAdapter<String> {
-//        adapter = ArrayAdapter<String>(
-//            requireContext(),
-//            R.layout.simple_list_black_text,
-//            highScoreListHard
-//        )
-//        adapter.notifyDataSetChanged()
-//
-//        return adapter
-//    }
-
-//    fun showHighScoreList() {
-//
-//        for (player in playersList) {
-//            if (player.difficulty == "easy") {
-//                val minutes = player.time?.div(60)
-//                val seconds = player.time?.rem(60)
-//
-//                highScoreListEasy.add(
-//                    "Name : ${player.name}\n" +
-//                            "Difficulty : ${player.difficulty}\n" +
-//                            "Pause help : ${player.pauseChoice}\n" +
-//                            "Time Left : $minutes : $seconds\n" +
-//                            "Moves : ${player.moves}"
-//                )
-//            } else if (player.difficulty == "medium") {
-//                val minutes = player.time?.div(60)
-//                val seconds = player.time?.rem(60)
-//
-//                highScoreListMedium.add(
-//                    "Name : ${player.name}\n" +
-//                            "Difficulty : ${player.difficulty}\n" +
-//                            "Pause help : ${player.pauseChoice}\n" +
-//                            "Time Left : $minutes : $seconds\n" +
-//                            "Moves : ${player.moves}"
-//                )
-//            } else if (player.difficulty == "hard") {
-//                val minutes = player.time?.div(60)
-//                val seconds = player.time?.rem(60)
-//
-//                highScoreListHard.add(
-//                    "Name : ${player.name}\n" +
-//                            "Difficulty : ${player.difficulty}\n" +
-//                            "Pause help : ${player.pauseChoice}\n" +
-//                            "Time Left : $minutes : $seconds\n" +
-//                            "Moves : ${player.moves}"
-//                )
-//            }
-//        }
-//    }
 
 }
