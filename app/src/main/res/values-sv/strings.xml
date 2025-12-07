@@ -21,10 +21,10 @@
     <string name="christmas">🎄JUL🎄</string>
     <string name="easter">🐣PÅSK🐣</string>
     <string name="st_patrick_s_day">☘️ST,PATRICK\'S DAY☘️</string>
-    <string name="difficulty_highscore">Svårighetsgrad : %1$s</string>
-    <string name="pause_help_highscore">Paus hjälp : %1$s</string>
-    <string name="time_left_highscore">Tid kvar : %1$d : %2$d</string>
-    <string name="moves_highscore">Drag : %1$d</string>
+    <string name="difficulty_highscore">Svårighetsgrad\n%1$s</string>
+    <string name="pause_help_highscore">Paus hjälp\n%1$s</string>
+    <string name="time_left_highscore">Tid kvar\n%1$d : %2$d</string>
+    <string name="moves_highscore">Drag\n%1$d</string>
     <string name="score">Poäng</string>
     <string name="enable_pause">Aktivera\nPaus</string>
     <string name="theme">Teman</string>
