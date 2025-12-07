@@ -235,11 +235,11 @@ class HardFragment : Fragment() {
                                 currentCard.isFlipped = false
                                 turnedCard.isFlipped = false
                                 currentCard.containerId.setImageResource(R.drawable.card_backround)
-
+                                isBusy = false
                                 gameViewModel.turnedCard.value = null
                             }, 500
                         )
-                        isBusy = false
+
                     }
 
                 }
