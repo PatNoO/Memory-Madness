@@ -40,4 +40,5 @@
     <string name="score_saved">Poäng sparat</string>
     <string name="cancel">Avbryt</string>
     <string name="would_you_like_to_close_the_game">%1$s\nVill du stänga spelet ?</string>
+    <string name="new_player_name_saved">Nya spelarens namn : %1$s sparat</string>
 </resources>

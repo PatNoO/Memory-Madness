@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.memory_madness.enum_class.CardTheme
 import com.example.memory_madness.fragments.game_play.EasyFragment
@@ -90,6 +91,11 @@ class HomeMenuFragment : Fragment() {
                 return@setOnClickListener
             }else {
                 playerViewModel.changeName(binding.etChangeNameFhm.text.toString())
+                Toast.makeText(requireContext(),
+                    getString(
+                        R.string.new_player_name_saved,
+                        playerViewModel.player.value?.name.toString()
+                    ), Toast.LENGTH_SHORT).show()
                 Log.i("!!!", "${playerViewModel.player.value}")
             }
         }

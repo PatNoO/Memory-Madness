@@ -39,4 +39,5 @@
     <string name="score_saved">Score saved</string>
     <string name="cancel">Cancel</string>
     <string name="would_you_like_to_close_the_game">%1$s\nwould you like to close the game ?</string>
+    <string name="new_player_name_saved">New player name : %1$s saved</string>
 </resources>
