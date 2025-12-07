@@ -26,4 +26,13 @@
     <string name="time_left_highscore">Tid kvar : %1$d : %2$d</string>
     <string name="moves_highscore">Drag : %1$d</string>
     <string name="score">Poäng</string>
+    <string name="enable_pause">Aktivera\nPaus</string>
+    <string name="theme">Teman</string>
+    <string name="you_lose">Du Förlorade !</string>
+    <string name="pause">Paus</string>
+    <string name="highscore">ToppResultat 📜</string>
+    <string name="memory_madness_n_menu">Memory Madness \n Meny</string>
+    <string name="save">Spara</string>
+    <string name="end_game">Avsluta Spel</string>
+    <string name="save_score">Spara Poäng</string>
 </resources>

@@ -49,7 +49,7 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/kranky"
-                android:text="@string/choose_difficulty"
+                android:hint="@string/difficulty"
                 android:textAlignment="center"
                 android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"
