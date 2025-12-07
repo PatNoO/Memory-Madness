@@ -1,5 +1,6 @@
 package com.example.memory_madness.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,7 +35,7 @@ class HomeMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        playerViewModel.player.observe(viewLifecycleOwner) { (_, difficulty ) ->
+        playerViewModel.player.observe(viewLifecycleOwner) { (_, difficulty) ->
             binding.tvDifficultyFhm.text = getString(R.string.difficulty_home_menu, difficulty)
         }
 
@@ -220,7 +221,21 @@ class HomeMenuFragment : Fragment() {
      */
     private fun endGameButton() {
         binding.btnEndgameFhm.setOnClickListener {
-            requireActivity().finish()
+            showEndGameDialog()
+        }
+    }
+
+    fun showEndGameDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(R.string.close_game)
+            setMessage(
+                getString(
+                    R.string.would_you_like_to_close_the_game,
+                    playerViewModel.player.value?.name.toString()
+                ))
+            setPositiveButton(R.string.close_game) { a, b ->
+                requireActivity().finish()
+            }.setNegativeButton(getString(R.string.cancel), null).show()
         }
     }
 

@@ -33,7 +33,11 @@
     <string name="highscore">Resultat 📜</string>
     <string name="memory_madness_n_menu">Memory Madness \n Meny</string>
     <string name="save">Spara</string>
-    <string name="end_game">Avsluta Spel</string>
+    <string name="close_game">Stäng Spel</string>
     <string name="save_score">Spara Poäng</string>
     <string name="difficulty_home_menu">Svårighetsgrad\n %1$s</string>
+    <string name="field_cannot_be_empty">Fält får ej vara tomt</string>
+    <string name="score_saved">Poäng sparat</string>
+    <string name="cancel">Avbryt</string>
+    <string name="would_you_like_to_close_the_game">%1$s\nVill du stänga spelet ?</string>
 </resources>

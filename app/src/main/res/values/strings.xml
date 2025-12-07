@@ -32,7 +32,11 @@
     <string name="highscore">HighScore 📜</string>
     <string name="memory_madness_n_menu">Memory Madness \n Menu</string>
     <string name="save">Save</string>
-    <string name="end_game">End Game</string>
+    <string name="close_game">Close Game</string>
     <string name="save_score">Save Score</string>
     <string name="difficulty_home_menu">Difficulty\n %1$s</string>
+    <string name="field_cannot_be_empty">Field Cannot be empty</string>
+    <string name="score_saved">Score saved</string>
+    <string name="cancel">Cancel</string>
+    <string name="would_you_like_to_close_the_game">%1$s\nwould you like to close the game ?</string>
 </resources>

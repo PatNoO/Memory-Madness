@@ -204,7 +204,7 @@ class StartActivity : AppCompatActivity() {
         binding.btnStartAs.setOnClickListener {
 
             if (binding.etInputNameAs.text.isNullOrEmpty()) {
-                Toast.makeText(this, "Field Cannot be empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.field_cannot_be_empty), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
