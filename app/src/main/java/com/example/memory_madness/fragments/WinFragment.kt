@@ -24,6 +24,12 @@ class WinFragment : Fragment() {
     private lateinit var binding: FragmentWinBinding
     private var playersList = mutableListOf<Player>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
+        gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,8 +42,6 @@ class WinFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
-        gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
 
         showWinScore()
 
