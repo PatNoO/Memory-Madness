@@ -34,6 +34,7 @@ class EasyFragment : Fragment() {
     private var timerJob: Job? = null
     private var isBusy = false
     private var loseBusy = false
+    private var pauseBusy = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,21 +113,25 @@ class EasyFragment : Fragment() {
                     memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
                 }
             }
+
             CardTheme.CHRISTMAS_THEME -> {
                 for (i in 0 until 3) {
                     memoryCards.add(CardTheme.CHRISTMAS_THEME.themeSet[i])
                 }
             }
+
             CardTheme.EASTER_THEME -> {
                 for (i in 0 until 3) {
                     memoryCards.add(CardTheme.EASTER_THEME.themeSet[i])
                 }
             }
+
             CardTheme.STPATRICKSDAY_THEME -> {
                 for (i in 0 until 3) {
                     memoryCards.add(CardTheme.STPATRICKSDAY_THEME.themeSet[i])
                 }
             }
+
             else -> {
                 for (i in 0 until 3) {
                     memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
@@ -156,27 +161,24 @@ class EasyFragment : Fragment() {
      *  if pause is On/Activated then it will pause the game on players command
      */
     private fun enablePauseButton() {
-        if (playerViewModel.player.value?.pauseChoice == "on") {
+
+        if (playerViewModel.player.value?.pauseChoice == "on")
             binding.switchPauseFe.setOnCheckedChangeListener { _, isChecked ->
+                if (timerJob == null) {
+                    binding.switchPauseFe.isChecked = false
+                    return@setOnCheckedChangeListener
+                }
                 if (isChecked) {
-                    val savedTime = gameViewModel.timerCount.value
+                    val savedTime = gameViewModel.timerCount.value ?: 20
                     stopTimer()
                     gameViewModel.setCountTime(savedTime)
-                    isBusy = true
+                    pauseBusy = true
                 } else {
-                    if (gameViewModel.timerCount.value == null ){
-                        timerJob = null
-                        isBusy= false
-                    } else {
-                        isBusy = false
-                        startTimer()
-                    }
-
+                    pauseBusy = false
+                    startTimer()
                 }
             }
-        }
     }
-
 
 
     /**
@@ -199,108 +201,107 @@ class EasyFragment : Fragment() {
 
         // Loop through all card ImageViews and add click listener
         for (imageView in containerListCards) {
-                imageView.setOnClickListener { view ->
+            imageView.setOnClickListener { view ->
 
-                    // if 2 card is flipped player cant click for a delay time
-                    // and if times is up (lose) then player can only press play again or home menu
-                    if (isBusy || loseBusy) {
+                // if 2 card is flipped player cant click for a delay time
+                // and if times is up (lose) then player can only press play again or home menu
+                if (isBusy || loseBusy || pauseBusy) {
+                    return@setOnClickListener
+                }
+
+                if (timerJob == null) {
+                    gameViewModel.setCountTime(20)
+                    startTimer()
+                }
+
+                // Times up and Player loses can only click play again and home menu button
+                // Makes lose text and Play again button be seen by the player otherwise it is invisible
+                gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
+                    if (timerCount == 0) {
+                        stopTimer()
+                        loseBusy = true
+                        binding.tvLoseFe.isInvisible = false
+                        binding.btnPlayAgainFe.isInvisible = false
+                        binding.btnPlayAgainFe.setOnClickListener {
+                            loseBusy = false
+                            gameViewModel.resetCardPairCount()
+                            gameViewModel.resetCount()
+                            gameViewModel.resetMoves()
+                            parentFragmentManager.beginTransaction().apply {
+                                replace(R.id.fcv_game_plan_am, EasyFragment())
+                                commit()
+                            }
+                        }
+                    }
+                }
+
+                // Get the clicked card from the ImageView's tag with all the info from CardManager
+                gameViewModel.currentCard.value = view.tag as CardManager
+
+                gameViewModel.currentCard.value?.let { currentCard ->
+
+                    if (currentCard.isFlipped || currentCard.isMatched) return@setOnClickListener
+
+                    //show image
+                    currentCard.containerId.setImageResource(currentCard.cardId)
+                    currentCard.isFlipped = true
+
+                    // Store as first card in pair
+                    if (gameViewModel.turnedCard.value == null) {
+                        gameViewModel.turnedCard.value = currentCard
                         return@setOnClickListener
                     }
 
-                    if (timerJob == null) {
-                        gameViewModel.setCountTime(20)
-                        startTimer()
+                    gameViewModel.increaseMoves()
+
+                    gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
+                        binding.tvMovesFe.text = getString(R.string.moves, moves)
                     }
 
-                    // Times up and Player loses can only click play again and home menu button
-                    // Makes lose text and Play again button be seen by the player otherwise it is invisible
-                    gameViewModel.timerCount.observe(viewLifecycleOwner) { timerCount ->
-                        if (timerCount == 0) {
+                    val turnedCard = gameViewModel.turnedCard.value
+
+                    //     MATCH FOUND
+
+                    if (turnedCard!!.cardId == currentCard.cardId) {
+
+                        currentCard.isMatched = true
+                        turnedCard.isMatched = true
+                        gameViewModel.turnedCard.value = null
+
+                        gameViewModel.increaseCardPairCount()
+
+                        gameViewModel.increaseTimerCount()
+
+                        //   WIN  //
+
+                        if (gameViewModel.cardPairCount.value == memoryCards.size) {
                             stopTimer()
-                            loseBusy = true
-                            binding.tvLoseFe.isInvisible = false
-                            binding.btnPlayAgainFe.isInvisible = false
-                            binding.btnPlayAgainFe.setOnClickListener {
-                                loseBusy = false
-                                gameViewModel.resetCardPairCount()
-                                gameViewModel.resetCount()
-                                gameViewModel.resetMoves()
-                                parentFragmentManager.beginTransaction().apply {
-                                    replace(R.id.fcv_game_plan_am, EasyFragment())
-                                    commit()
-                                }
+                            gameViewModel.resetCardPairCount()
+                            parentFragmentManager.beginTransaction().apply {
+                                replace(R.id.fcv_game_plan_am, WinFragment())
+                                commit()
                             }
                         }
+                        //     NO MATCH FOUND   //
+                    } else {
+                        isBusy = true
+                        currentCard.containerId.postDelayed(
+                            {
+                                turnedCard.containerId.setImageResource(R.drawable.card_backround)
+                                currentCard.containerId.setImageResource(R.drawable.card_backround)
+
+                                currentCard.isFlipped = false
+                                turnedCard.isFlipped = false
+                                gameViewModel.turnedCard.value = null
+                                isBusy = false
+                            }, 500
+                        )
+
                     }
-
-                    // Get the clicked card from the ImageView's tag with all the info from CardManager
-                    gameViewModel.currentCard.value = view.tag as CardManager
-
-                    gameViewModel.currentCard.value?.let { currentCard ->
-
-                        if (currentCard.isFlipped || currentCard.isMatched) return@setOnClickListener
-
-                        //show image
-                        currentCard.containerId.setImageResource(currentCard.cardId)
-                        currentCard.isFlipped = true
-
-                        // Store as first card in pair
-                        if (gameViewModel.turnedCard.value == null) {
-                            gameViewModel.turnedCard.value = currentCard
-                            return@setOnClickListener
-                        }
-
-                        gameViewModel.increaseMoves()
-
-                        gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
-                            binding.tvMovesFe.text = getString(R.string.moves, moves)
-                        }
-
-                        val turnedCard = gameViewModel.turnedCard.value
-
-                        //     MATCH FOUND
-
-                        if (turnedCard!!.cardId == currentCard.cardId) {
-
-                            currentCard.isMatched = true
-                            turnedCard.isMatched = true
-                            gameViewModel.turnedCard.value = null
-
-                            gameViewModel.increaseCardPairCount()
-
-                            gameViewModel.increaseTimerCount()
-
-                            //   WIN  //
-
-                            if (gameViewModel.cardPairCount.value == memoryCards.size) {
-                                stopTimer()
-                                gameViewModel.resetCardPairCount()
-                                parentFragmentManager.beginTransaction().apply {
-                                    replace(R.id.fcv_game_plan_am, WinFragment())
-                                    commit()
-                                }
-                            }
-                            //     NO MATCH FOUND   //
-                        } else {
-                            isBusy = true
-                            currentCard.containerId.postDelayed(
-                                {
-                                    turnedCard.containerId.setImageResource(R.drawable.card_backround)
-                                    currentCard.containerId.setImageResource(R.drawable.card_backround)
-
-                                    currentCard.isFlipped = false
-                                    turnedCard.isFlipped = false
-                                    gameViewModel.turnedCard.value = null
-                                    isBusy = false
-                                }, 500
-                            )
-
-                        }
-                    }
-
-
                 }
 
+
+            }
 
 
         }

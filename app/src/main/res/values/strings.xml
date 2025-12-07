@@ -20,10 +20,10 @@
     <string name="christmas">🎄CHRISTMAS🎄</string>
     <string name="easter">🐣EASTER🐣</string>
     <string name="st_patrick_s_day">☘️ST,PATRICK\'S DAY☘️</string>
-    <string name="difficulty_highscore">Difficulty : %1$s</string>
-    <string name="pause_help_highscore">Pause help : %1$s</string>
-    <string name="time_left_highscore">Time Left : %1$d : %2$d</string>
-    <string name="moves_highscore">Moves : %1$d</string>
+    <string name="difficulty_highscore">Difficulty\n%1$s</string>
+    <string name="pause_help_highscore">Pause help\n%1$s</string>
+    <string name="time_left_highscore">Time Left\n%1$d : %2$d</string>
+    <string name="moves_highscore">Moves\n%1$d</string>
     <string name="score">Score</string>
     <string name="enable_pause">Enable\nPause</string>
     <string name="theme">Theme</string>

@@ -22,7 +22,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-
 class HardFragment : Fragment() {
     private lateinit var binding: FragmentHardBinding
     private lateinit var playerViewModel: PlayerViewModel
@@ -30,6 +29,7 @@ class HardFragment : Fragment() {
     private var timerJob: Job? = null
     private var isBusy = false
     private var loseBusy = false
+    private var pauseBusy = false
     private val memoryCards = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,24 +131,23 @@ class HardFragment : Fragment() {
     }
 
     private fun enablePauseButton() {
-        if (playerViewModel.player.value?.pauseChoice == "on") {
+
+        if (playerViewModel.player.value?.pauseChoice == "on")
             binding.switchPauseFh.setOnCheckedChangeListener { _, isChecked ->
+                if (timerJob == null) {
+                    binding.switchPauseFh.isChecked = false
+                    return@setOnCheckedChangeListener
+                }
                 if (isChecked) {
-                    val savedTime = gameViewModel.timerCount.value
+                    val savedTime = gameViewModel.timerCount.value ?: 20
                     stopTimer()
                     gameViewModel.setCountTime(savedTime)
-                    isBusy = true
+                    pauseBusy = true
                 } else {
-                    if (gameViewModel.timerCount.value == null) {
-                        timerJob = null
-                        isBusy = false
-                    } else {
-                        isBusy = false
-                        startTimer()
-                    }
+                    pauseBusy = false
+                    startTimer()
                 }
             }
-        }
     }
 
     private fun gamePlay(containerListCards: List<ImageView>) {
@@ -156,12 +155,12 @@ class HardFragment : Fragment() {
         for (imageView in containerListCards) {
             imageView.setOnClickListener { view ->
 
-                if (isBusy || loseBusy) {
+                if (isBusy || loseBusy || pauseBusy) {
                     return@setOnClickListener
                 }
 
                 if (timerJob == null) {
-                    gameViewModel.setCountTime(30)
+                    gameViewModel.setCountTime(20)
                     startTimer()
                 }
 

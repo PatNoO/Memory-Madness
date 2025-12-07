@@ -32,6 +32,7 @@ class MediumFragment : Fragment() {
     private var timerJob: Job? = null
     private var isBusy = false
     private var loseBusy = false
+    private var pauseBusy = false
     private val memoryCards = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -135,24 +136,23 @@ class MediumFragment : Fragment() {
     }
 
     private fun enablePauseButton() {
-        if (playerViewModel.player.value?.pauseChoice == "on") {
+
+        if (playerViewModel.player.value?.pauseChoice == "on")
             binding.switchPauseFm.setOnCheckedChangeListener { _, isChecked ->
+                if (timerJob == null) {
+                    binding.switchPauseFm.isChecked = false
+                    return@setOnCheckedChangeListener
+                }
                 if (isChecked) {
-                    val savedTime = gameViewModel.timerCount.value
+                    val savedTime = gameViewModel.timerCount.value ?: 20
                     stopTimer()
                     gameViewModel.setCountTime(savedTime)
-                    isBusy = true
+                    pauseBusy = true
                 } else {
-                    if (gameViewModel.timerCount.value == null) {
-                        timerJob = null
-                        isBusy = false
-                    } else {
-                        isBusy = false
-                        startTimer()
-                    }
+                    pauseBusy = false
+                    startTimer()
                 }
             }
-        }
     }
 
 
@@ -161,7 +161,7 @@ class MediumFragment : Fragment() {
         for (imageViewId in containerListCards) {
             imageViewId.setOnClickListener { view ->
 
-                if (isBusy || loseBusy) {
+                if (isBusy || loseBusy || pauseBusy) {
                     return@setOnClickListener
                 }
 
