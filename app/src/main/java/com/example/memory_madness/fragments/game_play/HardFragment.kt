@@ -61,7 +61,6 @@ class HardFragment : Fragment() {
 
         setCardInfoOnImageView(shuffledMemoryCards, containerListCards)
 
-        // Sets the layout xml backround to all the cards
         for (i in 0 until containerListCards.size) {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
