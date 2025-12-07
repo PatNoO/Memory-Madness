@@ -145,7 +145,7 @@ Save your score and try to climb the leaderboard.
 
 <img width="396" height="879" alt="memory_madness_high_score" src="https://github.com/user-attachments/assets/e62f05c1-1b14-4efa-be8d-e41d82056b4e" />
 
-<img width="396" height="879" alt="memory_madness_win_screen" src="https://github.com/user-attachments/assets/1f0c4462-b902-46f4-99fa-146e185d0ef2" />
+<img width="396" height="879" alt="memory_madness_win_scren" src="https://github.com/user-attachments/assets/b72db24f-4556-4c04-a2fa-972c6ab6dfcf" />
 
 
 ## 💡 Future Improvements
