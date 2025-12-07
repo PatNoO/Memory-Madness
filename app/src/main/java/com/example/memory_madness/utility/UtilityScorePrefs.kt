@@ -1,12 +1,12 @@
-package com.example.memory_madness.Utility
+package com.example.memory_madness.utility
 
 import android.content.Context
-import com.example.memory_madness.DataClass.Player
+import com.example.memory_madness.data_class.Player
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import androidx.core.content.edit
 
-fun savedPrefsScore (context: Context, players : List<Player>){
+fun savedPrefsScore(context: Context, players: List<Player>) {
     val scorePrefs = context.getSharedPreferences("score_prefs", Context.MODE_PRIVATE)
     scorePrefs.edit {
 
@@ -15,10 +15,9 @@ fun savedPrefsScore (context: Context, players : List<Player>){
 
         putString("player_score_key", json)
     }
-
 }
 
-fun loadPrefsScore (context: Context) : MutableList<Player> {
+fun loadPrefsScore(context: Context): MutableList<Player> {
 
     val scorePrefs = context.getSharedPreferences("score_prefs", Context.MODE_PRIVATE)
 
@@ -31,5 +30,4 @@ fun loadPrefsScore (context: Context) : MutableList<Player> {
         e.printStackTrace()
         mutableListOf()
     }
-
 }

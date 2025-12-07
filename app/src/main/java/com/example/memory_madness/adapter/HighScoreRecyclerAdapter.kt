@@ -1,9 +1,10 @@
-package com.example.memory_madness
+package com.example.memory_madness.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.memory_madness.DataClass.Player
+import com.example.memory_madness.data_class.Player
+import com.example.memory_madness.R
 import com.example.memory_madness.databinding.ListHighScoreItemBinding
 
 class HighScoreRecyclerAdapter(private var players: List<Player>) :
@@ -28,10 +29,14 @@ class HighScoreRecyclerAdapter(private var players: List<Player>) :
         val seconds = player.time?.rem(60)
 
         holder.binding.tvPlayerName.text = "${player.name}"
-        holder.binding.tvDifficulty.text = "Difficulty : ${player.difficulty}"
-        holder.binding.tvPause.text = "Pause help : ${player.pauseChoice}"
-        holder.binding.tvTimeLeft.text = "Time Left : $minutes : $seconds"
-        holder.binding.tvMoves.text = "Moves : ${player.moves}"
+        holder.binding.tvDifficulty.text =
+            holder.itemView.context.getString(R.string.difficulty_highscore, player.difficulty)
+        holder.binding.tvPause.text =
+            holder.itemView.context.getString(R.string.pause_help_highscore, player.pauseChoice)
+        holder.binding.tvTimeLeft.text =
+            holder.itemView.context.getString(R.string.time_left_highscore, minutes, seconds)
+        holder.binding.tvMoves.text =
+            holder.itemView.context.getString(R.string.moves_highscore, player.moves)
     }
 
     override fun getItemCount(): Int {

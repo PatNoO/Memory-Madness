@@ -1,4 +1,4 @@
-package com.example.memory_madness.Fragments
+package com.example.memory_madness.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -7,13 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.DataClass.Player
-import com.example.memory_madness.ViewModell.PlayerViewModel
+import androidx.lifecycle.lifecycleScope
+import com.example.memory_madness.data_class.Player
+import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentDifficultyBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class DifficultyFragment : Fragment() {
-    private lateinit var player : Player
+    private lateinit var player: Player
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: FragmentDifficultyBinding
 
@@ -28,51 +31,68 @@ class DifficultyFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDifficultyBinding.inflate(inflater,container,false)
+        binding = FragmentDifficultyBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        playerViewModel.player.observe(viewLifecycleOwner) { (name, difficulty, time, moves) ->
-            binding.tvDifficultyCurrentFd.text = difficulty
+        // observes so that difficulty text shows correct text for player
+        playerViewModel.player.observe(viewLifecycleOwner) { (_, difficulty) ->
+            when (difficulty) {
+                "easy" -> {
+                    binding.tvDifficultyCurrentFd.text = getString(R.string.easy)
+                }
+                "medium" -> {
+                    binding.tvDifficultyCurrentFd.text = getString(R.string.medium)
+                }
+                "hard" -> {
+                    binding.tvDifficultyCurrentFd.text = getString(R.string.hard)
+                }
+            }
         }
 
-
         /**
-         * Player sets difficulty yo Easy
+         * Player sets difficulty to Easy
          */
         binding.btnEasyFd.setOnClickListener {
-              player.difficulty = "easy"
+            player.difficulty = "easy"
             playerViewModel.setDifficulty(player)
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
-                commit()
+            lifecycleScope.launch {
+                delay(400)
+                parentFragmentManager.beginTransaction().apply {
+                    replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                    commit()
+                }
             }
-            Log.i("!!!", "player : ${player}")
         }
         /**
-         * Player sets difficulty yo Medium
+         * Player sets difficulty to Medium
          */
         binding.btnMediumFd.setOnClickListener {
             player.difficulty = "medium"
             playerViewModel.setDifficulty(player)
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
-                commit()
+            lifecycleScope.launch {
+                delay(400)
+                parentFragmentManager.beginTransaction().apply {
+                    replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                    commit()
+                }
             }
         }
         /**
-         * Player sets difficulty yo Hard
+         * Player sets difficulty to Hard
          */
         binding.btnHardFd.setOnClickListener {
             player.difficulty = "hard"
             playerViewModel.setDifficulty(player)
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fcv_game_plan_am, HomeMenuFragment())
-                commit()
+            lifecycleScope.launch {
+                delay(400)
+                parentFragmentManager.beginTransaction().apply {
+                    replace(R.id.fcv_game_plan_am, HomeMenuFragment())
+                    commit()
+                }
             }
         }
         /**
@@ -84,7 +104,5 @@ class DifficultyFragment : Fragment() {
                 commit()
             }
         }
-
     }
-
 }

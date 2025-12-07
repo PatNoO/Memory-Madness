@@ -1,4 +1,4 @@
-package com.example.memory_madness.Activitys
+package com.example.memory_madness.activitys
 
 import android.content.Intent
 import android.os.Build
@@ -9,10 +9,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.util.rangeTo
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.Activitys.EnumClass.CardTheme
-import com.example.memory_madness.DataClass.Player
-import com.example.memory_madness.ViewModell.PlayerViewModel
+import com.example.memory_madness.enum_class.CardTheme
+import com.example.memory_madness.data_class.Player
+import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.ActivityStartBinding
 
@@ -33,17 +34,52 @@ class StartActivity : AppCompatActivity() {
             intent.getSerializableExtra("player") as Player
         })
 
-        playerViewModel.player.observe(this) { (_, difficulty) ->
-            binding.tvCurrentDifficultyAs.text = difficulty
-        }
+        showCurrentDifficulty()
 
+        setDefaultTheme()
 
+        changeThemeButton()
 
+        spinner()
 
+        pauseCheckBoxOnOff()
+
+        startGame()
+
+    }
+
+    /**
+     * Sets default theme "HALLOWEEN_THEME"
+     * Sets imageResource and textView
+     */
+    private fun setDefaultTheme() {
         binding.cardThemeSa.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
         player.theme = CardTheme.HALLOWEEN_THEME
         binding.tvThemeSa.text = getString(R.string.halloween)
+    }
 
+    /**
+     * Show player current difficulty
+     */
+    private fun showCurrentDifficulty() {
+        playerViewModel.player.observe(this) { (_, difficulty) ->
+            when (difficulty) {
+                "easy" -> {
+                    binding.tvCurrentDifficultyAs.text = getString(R.string.easy)
+                }
+
+                "medium" -> {
+                    binding.tvCurrentDifficultyAs.text = getString(R.string.medium)
+                }
+
+                "hard" -> {
+                    binding.tvCurrentDifficultyAs.text = getString(R.string.hard)
+                }
+            }
+        }
+    }
+
+    private fun changeThemeButton() {
         var clickCount = 0
 
         binding.btnChangeTheme.setOnClickListener {
@@ -88,22 +124,18 @@ class StartActivity : AppCompatActivity() {
 
             }
         }
-        //                    playerViewModel.setTheme(playerTheme = CardTheme.HALLOWEEN_THEME)
-//                    binding.cardThemeSa.setImageResource(CardTheme.HALLOWEEN_THEME.themeSet[1])
-//                    player.theme = CardTheme.HALLOWEEN_THEME
-//                    binding.tvThemeSa.text = "🎃HALLOWEEN🎃"
-//                    Log.i("!!!", "$player")
+    }
 
-        spinner()
-
+    /**
+     * Let's Player turn pause help on/off
+     */
+    private fun pauseCheckBoxOnOff() {
         binding.checkBoxEnablePauseSa.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 player.pauseChoice = "on"
                 playerViewModel.enablePause(player)
             }
         }
-        startGame()
-
     }
 
     /**
@@ -135,7 +167,12 @@ class StartActivity : AppCompatActivity() {
      * initiates or creates the spinner with different difficulty choices
      */
     private fun spinner() {
-        val difficulty = listOf("Choose Difficulty", "easy", "medium", "hard")
+        val difficulty = listOf(
+            getString(R.string.choose_difficulty),
+            getString(R.string.easy),
+            getString(R.string.medium),
+            getString(R.string.hard)
+        )
 
         val adapter = ArrayAdapter(this, R.layout.spinner_text, difficulty)
         adapter.setDropDownViewResource(R.layout.spinner_dropdown)
@@ -167,7 +204,7 @@ class StartActivity : AppCompatActivity() {
         binding.btnStartAs.setOnClickListener {
 
             if (binding.etInputNameAs.text.isNullOrEmpty()) {
-                Toast.makeText(this, "Field Cannot be empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.field_cannot_be_empty), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 

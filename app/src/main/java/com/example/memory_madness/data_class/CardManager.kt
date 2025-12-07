@@ -1,4 +1,4 @@
-package com.example.memory_madness.DataClass
+package com.example.memory_madness.data_class
 
 import android.widget.ImageView
 

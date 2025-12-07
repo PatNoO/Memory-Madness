@@ -1,4 +1,4 @@
-package com.example.memory_madness.Activitys
+package com.example.memory_madness.activitys
 
 import android.content.Intent
 import android.os.Build
@@ -7,12 +7,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.Activitys.EnumClass.CardTheme
-import com.example.memory_madness.Fragments.game_play.EasyFragment
-import com.example.memory_madness.Fragments.game_play.HardFragment
-import com.example.memory_madness.Fragments.game_play.MediumFragment
-import com.example.memory_madness.DataClass.Player
-import com.example.memory_madness.ViewModell.PlayerViewModel
+import com.example.memory_madness.enum_class.CardTheme
+import com.example.memory_madness.fragments.game_play.EasyFragment
+import com.example.memory_madness.fragments.game_play.HardFragment
+import com.example.memory_madness.fragments.game_play.MediumFragment
+import com.example.memory_madness.data_class.Player
+import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.ActivityMainBinding
 
@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                     playerViewModel.enablePause(player)
                 }
 
+                // starts Game
                 startGamePlay()
             }
         }
@@ -50,23 +51,34 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Starts Start Activity
         initStartActivity()
-
-
     }
 
+    /**
+     * Starts Game
+     * Checks difficulty so correct Game Starts
+     */
     private fun startGamePlay() {
-        if (playerViewModel.player.value?.difficulty == "easy") {
-            startEasyGame()
-        } else if (playerViewModel.player.value?.difficulty == "medium") {
-            startMediumGame()
-        } else if (playerViewModel.player.value?.difficulty == "hard") {
-            startHardGame()
-        } else {
-            startEasyGame()
+        when (playerViewModel.player.value?.difficulty) {
+            "easy" -> {
+                startEasyGame()
+            }
+            "medium" -> {
+                startMediumGame()
+            }
+            "hard" -> {
+                startHardGame()
+            }
+            else -> {
+                startEasyGame()
+            }
         }
     }
 
+    /**
+     * Starts Game level HARD
+     */
     fun startHardGame() {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fcv_game_plan_am, HardFragment())
@@ -74,6 +86,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Starts Game level MEDIUM
+     */
     fun startMediumGame() {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fcv_game_plan_am, MediumFragment())

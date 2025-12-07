@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MemoryMadness">
         <activity
-            android:name=".Activitys.StartActivity"
+            android:name=".activitys.StartActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".Activitys.MainActivity"
+            android:name=".activitys.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>

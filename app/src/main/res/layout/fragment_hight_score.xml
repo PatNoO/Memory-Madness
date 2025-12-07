@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/backround_greyis"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.HighScoreFragment">
+    tools:context=".fragments.HighScoreFragment">
 
 
 
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/kranky"
-                android:text="HighScore 📜"
+                android:text="@string/highscore"
                 android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textSize="32sp"
@@ -52,7 +52,7 @@
                 android:layout_marginStart="4dp"
                 android:backgroundTint="@color/backround_greyis"
                 android:shadowColor="@color/primary_red"
-                android:text="Easy"
+                android:text="@string/easy"
                 android:textColor="@color/primary_red"
                 android:textSize="18sp"
                 app:cornerRadius="4dp"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/backround_greyis"
                 android:shadowColor="@color/primary_red"
-                android:text="Medium"
+                android:text="@string/medium"
                 android:textColor="@color/primary_red"
                 android:textSize="18sp"
                 app:cornerRadius="4dp"
@@ -89,7 +89,7 @@
                 android:layout_marginEnd="4dp"
                 android:backgroundTint="@color/backround_greyis"
                 android:shadowColor="@color/primary_red"
-                android:text="Hard"
+                android:text="@string/hard"
                 android:textColor="@color/primary_red"
                 android:textSize="18sp"
                 app:cornerRadius="4dp"

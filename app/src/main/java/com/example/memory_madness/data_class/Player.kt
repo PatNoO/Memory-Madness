@@ -1,6 +1,6 @@
-package com.example.memory_madness.DataClass
+package com.example.memory_madness.data_class
 
-import com.example.memory_madness.Activitys.EnumClass.CardTheme
+import com.example.memory_madness.enum_class.CardTheme
 import java.io.Serializable
 
 data class Player(

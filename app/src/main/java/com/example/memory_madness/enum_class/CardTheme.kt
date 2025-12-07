@@ -1,4 +1,4 @@
-package com.example.memory_madness.Activitys.EnumClass
+package com.example.memory_madness.enum_class
 
 import com.example.memory_madness.R
 
@@ -24,7 +24,7 @@ enum class CardTheme (val themeSet : List<Int>) {
         themeSet = listOf(
             R.drawable.easter1, R.drawable.easter2, R.drawable.easter3,
             R.drawable.easter4, R.drawable.easter5, R.drawable.easter6,
-            R.drawable.easter7, R.drawable.easter6, R.drawable.easter8
+            R.drawable.easter7, R.drawable.easter8, R.drawable.easter9
         )
     ),
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/backround_greyis"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.DifficultyFragment">
+    tools:context=".fragments.DifficultyFragment">
 
     <androidx.cardview.widget.CardView
 
@@ -49,7 +49,7 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/kranky"
-                android:text="@string/choose_difficulty"
+                tools:hint="@string/difficulty"
                 android:textAlignment="center"
                 android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"
