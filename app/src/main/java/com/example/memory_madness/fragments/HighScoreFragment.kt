@@ -1,23 +1,21 @@
-package com.example.memory_madness.Fragments
+package com.example.memory_madness.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.memory_madness.DataClass.Player
-import com.example.memory_madness.Fragments.game_play.EasyFragment
-import com.example.memory_madness.Fragments.game_play.HardFragment
-import com.example.memory_madness.Fragments.game_play.MediumFragment
-import com.example.memory_madness.HighScoreRecyclerAdapter
+import com.example.memory_madness.data_class.Player
+import com.example.memory_madness.fragments.game_play.EasyFragment
+import com.example.memory_madness.fragments.game_play.HardFragment
+import com.example.memory_madness.fragments.game_play.MediumFragment
+import com.example.memory_madness.adapter.HighScoreRecyclerAdapter
 import com.example.memory_madness.R
-import com.example.memory_madness.ViewModell.PlayerViewModel
+import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.databinding.FragmentHightScoreBinding
-import com.example.memory_madness.Utility.loadPrefsScore
+import com.example.memory_madness.utility.loadPrefsScore
 
 
 class HighScoreFragment : Fragment() {

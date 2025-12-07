@@ -1,18 +1,16 @@
-package com.example.memory_madness.Fragments
+package com.example.memory_madness.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.Activitys.EnumClass.CardTheme
-import com.example.memory_madness.Fragments.game_play.EasyFragment
-import com.example.memory_madness.Fragments.game_play.HardFragment
-import com.example.memory_madness.Fragments.game_play.MediumFragment
-import com.example.memory_madness.ViewModell.PlayerViewModel
+import com.example.memory_madness.activitys.enum_class.CardTheme
+import com.example.memory_madness.fragments.game_play.EasyFragment
+import com.example.memory_madness.fragments.game_play.HardFragment
+import com.example.memory_madness.fragments.game_play.MediumFragment
+import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentHomeMenuBinding
 

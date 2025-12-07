@@ -1,4 +1,4 @@
-package com.example.memory_madness.Activitys.EnumClass
+package com.example.memory_madness.activitys.enum_class
 
 import com.example.memory_madness.R
 

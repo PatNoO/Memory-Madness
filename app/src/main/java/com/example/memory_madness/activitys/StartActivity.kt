@@ -1,4 +1,4 @@
-package com.example.memory_madness.Activitys
+package com.example.memory_madness.activitys
 
 import android.content.Intent
 import android.os.Build
@@ -10,9 +10,9 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.Activitys.EnumClass.CardTheme
-import com.example.memory_madness.DataClass.Player
-import com.example.memory_madness.ViewModell.PlayerViewModel
+import com.example.memory_madness.activitys.enum_class.CardTheme
+import com.example.memory_madness.data_class.Player
+import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.ActivityStartBinding
 

@@ -1,40 +1,34 @@
-package com.example.memory_madness.Fragments
+package com.example.memory_madness.fragments
 
-import android.R.attr.theme
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.Fragments.game_play.EasyFragment
-import com.example.memory_madness.Fragments.game_play.HardFragment
-import com.example.memory_madness.Fragments.game_play.MediumFragment
-import com.example.memory_madness.ViewModell.GameViewModel
-import com.example.memory_madness.DataClass.Player
-import com.example.memory_madness.ViewModell.PlayerViewModel
+import com.example.memory_madness.fragments.game_play.EasyFragment
+import com.example.memory_madness.fragments.game_play.HardFragment
+import com.example.memory_madness.fragments.game_play.MediumFragment
+import com.example.memory_madness.view_model.GameViewModel
+import com.example.memory_madness.data_class.Player
+import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R
-import com.example.memory_madness.Utility.loadPrefsScore
+import com.example.memory_madness.utility.loadPrefsScore
 import com.example.memory_madness.databinding.FragmentWinBinding
-import com.example.memory_madness.Utility.savedPrefsScore
+import com.example.memory_madness.utility.savedPrefsScore
 
-class WinFragment : Fragment(R.layout.fragment_win) {
+class WinFragment : Fragment() {
 
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var gameViewModel: GameViewModel
     private lateinit var binding: FragmentWinBinding
     private var playersList = mutableListOf<Player>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentWinBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -45,7 +39,19 @@ class WinFragment : Fragment(R.layout.fragment_win) {
         playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
         gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
 
-        binding.tvStatsFw.text = "Score"
+        showWinScore()
+
+        saveScoreButton()
+
+        highScoreButton()
+
+        playAgainButton()
+
+        homeMenuButton()
+    }
+
+    private fun showWinScore() {
+        binding.tvStatsFw.text = getString(R.string.score)
 
         val totalMoves = gameViewModel.moves.value
         val totalTime = gameViewModel.timerCount.value
@@ -60,9 +66,11 @@ class WinFragment : Fragment(R.layout.fragment_win) {
 
         val minutes = totalTime?.div(60)
         val seconds = totalTime?.rem(60)
-        binding.tvMovesFw.text = "Moves : $totalMoves "
-        binding.tvTimeFw.text = "Time : $minutes : $seconds"
+        binding.tvMovesFw.text = getString(R.string.moves_highscore, totalMoves)
+        binding.tvTimeFw.text = getString(R.string.time_left_highscore, minutes, seconds)
+    }
 
+    private fun saveScoreButton() {
         binding.btnSaveScoreFw.setOnClickListener {
             playersList = loadPrefsScore(requireContext())
 
@@ -73,14 +81,16 @@ class WinFragment : Fragment(R.layout.fragment_win) {
                 val time = player.value?.time
                 val moves = player.value?.moves
                 val theme = player.value?.theme
-                playersList.add(Player(name, difficulty, pauseHelp, time, moves, theme  ))
+                playersList.add(Player(name, difficulty, pauseHelp, time, moves, theme))
 
                 savedPrefsScore(requireContext(), playersList)
 
 
             }
         }
+    }
 
+    private fun highScoreButton() {
         binding.btnHighScoreFw.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
@@ -89,45 +99,48 @@ class WinFragment : Fragment(R.layout.fragment_win) {
                 commit()
             }
         }
+    }
 
-        binding.btnPlayAgainFw.setOnClickListener {
-            gameViewModel.resetCount()
-            gameViewModel.resetMoves()
-            if (playerViewModel.player.value?.difficulty == "easy") {
-                parentFragmentManager.beginTransaction().apply {
-                    replace(R.id.fcv_game_plan_am, EasyFragment())
-                    commit()
-                }
-            } else if (playerViewModel.player.value?.difficulty == "medium") {
-                gameViewModel.resetCount()
-                gameViewModel.resetMoves()
-                parentFragmentManager.beginTransaction().apply {
-                    replace(R.id.fcv_game_plan_am, MediumFragment())
-                    commit()
-                }
-            } else if (playerViewModel.player.value?.difficulty == "hard") {
-                gameViewModel.resetCount()
-                gameViewModel.resetMoves()
-                parentFragmentManager.beginTransaction().apply {
-                    replace(R.id.fcv_game_plan_am, HardFragment())
-                    commit()
-                }
-            } else {
-                gameViewModel.resetCount()
-                gameViewModel.resetMoves()
-                parentFragmentManager.beginTransaction().apply {
-                    replace(R.id.fcv_game_plan_am, EasyFragment())
-                    commit()
-                }
-            }
-        }
-
+    private fun homeMenuButton() {
         binding.btnHomeFw.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.fcv_game_plan_am, HomeMenuFragment())
                 commit()
+            }
+        }
+    }
+
+    private fun playAgainButton() {
+        binding.btnPlayAgainFw.setOnClickListener {
+            gameViewModel.resetCount()
+            gameViewModel.resetMoves()
+            when (playerViewModel.player.value?.difficulty) {
+                "easy" -> {
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(R.id.fcv_game_plan_am, EasyFragment())
+                        commit()
+                    }
+                }
+                "medium" -> {
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(R.id.fcv_game_plan_am, MediumFragment())
+                        commit()
+                    }
+                }
+                "hard" -> {
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(R.id.fcv_game_plan_am, HardFragment())
+                        commit()
+                    }
+                }
+                else -> {
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(R.id.fcv_game_plan_am, EasyFragment())
+                        commit()
+                    }
+                }
             }
         }
     }

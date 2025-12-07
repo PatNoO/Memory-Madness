@@ -7,7 +7,7 @@
     android:background="@color/backround_greyis"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activitys.StartActivity">
+    tools:context=".activitys.StartActivity">
 
     <androidx.cardview.widget.CardView
 

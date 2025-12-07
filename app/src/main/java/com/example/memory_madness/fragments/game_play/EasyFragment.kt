@@ -1,4 +1,4 @@
-package com.example.memory_madness.Fragments.game_play
+package com.example.memory_madness.fragments.game_play
 
 
 import android.os.Bundle
@@ -14,12 +14,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.memory_madness.Activitys.EnumClass.CardTheme
-import com.example.memory_madness.DataClass.CardManager
-import com.example.memory_madness.Fragments.HomeMenuFragment
-import com.example.memory_madness.Fragments.WinFragment
-import com.example.memory_madness.ViewModell.GameViewModel
-import com.example.memory_madness.ViewModell.PlayerViewModel
+import com.example.memory_madness.activitys.enum_class.CardTheme
+import com.example.memory_madness.data_class.CardManager
+import com.example.memory_madness.fragments.HomeMenuFragment
+import com.example.memory_madness.fragments.WinFragment
+import com.example.memory_madness.view_model.GameViewModel
+import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentEasyBinding
 import kotlinx.coroutines.Job

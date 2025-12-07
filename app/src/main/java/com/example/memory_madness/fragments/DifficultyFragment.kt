@@ -1,4 +1,4 @@
-package com.example.memory_madness.Fragments
+package com.example.memory_madness.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.memory_madness.DataClass.Player
-import com.example.memory_madness.ViewModell.PlayerViewModel
+import com.example.memory_madness.data_class.Player
+import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R
 import com.example.memory_madness.databinding.FragmentDifficultyBinding
 

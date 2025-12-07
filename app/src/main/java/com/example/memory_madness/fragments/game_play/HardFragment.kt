@@ -1,4 +1,4 @@
-package com.example.memory_madness.Fragments.game_play
+package com.example.memory_madness.fragments.game_play
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,32 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import com.example.memory_madness.Activitys.EnumClass.CardTheme
-import com.example.memory_madness.DataClass.CardManager
-import com.example.memory_madness.Fragments.HomeMenuFragment
-import com.example.memory_madness.Fragments.WinFragment
-import com.example.memory_madness.ViewModell.GameViewModel
-import com.example.memory_madness.ViewModell.PlayerViewModel
+import com.example.memory_madness.activitys.enum_class.CardTheme
+import com.example.memory_madness.data_class.CardManager
+import com.example.memory_madness.fragments.HomeMenuFragment
+import com.example.memory_madness.fragments.WinFragment
+import com.example.memory_madness.view_model.GameViewModel
+import com.example.memory_madness.view_model.PlayerViewModel
 import com.example.memory_madness.R
-import com.example.memory_madness.databinding.FragmentMediumBinding
+import com.example.memory_madness.databinding.FragmentHardBinding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class MediumFragment : Fragment() {
+class HardFragment : Fragment() {
 
-    private lateinit var binding: FragmentMediumBinding
-    private lateinit var gameViewModel: GameViewModel
+    private lateinit var binding: FragmentHardBinding
     private lateinit var playerViewModel: PlayerViewModel
-    private var timerJob : Job? = null
+    private lateinit var gameViewModel: GameViewModel
+    private var timerJob: Job? = null
     private var isBusy = false
     private var loseBusy = false
     private val memoryCards = mutableListOf<Int>()
@@ -40,14 +37,14 @@ class MediumFragment : Fragment() {
         super.onCreate(savedInstanceState)
         playerViewModel = ViewModelProvider(requireActivity())[PlayerViewModel::class.java]
         gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
-
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMediumBinding.inflate(inflater, container, false)
+        binding = FragmentHardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -67,11 +64,21 @@ class MediumFragment : Fragment() {
         setCardInfoOnImageView(shuffledMemoryCards, containerListCards)
 
         // Sets the layout xml backround to all the cards
-        for (i in 0 until containerListCards.size){
+        for (i in 0 until containerListCards.size) {
             containerListCards[i].setImageResource(R.drawable.card_backround)
         }
 
-        binding.btnHomeMenuFm.setOnClickListener {
+        homeMenuButton()
+
+        enablePauseButton()
+
+        gamePlay(containerListCards)
+
+
+    }
+
+    private fun homeMenuButton() {
+        binding.btnHomeMenuFh.setOnClickListener {
             gameViewModel.resetCount()
             gameViewModel.resetMoves()
             gameViewModel.resetCardPairCount()
@@ -81,38 +88,34 @@ class MediumFragment : Fragment() {
                 commit()
             }
         }
-
-        enablePauseButton()
-
-        gamePlay(containerListCards)
     }
 
     private fun setVisibility() {
-        binding.tvLoseFm.isInvisible = true
-        binding.btnPlayAgainFm.isInvisible = true
+        binding.tvLoseFh.isInvisible = true
+        binding.btnPlayAgainFh.isInvisible = true
 
         if (playerViewModel.player.value?.pauseChoice == "on") {
-            binding.switchPauseFm.isVisible = true
+            binding.switchPauseFh.isVisible = true
         } else {
-            binding.switchPauseFm.isInvisible = true
+            binding.switchPauseFh.isInvisible = true
         }
     }
 
     private fun setThemeOnCard() {
         if (playerViewModel.player.value?.theme == CardTheme.HALLOWEEN_THEME) {
-            for (i in 0 until 6) {
+            for (i in 0 until 9) {
                 memoryCards.add(CardTheme.HALLOWEEN_THEME.themeSet[i])
             }
         } else if (playerViewModel.player.value?.theme == CardTheme.CHRISTMAS_THEME) {
-            for (i in 0 until 6) {
+            for (i in 0 until 9) {
                 memoryCards.add(CardTheme.CHRISTMAS_THEME.themeSet[i])
             }
         } else if (playerViewModel.player.value?.theme == CardTheme.EASTER_THEME) {
-            for (i in 0 until 6) {
+            for (i in 0 until 9) {
                 memoryCards.add(CardTheme.EASTER_THEME.themeSet[i])
             }
         } else if (playerViewModel.player.value?.theme == CardTheme.STPATRICKSDAY_THEME) {
-            for (i in 0 until 6) {
+            for (i in 0 until 9) {
                 memoryCards.add(CardTheme.STPATRICKSDAY_THEME.themeSet[i])
             }
         }
@@ -120,7 +123,7 @@ class MediumFragment : Fragment() {
 
     private fun enablePauseButton() {
         if (playerViewModel.player.value?.pauseChoice == "on") {
-            binding.switchPauseFm.setOnCheckedChangeListener { _, isChecked ->
+            binding.switchPauseFh.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     val savedTime = gameViewModel.timerCount.value
                     stopTimer()
@@ -141,34 +144,40 @@ class MediumFragment : Fragment() {
 
     private fun initImageViewList(): List<ImageView> {
         val containerListCards = listOf(
-            binding.card1Fm,
-            binding.card2Fm,
-            binding.card3Fm,
-            binding.card4Fm,
-            binding.card5Fm,
-            binding.card6Fm,
-            binding.card7Fm,
-            binding.card8Fm,
-            binding.card9Fm,
-            binding.card10Fm,
-            binding.card11Fm,
-            binding.card12Fm,
-
-            )
+            binding.card1Fh,
+            binding.card2Fh,
+            binding.card3Fh,
+            binding.card4Fh,
+            binding.card5Fh,
+            binding.card6Fh,
+            binding.card7Fh,
+            binding.card8Fh,
+            binding.card9Fh,
+            binding.card10Fh,
+            binding.card11Fh,
+            binding.card12Fh,
+            binding.card13Fh,
+            binding.card14Fh,
+            binding.card15Fh,
+            binding.card16Fh,
+            binding.card17Fh,
+            binding.card18Fh
+        )
         return containerListCards
     }
 
     private fun gamePlay(containerListCards: List<ImageView>) {
 
-        for (imageViewId in containerListCards) {
-            imageViewId.setOnClickListener { view ->
+
+        for (imageView in containerListCards) {
+            imageView.setOnClickListener { view ->
 
                 if (isBusy || loseBusy) {
                     return@setOnClickListener
                 }
 
                 if (timerJob == null) {
-                    gameViewModel.setCountTime(20)
+                    gameViewModel.setCountTime(30)
                     startTimer()
                 }
 
@@ -176,15 +185,15 @@ class MediumFragment : Fragment() {
                     if (timerCount == 0) {
                         stopTimer()
                         loseBusy = true
-                        binding.tvLoseFm.isInvisible = false
-                        binding.btnPlayAgainFm.isInvisible = false
-                        binding.btnPlayAgainFm.setOnClickListener {
+                        binding.tvLoseFh.isInvisible = false
+                        binding.btnPlayAgainFh.isInvisible = false
+                        binding.btnPlayAgainFh.setOnClickListener {
                             loseBusy = false
                             gameViewModel.resetCardPairCount()
                             gameViewModel.resetCount()
                             gameViewModel.resetMoves()
                             parentFragmentManager.beginTransaction().apply {
-                                replace(R.id.fcv_game_plan_am, MediumFragment())
+                                replace(R.id.fcv_game_plan_am, HardFragment())
                                 commit()
                             }
                         }
@@ -193,6 +202,7 @@ class MediumFragment : Fragment() {
 
 
 
+                //the Object stored in this view as a tag
                 gameViewModel.currentCard.value = view.tag as CardManager
 
                 gameViewModel.currentCard.value?.let { currentCard ->
@@ -210,12 +220,12 @@ class MediumFragment : Fragment() {
                     gameViewModel.increaseMoves()
 
                     gameViewModel.moves.observe(viewLifecycleOwner) { moves ->
-                        binding.tvMovesFm.text = "Moves : \n $moves"
+                        binding.tvMovesFh.text = "Moves : \n $moves"
                     }
 
                     val turnedCard = gameViewModel.turnedCard.value
 
-                    if (turnedCard!!.cardId == currentCard.cardId) {
+                    if (currentCard.cardId == turnedCard!!.cardId) {
 
                         currentCard.isMatched = true
                         turnedCard.isMatched = true
@@ -225,7 +235,6 @@ class MediumFragment : Fragment() {
 
                         gameViewModel.increaseTimerCount()
 
-                        // WIN !!
                         if (gameViewModel.cardPairCount.value == memoryCards.size) {
                             stopTimer()
                             gameViewModel.resetCardPairCount()
@@ -235,26 +244,26 @@ class MediumFragment : Fragment() {
                             }
                         }
 
+
                     } else {
                         isBusy = true
-                        currentCard.containerId.postDelayed({
+                        currentCard.containerId.postDelayed(
+                            {
+                                currentCard.containerId.setImageResource(R.drawable.card_backround)
+                                turnedCard.containerId.setImageResource(R.drawable.card_backround)
 
-                            turnedCard.containerId.setImageResource(R.drawable.card_backround)
-                            currentCard.containerId.setImageResource(R.drawable.card_backround)
+                                currentCard.isFlipped = false
+                                turnedCard.isFlipped = false
+                                currentCard.containerId.setImageResource(R.drawable.card_backround)
 
-                            currentCard.isFlipped = false
-                            turnedCard.isFlipped = false
-                            gameViewModel.turnedCard.value = null
-                            isBusy = false
-                        }, 500)
-
+                                gameViewModel.turnedCard.value = null
+                            }, 500
+                        )
+                        isBusy = false
                     }
 
-
                 }
-
             }
-
         }
     }
 
@@ -272,37 +281,39 @@ class MediumFragment : Fragment() {
         containerListCards: List<ImageView>
     ) {
         for (i in shuffledMemoryCards.indices) {
-            val imageViewId: ImageView = containerListCards[i]
-            val memoryImageId: Int = shuffledMemoryCards[i]
+            val imageViewId = containerListCards[i]
+            val memoryImageId = shuffledMemoryCards[i]
             val cardInfo = CardManager(
                 isFlipped = false,
                 isMatched = false,
                 containerId = imageViewId,
                 cardId = memoryImageId
             )
+            //Sets the tag associated with this view. A tag can be used to mark a view in its hierarchy
+            // and does not have to be unique within the hierarchy.
+            // Tags can also be used to store data within a view without resorting to another data structure
             imageViewId.tag = cardInfo
         }
     }
 
-    fun startTimer () {
+    fun startTimer() {
         timerJob = viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                while (true){
-                    delay(1000)
-                    gameViewModel.startCountDown()
-                    updateTimerText()
-                }
+            while (true) {
+                delay(1000)
+                gameViewModel.startCountDown()
+                updateTimer()
             }
+
         }
     }
 
-    fun updateTimerText () {
+    fun updateTimer() {
         val minutes = gameViewModel.timerCount.value?.div(60)
         val seconds = gameViewModel.timerCount.value?.rem(60)
-        binding.tvTimeFm.text = "Time : \n $minutes : $seconds "
+        binding.tvTimeFh.text = "Time : \n $minutes : $seconds"
     }
 
-    fun stopTimer () {
+    fun stopTimer() {
         timerJob?.cancel()
     }
 
@@ -310,5 +321,6 @@ class MediumFragment : Fragment() {
         super.onDetach()
         stopTimer()
     }
+
 
 }
